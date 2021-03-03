@@ -21,28 +21,29 @@ const Drawer= createDrawerNavigator()
 
 const Navigation = ({loggedUser,logout_user,login_AS}) =>{
 
-    const loginAS = async () =>{
-        const data = await AsyncStorage.getItem('token')
- 
-    if(data){
-         login_AS(data)
-     
-         
-       } else{
-           return false
-       }
-     }
-     if(!loggedUser){
-         loginAS()}
-const StackNavigator=  () =>{
+    useEffect(()=>{
 
+        const loginAS = async () =>{
+            const data = await AsyncStorage.getItem('token')
+        if(data){
+            login_AS(data)
+        } else{
+            return false
+        }
+        }
+        if(!loggedUser){
+            loginAS()}
+    },[])
+
+
+
+const StackNavigator=  () =>{
     return(
         
         <Stack.Navigator screenOptions={{
             headerTitleStyle:{color:'white',fontWeight:'bold'},
             headerStyle:{
                 backgroundColor:'rgba(6, 134, 200, 0.863)',
-                
             }
           
             }}>
@@ -56,7 +57,7 @@ const StackNavigator=  () =>{
     <NavigationContainer>
         <TouchableWithoutFeedback style={styles.container} onPress={() => Keyboard.dismiss()}>
         <Drawer.Navigator  drawerStyle={{
-             backgroundColor: 'rgba(6, 134, 200, 0.863)',
+             backgroundColor: 'rgba(6, 134, 200, 0.95)',
           
              }}
              drawerContentOptions={{
@@ -77,7 +78,6 @@ const StackNavigator=  () =>{
     )
 }
 const styles =StyleSheet.create({
-  
     container:{
       flex:1,
       alignItems:'center',

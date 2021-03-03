@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import {StyleSheet,Text, View, StatusBar,Image,TouchableOpacity,ScrollView} from 'react-native';
-
 import { Feather as Icon } from '@expo/vector-icons';
-
-// npm i react-native-elements
 import { Icon as RNEIcon } from 'react-native-elements';
 
 
 
 const Product = ({ product })  => {
-
+   console.log(product)
 
     if(product){
    

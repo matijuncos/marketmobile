@@ -2,25 +2,28 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 
 const userActions  ={
-  createNewUser: newUser => {
+  createNewUser: (fdNewUser) => {
     return async (dispatch,getstate) => {
       try{
-        const data = await axios.post('http://localhost:4000/api/user/signup',newUser)
+        const res = await axios.post('https://gitmusicapp.herokuapp.com/api/user/signup',fdNewUser,{
+          headers:{
+            'Content-Type': 'multipart/form-data'
+          }
+        })
         if (data.data.success){
           dispatch({type:'LOGIN', payload:data.data.response})
-          return data.data.response
+          return res.data.response
         } else{
-        return data.data
+        return res.data
         }
     }catch(error){
       const data ={errores:{details:[{message:'An error occurred'}]}}
       return data
     }}},
     loginUser: userToLogin =>{
-       
         return async (dispatch,getstate) => {
             try{
-              const data = await axios.post('http://localhost:4000/api/user/login',userToLogin)
+              const data = await axios.post('https://gitmusicapp.herokuapp.com/api/user/login',userToLogin)
               if (data.data.success){
                 
                 dispatch({type:'LOGIN', payload:data.data.response})
@@ -34,10 +37,10 @@ const userActions  ={
             const data ={errores:{details:[{message:'An error occurred'}]}}
             return data
           }}},
-          login_AS: (token) =>{
-            return async (dispatch,getState) =>{
-              try{
-              const data = await axios.post('http:/localhost:4000/api/user/ls',{token},{
+    login_AS: (token) =>{
+        return async (dispatch,getState) =>{
+            try{
+              const data = await axios.post('https://gitmusicapp.herokuapp.com/api/user/ls',{token},{
                 headers:{
                   Authorization: `Bearer ${token}`
                 }
@@ -70,8 +73,7 @@ const userActions  ={
               }
             
              
-              dispatch({type:'LOGOUT', payload:''})}
-              
+              dispatch({type:'LOGOUT'})}
               clearAll()
             }
            

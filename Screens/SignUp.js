@@ -4,10 +4,13 @@ import { Icon } from 'react-native-elements';
 import BackgroundImage from '../assets/hero.jpg'
 import * as Animatable from 'react-native-animatable';
 import * as ImagePicker from 'expo-image-picker';
+import { connect } from 'react-redux';
+import userActions from '../redux/actions/userActions';
 
 
 const SignUp = () => {
   const[picture, setPicture] = useState(null)
+  const[newUser, setNewUser] = useState({firstName:'', lastName:'', fileUrlPic:'', email:'', password:'', google:'false'})
 
     const openImagePickerAsync = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -22,40 +25,39 @@ const SignUp = () => {
     if(pickerResult.cancelled === true){
       return;
     }
-    setPicture({localUri: pickerResult.uri})
+    setPicture({...userActions, filUrlPic: pickerResult.uri})
+  }
+
+  const validate = () =>{
+    const fdNewUser = new FormData()
+    fdNewUser.append('firstName', newUser.firstName)
+    fdNewUser.append('lastName', newUser.lastName)
+    fdNewUser.append('fileUrlPic', newUser.fileUrlPic)
+    fdNewUser.append('email', newUser.email)
+    fdNewUser.append('password', newUser.password)
+    fdNewUser.append('google', newUser.google)
+
+    const res = await SignUp(fdNewUser)
   }
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     <View style={styles.container}>
       <View style={{ flex: 1 }}>
-        <Image
-          style={{ flex: 1, width: null }}
-          source={BackgroundImage}
-        />
+        <Image style={{ flex: 1, width: null }} source={BackgroundImage}/>
       </View>
-      <Animatable.Text
-        style={styles.titleText}
-        animation='fadeInDown'
-        delay={1200}
-      >
+      <Animatable.Text style={styles.titleText} animation='fadeInDown' delay={1200} >
         GitMusic
       </Animatable.Text>
       <View style={styles.bottomView}>
         <Text style={styles.loginText}>Registrate</Text>
         <View style={styles.inputView}>
-          <Icon
-            style={styles.inputIcon}
-            name='person'
-            type='ionicons'
-            color='rgba(6, 134, 200, 0.863)'
-          />
+          <Icon style={styles.inputIcon} name='person' type='ionicons' color='rgba(6, 134, 200, 0.863)'/>
           <TextInput
             style={styles.input}
             placeholder='Ingresa tu nombre'
             autoCapitalize='none'
-            keyboardType='email-address'
-            textContentType='emailAddress'
+            onChangeText={(value)=>setNewUser({...newUser, firstName: value})}
           />
         </View>
         <View style={styles.inputView}>
@@ -69,8 +71,8 @@ const SignUp = () => {
             style={styles.input}
             placeholder='Ingresa tu apellido'
             autoCapitalize='none'
-            keyboardType='email-address'
-            textContentType='emailAddress'
+            onChangeText={(value)=>setNewUser({...newUser, lastName: value})}
+
           />
         </View>
         <View style={styles.inputView}>
@@ -86,6 +88,8 @@ const SignUp = () => {
             autoCapitalize='none'
             keyboardType='email-address'
             textContentType='emailAddress'
+            onChangeText={(value)=>setNewUser({...newUser, email: value})}
+
           />
         </View>
 
@@ -101,6 +105,8 @@ const SignUp = () => {
             placeholder='Ingresa tu contraseña'
             secureTextEntry={true}
             autoCapitalize='none'
+            onChangeText={(value)=>setNewUser({...newUser, password: value})}
+
           />
         </View>
         <View style={styles.inputView}>
@@ -115,13 +121,10 @@ const SignUp = () => {
         <Text style={styles.buttonText}>Elige una foto</Text>
       </TouchableOpacity>
       <View style={styles.container}>
-        <Image
-          source={picture && {uri: picture.localUri }}
-          style={styles.thumbnail}
-        />
+        <Image source={picture && {uri: picture.localUri }} style={styles.thumbnail} />
       </View>
         </View>
-        <TouchableOpacity style={styles.loginButton}>
+        <TouchableOpacity style={styles.loginButton} onPress={validate}>
           <Text style={styles.loginButtonText}>Registrate</Text>
         </TouchableOpacity>
         <Text style={styles.registerText}>
@@ -225,4 +228,8 @@ const styles = StyleSheet.create({
   
 });
 
-export default SignUp
+
+const mapDispatchToProps = {
+  SignUp: userActions.createNewUser
+}
+export default connect(null, mapDispatchToProps)(SignUp)
