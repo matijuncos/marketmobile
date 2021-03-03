@@ -36,7 +36,7 @@ const Product = ({ product })  => {
           <View style={{ flex: 3 }}>
             {/* -- Ratings View */}
             <View>
-              <Text style={{ fontFamily: 'SSRegular' }}>{product.name}</Text>
+              <Text >{product.name}</Text>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <View
                   style={{

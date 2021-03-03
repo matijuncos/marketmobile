@@ -2,34 +2,23 @@ import React, { useEffect, useState } from 'react';
 import Product from '../components/Product'
 import axios from 'axios'
 import {StyleSheet,Text, View, StatusBar,Image,TouchableOpacity,ScrollView} from 'react-native';
-
 import { Feather as Icon } from '@expo/vector-icons';
-
-// npm i react-native-elements
 import { Icon as RNEIcon } from 'react-native-elements';
-
 import { useFonts } from 'expo-font';
 
-/* import SSLight from '../../assets/fonts/SourceSansPro/SourceSansProLight.ttf';
-import SSRegular from '../../assets/fonts/SourceSansPro/SourceSansProRegular.ttf';
-import SSBold from '../../assets/fonts/SourceSansPro/SourceSansProBold.ttf'; */
 
-
-export default function Categories({ navigation }) {
-    const loaded=true
- /*  const [loaded] = useFonts({
-    SSLight,
-    SSRegular,
-    SSBold,
-  });
- */const [arrayProducts,setArrayProducts] = useState([
+const  ProductsByCategory = (props)=> {
+ const category= props.route.params.category
+  const {navigation} = props
+    const [loading,setLoading]=useState(false)
+    const [arrayProducts,setArrayProducts] = useState([
     {
         name:
           'HP 15s Ryzen 5 Quad Core - (8 GB/1 TB HDD/Windows 10 Home) 15s-GR0009AU',
         arrayPic: ['https://i.imgur.com/FVhuBzL.jpg'],
         arrayRatind:[],
         price: '41,990',
-       
+       category:'Amplificadores',
         arrayDescription: [
           '8 GB/1 TB HDD',
           'Windows 10 Home',
@@ -42,6 +31,7 @@ export default function Categories({ navigation }) {
           'Dell Vostro Core i5 10th Gen - (8 GB/1 TB HDD/256 GB SSD/Windows 10 Home) Vostro 3491',
         arrayPic: ['https://i.imgur.com/XZIJXIq.jpg'],
         price: '53,490',
+        category:'Amplificadores',
         arrayDescription: [
           '8 GB/1 TB HDD/256 GB SSD',
           'Windows 10 Home',
@@ -54,6 +44,7 @@ export default function Categories({ navigation }) {
           'Apple MacBook Pro Core i9 9th Gen - (16 GB/1 TB SSD/Mac OS Catalina/4 GB Graphics)',
         arrayPic: ['https://i.imgur.com/1ge8POI.jpg'],
         price: '2,24,900',
+        category:'Bajos',
         arrayDescription: [
           '16 GB/1 TB SSD/4 GB Graphics',
           'Mac OS Catalina',
@@ -66,6 +57,7 @@ export default function Categories({ navigation }) {
           'Asus Vivobook Ryzen 5 Quad Core - (8 GB/1 TB HDD/Windows 10 Pro) D1401D-EK166',
         arrayPic: ['https://i.imgur.com/UvL33gA.jpg'],
         price: '50,900',
+        category:'Bajos',
         arrayDescription: [
           '8 GB/1 TB HDD/Ryzen 5 Quad Core',
           'Windows 10 Pro',
@@ -74,44 +66,40 @@ export default function Categories({ navigation }) {
         ],
       },
     ]);
-
- useEffect(() =>{
+    const arrayCategory = arrayProducts.filter(product => product.category=== props.route.params.category)
+    console.log(arrayCategory)
+/*  useEffect(() =>{
      fetchear()
      .then(console.log('hola'))
     
  },[])
 
  const fetchear = async () =>{
+   setLoading(true)
     try{
        const data = await axios.get('http://192.168.0.3:4000/api/products')
        if(data){
-           console.log(data)}
+           console.log(data)
+          setLoading(false)}
 
     }catch(error){
         console.log(error)
     }
    
 
- }
+ } */
 
 
   useEffect(() => {
     StatusBar.setBarStyle('dark-content');
   }, []);
 
- /*  if (!loaded) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    ); 
-  } else {
     navigation.setOptions({
-      title: 'Laptops',
-      headerTitleStyle: { fontSize: 22, fontFamily: 'SSBold' },
-      headerStyle: { backgroundColor: '#f6e58d' },
+      title: category,
+      headerTitleStyle: { fontSize: 22},
+      headerStyle: { backgroundColor: 'rgba(6, 134, 200, 0.863)' },
       headerLeft: () => (
-        <TouchableOpacity style={{ marginHorizontal: 10 }}>
+        <TouchableOpacity onPress={() => navigation.toggleDrawer() }style={{ marginHorizontal: 10 }}>
           <Icon
             name='bar-chart-2'
             size={28}
@@ -128,8 +116,8 @@ export default function Categories({ navigation }) {
         </TouchableOpacity>
       ),
     });
-  } */
-  console.warn(arrayProducts)
+  
+
   if(arrayProducts.length===0){
       return(
           <Text>Loading...</Text>
@@ -160,15 +148,13 @@ export default function Categories({ navigation }) {
       </View>
       {/* Products List */}
       <ScrollView>
-        {Array(5)
-          .fill(1)
-          .map((el) =>
-            arrayProducts.map((product) => (
+        {
+            arrayCategory.map((product) => (
               <TouchableOpacity>
                 <Product product={product} />
               </TouchableOpacity>
             ))
-          )}
+          }
       </ScrollView>
       <View style={{ height: 20 }}></View>
     </>
@@ -205,3 +191,5 @@ const styles = StyleSheet.create({
   },
   iconCountText: { color: '#fff', fontWeight: 'bold' },
 });
+
+export default ProductsByCategory

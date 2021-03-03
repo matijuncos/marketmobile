@@ -20,7 +20,7 @@ const Rating = ({ rating, maxRating }) => {
   );
   
 };
- function ProductScreen1() {
+ function ProductScreen() {
 
   const [visible, setVisible] = useState(false)
   return (
@@ -208,4 +208,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductScreen1
+export default ProductScreen
