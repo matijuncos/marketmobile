@@ -5,18 +5,20 @@ const userActions  ={
   createNewUser: (fdNewUser) => {
     return async (dispatch,getstate) => {
       try{
-        const res = await axios.post('https://gitmusicapp.herokuapp.com/api/user/signup',fdNewUser,{
+        console.log(fdNewUser)
+        const response = await axios.post('https://gitmusicapp.herokuapp.com/api/user/signup', fdNewUser,{
           headers:{
-            'Content-Type': 'multipart/form-data'
+            'Content-Type':'multipart/form-data'
           }
         })
-        if (data.data.success){
-          dispatch({type:'LOGIN', payload:data.data.response})
-          return res.data.response
+        if (response.data.success){
+          dispatch({type:'LOGIN', payload:response.data.response})
         } else{
-        return res.data
+          //ALERT
         }
-    }catch(error){
+        console.log(response)
+      }catch(error){
+      
       const data ={errores:{details:[{message:'An error occurred'}]}}
       return data
     }}},

@@ -1,14 +1,19 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, TouchableWithoutFeedback, Dimensions, Keyboard } from 'react-native';
 import { Icon } from 'react-native-elements';
 import BackgroundImage from '../assets/hero.jpg'
 import * as Animatable from 'react-native-animatable';
+import {GoogleSignin, GoogleSigninButton} from '@react-native-community/google-signin'
 
-
-
+GoogleSignin.configure({
+  webClientId: '225799266122-gmus3gf7k57dp86h5togfcjlni8os3fr.apps.googleusercontent.com',
+  offlineAccess: true
+})
 
 const SignIn = () => {
 
+const [userGoogleInfo, setUserGoogleInfo] = useState({})
+const [loaded, setLoaded] = useState(false)
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

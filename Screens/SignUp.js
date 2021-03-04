@@ -8,7 +8,8 @@ import { connect } from 'react-redux';
 import userActions from '../redux/actions/userActions';
 
 
-const SignUp = () => {
+const SignUp = ({SignUp}) => {
+
   const[picture, setPicture] = useState(null)
   const[newUser, setNewUser] = useState({firstName:'', lastName:'', fileUrlPic:'', email:'', password:'', google:'false'})
 
@@ -21,22 +22,27 @@ const SignUp = () => {
     }
 
     const pickerResult = await ImagePicker.launchImageLibraryAsync();
-    
+    const picFile = pickerResult.uri.split('/')
     if(pickerResult.cancelled === true){
       return;
     }
-    setPicture({...userActions, filUrlPic: pickerResult.uri})
+    console.log(pickerResult)
+    await setPicture(pickerResult)
   }
+  
+  const validate = async () =>{
 
-  const validate = () =>{
+    const fileName = picture.uri.split('/').pop()
+    const match = /\.(\w+)$/.exec(fileName)
+    const type = match ? `image/${match[1]}` : `image`;
+
     const fdNewUser = new FormData()
     fdNewUser.append('firstName', newUser.firstName)
     fdNewUser.append('lastName', newUser.lastName)
-    fdNewUser.append('fileUrlPic', newUser.fileUrlPic)
+    fdNewUser.append('fileUrlPic', {uri: picture.uri, name: fileName, type  })
     fdNewUser.append('email', newUser.email)
     fdNewUser.append('password', newUser.password)
     fdNewUser.append('google', newUser.google)
-
     const res = await SignUp(fdNewUser)
   }
 
@@ -117,11 +123,11 @@ const SignUp = () => {
             color='rgba(6, 134, 200, 0.863)'
           />
           
-        <TouchableOpacity onPress={openImagePickerAsync} style={styles.button}>
+        <TouchableOpacity onPress={openImagePickerAsync} style={styles.button} >
         <Text style={styles.buttonText}>Elige una foto</Text>
       </TouchableOpacity>
       <View style={styles.container}>
-        <Image source={picture && {uri: picture.localUri }} style={styles.thumbnail} />
+        <Image source={picture && {uri: picture.uri }} style={styles.thumbnail} />
       </View>
         </View>
         <TouchableOpacity style={styles.loginButton} onPress={validate}>
@@ -221,7 +227,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     resizeMode: "cover",
-    marginLeft: '50%',
+    marginLeft: '80%',
     borderRadius: 25
 
   }
