@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
+import { ToastAndroid } from 'react-native';
 
 const userActions  ={
   createNewUser: (fdNewUser) => {
@@ -13,6 +14,7 @@ const userActions  ={
         })
         if (response.data.success){
           dispatch({type:'LOGIN', payload:response.data.response})
+
         } else{
           //ALERT
         }
@@ -29,7 +31,11 @@ const userActions  ={
               if (data.data.success){
                 
                 dispatch({type:'LOGIN', payload:data.data.response})
-                return data.data.response
+                ToastAndroid.showWithGravity(
+                  "Welcome " + data.data.response.firstName,
+                  ToastAndroid.LONG,
+                  ToastAndroid.TOP
+                )
               } else{
               
               return data.data
@@ -50,6 +56,7 @@ const userActions  ={
               })
               if (data.data.success){
                 dispatch({type:'LOGIN', payload:data.data.response})
+            
               }
               
             } catch(error){

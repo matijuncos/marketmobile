@@ -9,7 +9,6 @@ const Product = ({ product })  => {
    console.log(product)
 
     if(product){
-   
     return (
       <View
         style={{
@@ -79,7 +78,7 @@ const Product = ({ product })  => {
         </View>
         
         {/* Specifications Wrap */}
-        <View
+        {/* <View
           style={{
             marginTop: 4,
             flexDirection: 'row',
@@ -108,8 +107,8 @@ const Product = ({ product })  => {
               {spec}
             </Text>
           ))}
-        </View>
-      </View>
+        </View>*/}
+      </View> 
     );     
     }else{
         return(

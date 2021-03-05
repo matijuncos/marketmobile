@@ -1,19 +1,35 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, TouchableWithoutFeedback, Dimensions, Keyboard } from 'react-native';
 import { Icon } from 'react-native-elements';
 import BackgroundImage from '../assets/hero.jpg'
 import * as Animatable from 'react-native-animatable';
-import {GoogleSignin, GoogleSigninButton} from '@react-native-community/google-signin'
+import { connect } from 'react-redux';
+import userActions from '../redux/actions/userActions'
 
-GoogleSignin.configure({
-  webClientId: '225799266122-gmus3gf7k57dp86h5togfcjlni8os3fr.apps.googleusercontent.com',
-  offlineAccess: true
-})
 
-const SignIn = () => {
+const SignIn = (props) => {
+const {logIn, loggedUser} = props
+  const [errores, setErrores] = useState('')
+  const [user, setUser] = useState({email: '', password: ''})
 
-const [userGoogleInfo, setUserGoogleInfo] = useState({})
-const [loaded, setLoaded] = useState(false)
+
+  const validate = async e => {
+    setErrores('')
+    if (!user.email || !user.password) {
+        setErrores('Todos los campos son requeridos')
+    } else {
+        const response = await logIn(user)
+        console.log(response)
+        if (response && !response.success) {
+            setErrores(response.message)
+    }
+    }
+}
+
+useEffect(()=>{
+  console.log(props)
+},[loggedUser])
+
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -46,6 +62,8 @@ const [loaded, setLoaded] = useState(false)
             autoCapitalize='none'
             keyboardType='email-address'
             textContentType='emailAddress'
+            onChangeText={(value) => setUser({...user, email: value})}
+            value={user.email}
           />
         </View>
         <View style={styles.inputView}>
@@ -60,10 +78,12 @@ const [loaded, setLoaded] = useState(false)
             placeholder='Ingresa tu contraseña'
             secureTextEntry={true}
             autoCapitalize='none'
+            onChangeText={(value) => setUser({...user, password: value})}
+            value={user.password}
           />
         </View>
         <Text style={styles.fpText}>Olvidaste tu contraseña?</Text>
-        <TouchableOpacity style={styles.loginButton}>
+        <TouchableOpacity style={styles.loginButton} onPress={validate}>
           <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
         <Text style={styles.registerText}>
@@ -158,4 +178,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignIn
+const mapStateToProps = state => {
+  return{
+    loggedUser: state.user.loggedUser
+  }
+}
+const mapDispatchToProps = {
+  logIn: userActions.loginUser
+}
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn)

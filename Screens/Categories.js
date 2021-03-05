@@ -3,7 +3,8 @@ import { StyleSheet, Text, View, TouchableOpacity, TouchableWithoutFeedback, Ale
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { Icon } from 'react-native-elements';
 import { StatusBar } from 'react-native';
-
+import { connect } from 'react-redux';
+import productActions from '../redux/actions/productActions'
 const Categories = (props) => {
   
   const [categories] = useState([{name: 'Accesorios', pic: 'https://cdn.evance.me/portal/web/296/content/images/guitar-picks/tortex-guitarr-picks.png'},
@@ -48,4 +49,8 @@ const Categories = (props) => {
 const styles = StyleSheet.create({
 
 })
-export default Categories
+const mapDispatchToProps = {
+  getProducts: productActions.getProducts
+ }
+ export default connect(null,mapDispatchToProps)(Categories)
+ 

@@ -10,8 +10,9 @@ import { useFonts } from 'expo-font';
 const  ProductsByCategory = (props)=> {
  const category= props.route.params.category
   const {navigation} = props
+  console.log(props)
     const [loading,setLoading]=useState(false)
-    const [arrayProducts,setArrayProducts] = useState([
+    const [arrayProducts] = useState([
     {
         name:
           'HP 15s Ryzen 5 Quad Core - (8 GB/1 TB HDD/Windows 10 Home) 15s-GR0009AU',
@@ -126,7 +127,7 @@ const  ProductsByCategory = (props)=> {
   return (
     <>
       {/* Arrange Products Bar */}
-      <View style={styles.arrangeProductsBar}>
+      {/* <View style={styles.arrangeProductsBar}>
         <TouchableOpacity
           style={[
             styles.arrangeProductsBarItemOpacity,
@@ -145,11 +146,11 @@ const  ProductsByCategory = (props)=> {
           </View>
           <Text style={styles.arrangeProductsBarItemLabel}>Filter</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
       {/* Products List */}
       <ScrollView>
         {
-            arrayCategory.map((product) => (
+            arrayProducts.map((product) => (
               <TouchableOpacity>
                 <Product product={product} />
               </TouchableOpacity>

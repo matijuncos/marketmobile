@@ -6,10 +6,11 @@ const initialState ={
 }
  function usersReducer(state= initialState,action){
     switch (action.type) {
+
             case 'LOGIN':
-            console.log('action.payload')
-             AsyncStorage.setItem('name',action.payload.name)
-             AsyncStorage.setItem('token',action.payload.token)
+            console.log(action.payload)
+            //  AsyncStorage.setItem('name',action.payload.name)
+            //  AsyncStorage.setItem('token',action.payload.token)
           
             return {
                 ...state,
