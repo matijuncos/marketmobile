@@ -6,11 +6,13 @@ import * as Animatable from 'react-native-animatable';
 import * as ImagePicker from 'expo-image-picker';
 import { connect } from 'react-redux';
 import userActions from '../redux/actions/userActions';
+import { Feather } from '@expo/vector-icons';
+import { ToastAndroid } from 'react-native';
 
 
-const SignUp = ({SignUp}) => {
-
-  const[picture, setPicture] = useState(null)
+const SignUp = (props) => {
+const {createNewUser} = props
+  const[picture, setPicture] = useState({})
   const[newUser, setNewUser] = useState({firstName:'', lastName:'', fileUrlPic:'', email:'', password:'', google:'false'})
 
     const openImagePickerAsync = async () => {
@@ -26,7 +28,6 @@ const SignUp = ({SignUp}) => {
     if(pickerResult.cancelled === true){
       return;
     }
-    console.log(pickerResult)
     await setPicture(pickerResult)
   }
   
@@ -43,8 +44,14 @@ const SignUp = ({SignUp}) => {
     fdNewUser.append('email', newUser.email)
     fdNewUser.append('password', newUser.password)
     fdNewUser.append('google', newUser.google)
-    const res = await SignUp(fdNewUser)
+    const res = await createNewUser(fdNewUser)
+      if(res && !res.success) {
+        ToastAndroid.show('Error')
+      }else{
+        ToastAndroid.show('Error')
+       }
   }
+
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -236,6 +243,6 @@ const styles = StyleSheet.create({
 
 
 const mapDispatchToProps = {
-  SignUp: userActions.createNewUser
+  createNewUser: userActions.createNewUser
 }
 export default connect(null, mapDispatchToProps)(SignUp)
