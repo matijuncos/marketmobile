@@ -109,7 +109,7 @@ const category = props.route.params.category
         </TouchableOpacity>
       ),
       headerRight: () => (
-        <TouchableOpacity style={{ marginHorizontal: 10 }}>
+        <TouchableOpacity style={{ marginHorizontal: 10 }} onPress={()=>{props.navigation.navigate('cart')}}>
           <Icon name='shopping-cart' size={24} />
           <View style={[styles.iconCountView, { right: -6 }]}>
             <Text style={styles.iconCountText}>4</Text>

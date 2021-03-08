@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet,Text, View, ScrollView, StatusBar, TouchableOpacity, Image} from 'react-native';
 import {Icon} from 'react-native-elements'
 import Constants from 'expo-constants';
+import { Feather } from '@expo/vector-icons';
 
 const Rating = ({ rating, maxRating }) => {
   return (
@@ -31,14 +32,31 @@ const Rating = ({ rating, maxRating }) => {
   const addToCart = () =>{
     
   }
+  props.navigation.setOptions({
+    title: 'Categorías',
+    headerTitleStyle: { fontSize: 22},
+    headerStyle: { backgroundColor: 'rgba(6, 134, 200, 0.863)' },
+    headerLeft: () => (
+      <TouchableOpacity onPress={() => props.navigation.toggleDrawer() }style={{ marginHorizontal: 10 }}>
+        <Feather
+          name='bar-chart-2'
+          size={28}
+          style={{ transform: [{ rotate: '90deg' }, { scaleX: -1 }] }}
+        />
+      </TouchableOpacity>
+    ),
+    headerRight: () => (
+      <TouchableOpacity style={{ marginHorizontal: 10 }} onPress={()=>props.navigation.navigate('cart')}>
+        <Feather name='shopping-cart' size={24} />
+        <View style={[styles.iconCountView, { right: -6 }]}>
+          <Text style={styles.iconCountText}>4</Text>
+        </View>
+      </TouchableOpacity>
+    ),
+  });
   return (
     <View style={{ flex: 1 }}>
       <StatusBar/>
-      <View style={styles.header}>
-        <Icon name='menu' size={30} />
-        <Text style={styles.headerTitle}>Productos</Text>
-        <Icon name='cart-outline' type='ionicon' size={26} />
-      </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View>
           <Image

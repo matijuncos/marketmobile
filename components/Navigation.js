@@ -16,6 +16,7 @@ import userActions from '../redux/actions/userActions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomDrawer from './CustomDrawer';
 import Product from './Product';
+import shoppingCart from '../Screens/shoppingCart';
 
 
 const Stack = createStackNavigator()
@@ -32,6 +33,7 @@ const StackNavigator=  () =>{
         <Stack.Screen name="ProductsByCategory" component={ProductsByCategory}/>
         <Stack.Screen name='ProductScreen' component={ProductScreen}/>
         <Stack.Screen name='Product' component={Product}/>
+        <Stack.Screen name='cart' component={shoppingCart}/>
     </Stack.Navigator>
     )
 } 

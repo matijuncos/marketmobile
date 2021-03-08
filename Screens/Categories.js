@@ -9,7 +9,7 @@ import { Feather } from '@expo/vector-icons';
 
 
 const Categories = (props) => {
-  const {allProducts,getProducts} = props
+  const {allProducts,getProducts, navigation} = props
   useEffect(() => {
     getProducts()
     console.log(allProducts)
@@ -40,7 +40,7 @@ const Categories = (props) => {
       </TouchableOpacity>
     ),
     headerRight: () => (
-      <TouchableOpacity style={{ marginHorizontal: 10 }}>
+      <TouchableOpacity style={{ marginHorizontal: 10 }} onPress={()=>navigation.navigate('cart')}>
         <Feather name='shopping-cart' size={24} />
         <View style={[styles.iconCountView, { right: -6 }]}>
           <Text style={styles.iconCountText}>4</Text>
