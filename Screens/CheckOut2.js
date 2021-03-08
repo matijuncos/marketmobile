@@ -4,15 +4,14 @@ import { Text } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 
-const CheckOut = (props) => {
+const CheckOut2 = (props) => {
     return (
         <View style={{flex: 1, backgroundColor: 'rgb(16, 16, 16)', alignItems:'center'}}>
-            <Text>Paso 1</Text>
             <View style={{flex: 1}}>
-                <ProgressSteps 
-                    activeStepIconColor={'rgb(246, 246, 246)'}
-                    disabledStepIconColor={'rgba(6, 134, 200, 0.863)'}
-                    completedStepIconColor={'rgb(246, 246, 246)'}>
+                <ProgressSteps activeStep={1}
+                 activeStepIconColor={'rgb(246, 246, 246)'}
+                 disabledStepIconColor={'rgba(6, 134, 200, 0.863)'}
+                 >
                     <ProgressStep >
                         <View style={{ alignItems: 'center' }}>
                         </View>
@@ -40,44 +39,32 @@ const CheckOut = (props) => {
                 <View style={styles.inputView}>
                     <TextInput
                         style={styles.input}
-                        placeholder='Calle'
+                        placeholder='Nombre y apellido'
                         />
                 </View>
                 <View style={styles.inputView}>
                     <TextInput
                         style={styles.input}
-                        placeholder='Altura'
+                        placeholder='CUIT/CUIL/DNI'
                         />
                 </View>
                 <View style={styles.inputView}>
                     <TextInput
                         style={styles.input}
-                        placeholder='Barrio'
+                        placeholder='Teléfono'
                         />
                 </View>
                 <View style={styles.inputView}>
                 <TextInput
                         style={styles.input}
-                        placeholder='Piso/Dpto'
-                        />            
-                </View>
-                <View style={styles.inputView}>
-                <TextInput
-                        style={styles.input}
-                        placeholder='¿Quién lo recibe?'
-                        />            
-                </View>
-                <View style={styles.inputView}>
-                <TextInput
-                        style={styles.input}
-                        placeholder='Teléfono de quien recibe'
+                        placeholder='Tipo de factura'
                         />            
                 </View>
                 <View style={{width:'90%', alignItems:'center', flexDirection: 'row', justifyContent:'center'}}>
                     <TouchableOpacity style={styles.button} >
                         <Text style={styles.buttonText}>Guardar Datos</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={()=>props.navigation.navigate('CheckOut2')}>
+                    <TouchableOpacity style={styles.button} onPress={()=>props.navigation.navigate('CheckOut3')}>
                         <Text style={styles.buttonText}>Siguiente</Text>
                     </TouchableOpacity>
                 </View>
@@ -132,4 +119,4 @@ const styles = StyleSheet.create({
 
       }
 })
-export default CheckOut
+export default CheckOut2

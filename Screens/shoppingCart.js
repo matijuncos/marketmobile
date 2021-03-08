@@ -98,7 +98,7 @@ const shoppingCart = (props) => {
                     />
                 </View>
                 <View>
-                <TouchableOpacity onPress={() => this._onPressCheckoutProducts(state)} style={styles.buyMeButton}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('CheckOut')} style={styles.buyMeButton}>
                     <Text style={styles.buttonText}>Terminar compra</Text>
                 </TouchableOpacity>
 

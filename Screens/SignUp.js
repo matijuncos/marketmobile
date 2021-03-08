@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, TouchableWithoutFeedback, Dimensions, Keyboard } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, TouchableWithoutFeedback, Dimensions, Keyboard } from 'react-native';
 import { Icon } from 'react-native-elements';
 import BackgroundImage from '../assets/hero.jpg'
 import * as Animatable from 'react-native-animatable';
@@ -9,6 +9,7 @@ import userActions from '../redux/actions/userActions';
 import { Feather } from '@expo/vector-icons';
 import { ToastAndroid } from 'react-native';
 import * as Google from 'expo-google-app-auth'
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 const SignUp = (props) => {
@@ -87,6 +88,10 @@ const {createNewUser} = props
 }
 
   return (
+    <KeyboardAvoidingView
+    behavior={Platform.OS === "ios" ? "padding" : "height"}
+    style={styles.bigContainer}
+  >
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     <View style={styles.container}>
       <View style={{ flex: 1 }}>
@@ -185,11 +190,16 @@ const {createNewUser} = props
       </View>
     </View>
   </TouchableWithoutFeedback>
+  </KeyboardAvoidingView>
   )
 }
 
 
 const styles = StyleSheet.create({
+  bigContainer:{
+    flex: 1,
+
+  },
   container: {
     flex: 1,
   },
@@ -206,7 +216,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.44,
     shadowRadius: 10.32,
-    elevation: 26,
+    
   },
   bottomView: {
     backgroundColor: '#fff',

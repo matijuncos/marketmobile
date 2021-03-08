@@ -17,6 +17,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomDrawer from './CustomDrawer';
 import Product from './Product';
 import shoppingCart from '../Screens/shoppingCart';
+import CheckOut from '../Screens/CheckOut';
+import CheckOut2 from '../Screens/CheckOut2';
+import CheckOut3 from '../Screens/CheckOut3';
+import CheckOut4 from '../Screens/CheckOut4';
 
 
 const Stack = createStackNavigator()
@@ -34,6 +38,10 @@ const StackNavigator=  () =>{
         <Stack.Screen name='ProductScreen' component={ProductScreen}/>
         <Stack.Screen name='Product' component={Product}/>
         <Stack.Screen name='cart' component={shoppingCart}/>
+        <Stack.Screen name='CheckOut' component={CheckOut}/>
+        <Stack.Screen name='CheckOut2' component={CheckOut2}/>
+        <Stack.Screen name='CheckOut3' component={CheckOut3}/>
+        <Stack.Screen name='CheckOut4' component={CheckOut4}/>
     </Stack.Navigator>
     )
 } 
