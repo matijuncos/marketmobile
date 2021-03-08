@@ -44,6 +44,7 @@ const SignUp = ({SignUp}) => {
     fdNewUser.append('password', newUser.password)
     fdNewUser.append('google', newUser.google)
     const res = await SignUp(fdNewUser)
+    console.log("componente Sign UP",res)
   }
 
   return (

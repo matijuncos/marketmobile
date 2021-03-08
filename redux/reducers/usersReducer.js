@@ -8,7 +8,7 @@ const initialState ={
     switch (action.type) {
 
             case 'LOGIN':
-            console.log(action.payload)
+            console.log("reducer",action.payload)
             //  AsyncStorage.setItem('name',action.payload.name)
             //  AsyncStorage.setItem('token',action.payload.token)
           

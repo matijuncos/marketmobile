@@ -16,7 +16,7 @@ function CustomDrawerContent(props) {
       ToastAndroid.showWithGravity(
         "Hope to see you soon!",
         ToastAndroid.LONG,
-        ToastAndroid.TOP
+        ToastAndroid.BOTTOM
         )
        const res = await AsyncStorage.clear()
       }
