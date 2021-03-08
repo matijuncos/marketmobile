@@ -8,10 +8,6 @@ const initialState ={
     switch (action.type) {
 
             case 'LOGIN':
-<<<<<<< HEAD
-            console.log("reducer",action.payload)
-=======
->>>>>>> c77e406596fea7f19162e768c2a6c356bc489616
             //  AsyncStorage.setItem('name',action.payload.name)
             //  AsyncStorage.setItem('token',action.payload.token)
             return {
