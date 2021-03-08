@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import {StyleSheet,Text, View, StatusBar,Image,TouchableOpacity,ScrollView} from 'react-native';
+import {StyleSheet,Text, View, StatusBar,Image,TouchableOpacity,ScrollView, ActivityIndicator, Alert} from 'react-native';
 import { Feather as Icon } from '@expo/vector-icons';
 import { Icon as RNEIcon } from 'react-native-elements';
 
 
 
-const Product = ({ product })  => {
+const Product = ({ product, navigation })  => {
    console.log(product)
-
-    if(product){
+  if(!product){
+    return <ActivityIndicator/>
+  }
     return (
+      <TouchableOpacity onPress={()=>navigation.navigate('ProductScreen', {product})}>
       <View
         style={{
             marginLeft:2,
@@ -63,14 +65,14 @@ const Product = ({ product })  => {
                   />
                 </View>
                 <Text style={{ marginLeft: 6 }}>
-                  ({product.ratingCount})Rating
+                  ({3})Rating
                 </Text>
               </View>
             </View>
             {/* -- Price View */}
             <View style={{ marginTop: 4 }}>
               <Text style={{fontSize: 16 }}>
-                {`₹${product.price}  `}
+                {`$${product.price}  `}
                
               </Text>
             </View>
@@ -109,12 +111,10 @@ const Product = ({ product })  => {
           ))}
         </View>*/}
       </View> 
+      </TouchableOpacity>
+
     );     
-    }else{
-        return(
-            <Text>Loading...</Text>
-        )
-    }
+    
   }
 
   export default Product

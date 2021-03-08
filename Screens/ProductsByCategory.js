@@ -5,12 +5,13 @@ import {StyleSheet,Text, View, StatusBar,Image,TouchableOpacity,ScrollView} from
 import { Feather as Icon } from '@expo/vector-icons';
 import { Icon as RNEIcon } from 'react-native-elements';
 import { useFonts } from 'expo-font';
+import { Alert } from 'react-native';
 
 
 const  ProductsByCategory = (props)=> {
- const category= props.route.params.category
   const {navigation} = props
-  console.log(props)
+const category = props.route.params.category
+    const [products, setProducts] = useState([])
     const [loading,setLoading]=useState(false)
     const [arrayProducts] = useState([
     {
@@ -67,14 +68,13 @@ const  ProductsByCategory = (props)=> {
         ],
       },
     ]);
-    const arrayCategory = arrayProducts.filter(product => product.category=== props.route.params.category)
-    console.log(arrayCategory)
-/*  useEffect(() =>{
-     fetchear()
-     .then(console.log('hola'))
-    
- },[])
-
+  useEffect(() =>{
+    if(props.route.params.allProducts.length !== 0){
+       const arrayCategory = props.route.params.allProducts.filter(product=> product.category === props.route.params.category)
+      setProducts(arrayCategory)
+    }
+ },[props.route.params.allProducts])
+/*
  const fetchear = async () =>{
    setLoading(true)
     try{
@@ -119,11 +119,7 @@ const  ProductsByCategory = (props)=> {
     });
   
 
-  if(arrayProducts.length===0){
-      return(
-          <Text>Loading...</Text>
-      )
-  }else{
+
   return (
     <>
       {/* Arrange Products Bar */}
@@ -150,17 +146,15 @@ const  ProductsByCategory = (props)=> {
       {/* Products List */}
       <ScrollView>
         {
-            arrayProducts.map((product) => (
-              <TouchableOpacity>
-                <Product product={product} />
-              </TouchableOpacity>
+            products.length !== 0 && products.map(product => (
+                <Product product={product} navigation={navigation}/>
             ))
           }
       </ScrollView>
       <View style={{ height: 20 }}></View>
     </>
   )};
-}
+
 
 const styles = StyleSheet.create({
   arrangeProductsBar: {

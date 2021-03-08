@@ -15,6 +15,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer'
 import userActions from '../redux/actions/userActions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomDrawer from './CustomDrawer';
+import Product from './Product';
 
 
 const Stack = createStackNavigator()
@@ -30,6 +31,7 @@ const StackNavigator=  () =>{
         <Stack.Screen name='Categories' options={{title:'Categorías'}} component={Categories}/>
         <Stack.Screen name="ProductsByCategory" component={ProductsByCategory}/>
         <Stack.Screen name='ProductScreen' component={ProductScreen}/>
+        <Stack.Screen name='Product' component={Product}/>
     </Stack.Navigator>
     )
 } 
@@ -51,8 +53,7 @@ const {loggedUser, logout_user, login_AS} = props
 
     return(
     <NavigationContainer>
-        <Drawer.Navigator  drawerStyle={{ backgroundColor: 'rgba(6, 134, 200, 0.95)'}}
-            drawerContent={props => <CustomDrawer {...props} />}>
+        <Drawer.Navigator  drawerStyle={{ backgroundColor: 'rgba(6, 134, 200, 0.95)'}}   >
             <Drawer.Screen name="Login" component={Login} />
             <Drawer.Screen name="SignUp" component={SignUp} />
             <Drawer.Screen name="Categories" children={StackNavigator} /> 

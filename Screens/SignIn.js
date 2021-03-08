@@ -54,8 +54,6 @@ const signInWithGoogle = async () =>{
           })
 
           if (response.type === "success") {
-      
-            
             ToastAndroid.showWithGravity(
               'Hola '+ response.user.name,
               ToastAndroid.SHORT,
