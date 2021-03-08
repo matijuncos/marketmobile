@@ -16,13 +16,8 @@ console.log(props)
       ToastAndroid.showWithGravity(
         "Hope to see you soon!",
         ToastAndroid.LONG,
-<<<<<<< HEAD
-        ToastAndroid.BOTTOM
-        )
-=======
         ToastAndroid.TOP
         ) 
->>>>>>> c77e406596fea7f19162e768c2a6c356bc489616
        const res = await AsyncStorage.clear()
        navigation.navigate('Login')
       }
