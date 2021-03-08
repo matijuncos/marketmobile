@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import userActions from '../redux/actions/userActions';
 import { Feather } from '@expo/vector-icons';
 import { ToastAndroid } from 'react-native';
+import * as Google from 'expo-google-app-auth'
 
 
 const SignUp = (props) => {
@@ -52,6 +53,38 @@ const {createNewUser} = props
        }
   }
 
+
+  const signUpwithGoogle = async () =>{
+
+    try {
+          const response = await Google.logInAsync({
+            androidClientId:
+            '225799266122-c20j29i4k2ra4sbipb2ngc00lud2pv06.apps.googleusercontent.com',
+            scopes: ["profile", "email"]
+          })
+
+          if (response.type === "success") {
+            ToastAndroid.showWithGravity(
+              'Hola '+ response.user.name,
+              ToastAndroid.SHORT,
+              ToastAndroid.TOP
+              )
+              console.log(response)
+
+              const res = await googleLogin()
+              props.navigation.navigate('Categories')
+
+          } else {
+            ToastAndroid.showWithGravity(
+              'Cancelado por el usuario',
+              ToastAndroid.SHORT,
+              ToastAndroid.TOP
+            )
+          }
+        } catch (e) {
+          console.log("error", e)
+        }
+}
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -140,9 +173,12 @@ const {createNewUser} = props
         <TouchableOpacity style={styles.loginButton} onPress={validate}>
           <Text style={styles.loginButtonText}>Registrate</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.loginButton} onPress={signUpwithGoogle}>
+          <Text style={styles.loginButtonText}>Registrate con Google</Text>
+        </TouchableOpacity>
         <Text style={styles.registerText}>
         Ya tenes cuenta?
-          <Text style={{ color: 'rgba(6, 134, 200, 0.863)'}}>
+          <Text style={{ color: 'rgba(6, 134, 200, 0.863)'}} onPress={()=>props.navigation.navigate('Login')}>
             Inicia sesión
           </Text>
         </Text>

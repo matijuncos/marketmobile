@@ -131,7 +131,9 @@ const signInWithGoogle = async () =>{
         <TouchableOpacity style={styles.loginButton} onPress={validate}>
           <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
-        <Button title='Inicia sesión con google'onPress={signInWithGoogle}/>
+        <TouchableOpacity style={styles.loginButton} onPress={signInWithGoogle}>
+          <Text style={styles.loginButtonText}>Inicia sesión con Google</Text>
+        </TouchableOpacity>
         <Text style={styles.registerText} onPress={()=> props.navigation.navigate('SignUp')}>
         Aún no tenes cuenta?
           <Text style={{ color: 'rgba(6, 134, 200, 0.863)'}}>
