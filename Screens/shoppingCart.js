@@ -5,24 +5,34 @@ import { Feather } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native';
 import { ToastAndroid } from 'react-native';
 import InputSpinner from "react-native-input-spinner";
-
-const shoppingCart = (props) => {
-
+import shoppingCartActions from '../redux/actions/shoppingCartActions';
+import {connect} from 'react-redux'
+const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart,clearCart}) => {
+    console.log(shoppingCart)
     const [state, setstate] = useState([])
-
     useEffect(() => {
       setstate([
-          {name: "Guitarra", price: 15000, quantity: 8},
-          {name: "Amplificador", price: 60000, quantity: 2}
+          {product: {"name":"test1","category":"Guitarra","price": 15000,"arrayPic":["https://media.fanaticguitars.com/2021/01/guitarra-clasica-1024x683.jpg","https://media.fanaticguitars.com/2021/01/guitarra-clasica-1024x683.jpg"],"stock":3, "_id":"60412a851950cc0015db878c"},"quantity": 8, "idProduct":"60412a851950cc0015db878c"},
+          {product: 
+            {
+                "name":"test2",
+                "category":"Amplificador",
+                "price": 38000,
+                "arrayPic":["https://media.fanaticguitars.com/2021/01/guitarra-clasica-1024x683.jpg","https://media.fanaticguitars.com/2021/01/guitarra-clasica-1024x683.jpg"],
+                "stock":20,
+                "_id":"60412a851950cc0015db878c"
+            },
+            "idProduct":"60412a851950cc0015db878c",
+            "quantity": 2, 
+        }
       ])
     }, [])
-
-    props.navigation.setOptions({
+    navigation.setOptions({
         title: 'Tu Carrito!',
         headerTitleStyle: { fontSize: 22},
         headerStyle: { backgroundColor: 'rgba(6, 134, 200, 0.863)' },
         headerLeft: () => (
-          <TouchableOpacity onPress={() => props.navigation.toggleDrawer() }style={{ marginHorizontal: 10 }}>
+          <TouchableOpacity onPress={() => navigation.toggleDrawer() }style={{ marginHorizontal: 10 }}>
             <Feather
               name='bar-chart-2'
               size={28}
@@ -37,19 +47,20 @@ const shoppingCart = (props) => {
             'borrar del carrito',
             ToastAndroid.SHORT,
             ToastAndroid.TOP
-          );    }
+        )
+    }
     return (
         <SafeAreaView  style={{flex:1}}>
-                <View style={styles.container}>
+            <View style={styles.container}>
                 <View style={{flex: 1}}>
                     {/* <View style={styles.titleContainer}>
                         <Text style={styles.title}>Jewellery</Text>
                     </View> */}
                     <FlatList
                         data={state}
-                        extraData={props}
-                        renderItem={({ item }) => (
-                            <View style={styles.itemContainer}>
+                        renderItem={({ item }) => {
+                            console.log(item)
+                            return (<View style={styles.itemContainer}>
                                 <View style={styles.listItem} onPress={() => this.onPressMoreDetails(item)}>
                                     <Image
                                         style={styles.image}
@@ -57,24 +68,38 @@ const shoppingCart = (props) => {
                                     />
                                     <View style={styles.content}>
                                         <View style={styles.details}>
-                                            <Text style={styles.adTitle}>{item.name}</Text>
-                                            <Text style={styles.adTitle}>${item.price}</Text>
+                                            <Text style={styles.adTitle}>{item.product.name}</Text>
+                                            <Text style={styles.adTitle}>${item.product.price}</Text>
                                             <View style={{flexDirection:'row', alignItems: 'center'}}>
                                                 <InputSpinner
                                                         skin="modern"
                                                         shadow= {true}
                                                         fontSize={14}
-                                                        max={10}
                                                         buttonFontSize={16}
                                                         colorMax={"#f04048"}
                                                         colorMin={"rgba(6, 134, 200, 0.863)"}
                                                         style={{width: '10%', height:30}}
                                                         min={1}
+                                                        max={item.product.stock}
                                                         height={50}
                                                         color={'rgba(6, 134, 200, 0.863)'}
                                                         value={1}
                                                         onChange={(num) => {
-                                                            console.log(num);
+                                                            manageQuantityForStock(num,item);
+                                                        }}
+                                                        onMax={(max)=>{
+                                                            ToastAndroid.showWithGravity(
+                                                                `No podes exceder el stock(${max}) del articulo.`,
+                                                                ToastAndroid.SHORT,
+                                                                ToastAndroid.TOP
+                                                            );
+                                                        }}
+                                                        onMin={(min)=>{
+                                                            ToastAndroid.showWithGravity(
+                                                                `Debes tener almenos 1.`,
+                                                                ToastAndroid.SHORT,
+                                                                ToastAndroid.TOP
+                                                            );
                                                         }}
                                                     />                                       
                                             </View>
@@ -86,8 +111,8 @@ const shoppingCart = (props) => {
                                         </View>
                                     </View>
                                 </View>
-                            </View>
-                        )}
+                            </View>)
+                        }}
                     />
                 </View>
                 <View>
@@ -198,8 +223,16 @@ const styles = StyleSheet.create({
 		// marginRight: 10,
         // width:'30%',
         // height:20,
-        
-
     }
 })
-export default shoppingCart
+const mapStateToProps = state =>{
+    return{
+        shoppingCart:state.shopping.shoppingCart
+    }
+}
+const mapDispatchToProps={
+    editProductCart:shoppingCartActions.editProductCart,
+    deleteProductCart:shoppingCartActions.deleteProductCart,
+    clearCart:shoppingCartActions.clearCart
+}
+export default connect(mapStateToProps,mapDispatchToProps)(shoppingCart)

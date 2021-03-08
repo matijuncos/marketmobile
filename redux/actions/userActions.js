@@ -6,12 +6,12 @@ const userActions  ={
   createNewUser: (fdNewUser) => {
     return async (dispatch,getstate) => {
       try{
-        const response = await axios.post('http://192.168.0.102:4000/api/user/signup', fdNewUser,{
+        const response = await axios.post('https://gitmusicapp.herokuapp.com/api/user/signup', fdNewUser,{
           headers:{
             'Content-Type':'multipart/form-data'
           }
         })
-        if(!response.data.succes){  
+        if(!response.data.success){  
           var errors=[]
           response.data.errores && response.data.errores.details.map(error=>{
             switch (error.path[0]) {
@@ -42,77 +42,72 @@ const userActions  ={
             ToastAndroid.LONG,
             ToastAndroid.TOP
           )
-         }catch(error){
+      }catch(error){
         console.log(console.log(errors))
         return({success: false, response: errors})
-    }}},
-    loginUser: user =>{
-        return async (dispatch,getstate) => {
-            try{
-              const response = await axios.post('https://gitmusicapp.herokuapp.com/api/user/login',user)
-              if (!response.data.success) {
-                
-                  return response.data
-              }
-              dispatch({type:'LOGIN', payload: response.data.response})
-              console.log(response)
-                   ToastAndroid.showWithGravity(
-                  "Welcome " + response.data.response.firstName+'!',
-                  ToastAndroid.LONG,
-                  ToastAndroid.TOP
-                )
-
-          }catch(error){
-           console.log(error)         
-          }}},
-    login_AS: (token) =>{
-        return async (dispatch,getState) =>{
-            try{
-              const response = await axios.post('https://gitmusicapp.herokuapp.com/api/user/ls',{token},{
-                headers:{
-                  Authorization: `Bearer ${token}`
-                }
-    
-              })
-              if (data.data.success){
-                dispatch({type:'LOGIN', payload:response.data.response})
-            
-              }
-              
-            } catch(error){
-              
-            if(error.response)
-              {if(error.response.status===401){
-              AsyncStorage.clear()
-                const backToHome ='/'
-                return backToHome}
-              }else {
-              return error}
-            }
-              
-            }
-          },
-        logout_user:()=>{
-          return async (dispatch,getstate) => {
-            const clearAll = async () => {
-              try {
-                await AsyncStorage.clear()
-              } catch(e) {
-                console.log(e)
-              }
-              dispatch({type:'LOGOUT'})}
-              clearAll()
-            }
-        },
-      googleLogin:()=>{
-        return async (dispatch,getstate) => {
-          dispatch({
-            type:'GOOGLE',
-          })
-        }
-
       }
-       
-        
     }
+  },
+  loginUser: user =>{
+      return async (dispatch,getstate) => {
+          try{
+            const response = await axios.post('https://gitmusicapp.herokuapp.com/api/user/login',user)
+            if (!response.data.success) {
+                return response.data
+            }
+            dispatch({type:'LOGIN', payload: response.data.response})
+            console.log(response)
+                  ToastAndroid.showWithGravity(
+                "Welcome " + response.data.response.firstName+'!',
+                ToastAndroid.LONG,
+                ToastAndroid.TOP
+              )
+        }catch(error){
+          console.log(error)         
+        }
+      }
+  },
+  login_AS: (token) =>{
+    return async (dispatch,getState) =>{
+        try{
+          const response = await axios.post('https://gitmusicapp.herokuapp.com/api/user/ls',{token},{
+            headers:{
+              Authorization: `Bearer ${token}`
+            }
+          })
+          if (data.data.success){
+            dispatch({type:'LOGIN', payload:response.data.response})
+          }
+        } catch(error){
+          
+        if(error.response)
+          {if(error.response.status===401){
+          AsyncStorage.clear()
+            const backToHome ='/'
+            return backToHome}
+          }else {
+          return error}
+        }
+    }
+  },
+  logout_user:()=>{
+    return async (dispatch,getstate) => {
+      const clearAll = async () => {
+        try {
+          await AsyncStorage.clear()
+        } catch(e) {
+          console.log(e)
+        }
+        dispatch({type:'LOGOUT'})}
+        clearAll()
+    }
+  },
+  googleLogin:()=>{
+    return async (dispatch,getstate) => {
+      dispatch({
+        type:'GOOGLE',
+      })
+    }
+  }  
+}
 export default userActions

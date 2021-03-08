@@ -63,12 +63,12 @@ const {loggedUser, logout_user, login_AS} = props
 
     return(
     <NavigationContainer>
-        <Drawer.Navigator  drawerStyle={{ backgroundColor: 'rgba(6, 134, 200, 0.95)'}}   >
-            <Drawer.Screen name="Login" component={Login} />
-            <Drawer.Screen name="SignUp" component={SignUp} />
-            <Drawer.Screen name="Categories" children={StackNavigator} /> 
-        </Drawer.Navigator>
-  </NavigationContainer>
+      <Drawer.Navigator drawerStyle={{ backgroundColor: 'rgba(6, 134, 200, 0.95)'}}   >
+          <Drawer.Screen name="Login" component={Login} />
+          <Drawer.Screen name="SignUp" component={SignUp} />
+          <Drawer.Screen name="Categories" children={StackNavigator} /> 
+      </Drawer.Navigator>
+    </NavigationContainer>
     )
 }
 
