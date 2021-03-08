@@ -3,37 +3,24 @@ import { StyleSheet,Text, View, ScrollView, StatusBar, TouchableOpacity, Image} 
 import {Icon} from 'react-native-elements'
 import Constants from 'expo-constants';
 import { Feather } from '@expo/vector-icons';
+import { Icon as RNEIcon } from 'react-native-elements';
 
-const Rating = ({ rating, maxRating }) => {
-  return (
-    <View style={{ flexDirection: 'row' }}>
-      {Array(rating)
-        .fill(1)
-        .map((el) => (
-          <Icon name='star' size={20} color='gold' />
-          ))}
-      {Array(maxRating - rating)
-        .fill(1)
-        .map((el) => (
-          <Icon name='star' size={20} color='white' />
-          ))}
-    </View>
-  );
-  
-};
+
  function ProductScreen(props) {
+   console.log(props)
    const [visible, setVisible] = useState(false)
-   
+   const [rating, setRating] = useState(3)
+
    useEffect(() => {
      
-     console.log(props.route.params)
+     console.log(props.route.params.product.category)
   }, [])
 
   const addToCart = () =>{
     
   }
   props.navigation.setOptions({
-    title: 'Categorías',
+    title: props.route.params.product.category,
     headerTitleStyle: { fontSize: 22},
     headerStyle: { backgroundColor: 'rgba(6, 134, 200, 0.863)' },
     headerLeft: () => (
@@ -60,7 +47,7 @@ const Rating = ({ rating, maxRating }) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View>
           <Image
-            style={{ height: 500, resizeMode: 'cover' }}
+            style={{ height: 300, resizeMode: 'contain' }}
             source={{uri: props.route.params.product.arrayPic[0]}}
             />
         </View>
@@ -72,9 +59,21 @@ const Rating = ({ rating, maxRating }) => {
           <View style={styles.productPriceView}>
             <Text style={styles.discountedPriceText}>${props.route.params.product.price}</Text>
           </View>
-          <View style={{ marginTop: 10 }}>
-            <Rating rating={4} maxRating={5} />
-          </View>
+          <View style={{ marginTop: 10, flexDirection:'row' }}>
+          {[...Array(5)].map((m, i)=>{
+                    const ratingValue = i+1
+                    return(
+                      <RNEIcon
+                        name='star'
+                        type='font-awesome'
+                        size={18}
+                        color={ratingValue <= rating ? '#ffc107' : '#8C8C8C'}
+                        id={ratingValue}
+                        key={'s'+i}
+                      />
+                    )
+                  })}         
+         </View>
         </View>
         <View style={{ flexDirection: 'row', paddingHorizontal: 10 }}>
           <TouchableOpacity style={styles.buyNowButton} onPress={addToCart}>
@@ -105,6 +104,16 @@ const Rating = ({ rating, maxRating }) => {
 }
 
 const styles = StyleSheet.create({
+  iconCountView: {
+    position: 'absolute',
+    zIndex: 2,
+    right: -4,
+    top: -4,
+    paddingHorizontal: 4,
+    borderRadius: 10,
+    backgroundColor: 'red',
+  },
+  iconCountText: { color: '#fff', fontWeight: 'bold' },
   header: {
     height: 50,
     backgroundColor: '#fff',
@@ -118,7 +127,6 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 18,
-    fontFamily: 'MontserratBold',
   },
   detailsView: {
     paddingHorizontal: 10,
@@ -131,20 +139,17 @@ const styles = StyleSheet.create({
   },
   productTitle: {
     fontSize: 24,
-    fontFamily: 'MontserratExtraBold',
   },
   productPriceView: {
     marginTop: 10,
     flexDirection: 'row',
     alignItems: 'center',
   },
-  discountedPriceText: { fontFamily: 'MontserratBold', fontSize: 20 },
   actualPriceText: {
     color: '#222',
     marginLeft: 10,
     textDecorationLine: 'line-through',
     fontSize: 18,
-    fontFamily: 'MontserratRegular',
   },
   buyNowButton: {
     flex: 1,
@@ -170,7 +175,6 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
   },
   tagLabel: {
-    fontFamily: 'MontserratBold',
     color: '#333',
   },
   tagSelected: {
@@ -181,7 +185,6 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
   },
   tagLabelSelected: {
-    fontFamily: 'MontserratBold',
     color: '#FFF',
   },
   productDescriptionHeader: {
@@ -200,7 +203,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   moreProductName: {
-    fontFamily: 'MontserratBold',
     fontSize: 16,
   },
   moreProductPriceView: {
@@ -211,7 +213,6 @@ const styles = StyleSheet.create({
   },
   moreProductPrice: {
     fontSize: 16,
-    fontFamily: 'MontserratRegular',
   },
   moreProductIcon: {
     marginLeft: 10,
@@ -225,9 +226,9 @@ const styles = StyleSheet.create({
   },
   moreProductBuyButtonText: {
     color: '#fff',
-    fontFamily: 'MontserratBold',
     fontSize: 18,
   },
+  
 });
 
 export default ProductScreen

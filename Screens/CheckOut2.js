@@ -1,10 +1,42 @@
-import React from 'react'
-import { View, TextInput, StyleSheet } from 'react-native'
+import React, {useState, useEffect} from 'react'
+import { View, TextInput, StyleSheet,ToastAndroid } from 'react-native'
 import { Text } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 
 const CheckOut2 = (props) => {
+
+    const [next,setNext] = useState(true) //CAMBIAR A FALSE QUE AHORA ES PROVISORIO
+    const [billingAddress, setBillingAddress] = useState({
+        nombre:'',
+        tipoFactura:'',
+        cuitCuilDni:'',
+        contacto:''
+    })
+
+    
+    const validate = async () => {
+
+        if (billingAddress.nombre === '' || billingAddress.cuitCuilDni === '' ||  billingAddress.tipoFactura === '' ||billingAddress.contacto === '') {
+                Alert.error('Todos los campos son requeridos')
+               return false
+            }
+        //    const data = await props.completeUserData("billingAdress",billingAddress)
+        //   console.log(data)
+        //   if(data.saved){
+        //    Alert.success('Datos guardados')
+        //    setNext(true)
+        //   }
+           
+       }
+
+       const nextStep = () =>{
+        if(next){
+            props.navigation.navigate('CheckOut3')
+        }else{
+            ToastAndroid.showWithGravity('Complete los campos requeridos(*) y guarde', ToastAndroid.LONG, ToastAndroid.TOP)
+        }
+    }
     return (
         <View style={{flex: 1, backgroundColor: 'rgb(16, 16, 16)', alignItems:'center'}}>
             <View style={{flex: 1}}>
@@ -40,31 +72,39 @@ const CheckOut2 = (props) => {
                     <TextInput
                         style={styles.input}
                         placeholder='Nombre y apellido'
+                        onChangeText={(value)=>setaddress({...billingAddress, nombre: value})}
+
                         />
                 </View>
                 <View style={styles.inputView}>
                     <TextInput
                         style={styles.input}
                         placeholder='CUIT/CUIL/DNI'
+                        onChangeText={(value)=>setaddress({...billingAddress, cuitCuilDni: value})}
+
                         />
                 </View>
                 <View style={styles.inputView}>
                     <TextInput
                         style={styles.input}
                         placeholder='Teléfono'
+                        onChangeText={(value)=>setaddress({...billingAddress, contacto: value})}
+
                         />
                 </View>
                 <View style={styles.inputView}>
                 <TextInput
                         style={styles.input}
                         placeholder='Tipo de factura'
+                        onChangeText={(value)=>setaddress({...billingAddress, tipoFactura: value})}
+
                         />            
                 </View>
                 <View style={{width:'90%', alignItems:'center', flexDirection: 'row', justifyContent:'center'}}>
-                    <TouchableOpacity style={styles.button} >
+                    <TouchableOpacity style={styles.button} onPress={validate}>
                         <Text style={styles.buttonText}>Guardar Datos</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={()=>props.navigation.navigate('CheckOut3')}>
+                    <TouchableOpacity style={styles.button} onPress={nextStep}>
                         <Text style={styles.buttonText}>Siguiente</Text>
                     </TouchableOpacity>
                 </View>

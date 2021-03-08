@@ -65,7 +65,7 @@ const Categories = (props) => {
           <TouchableWithoutFeedback
             onPress={() => {
              props.navigation.navigate('ProductsByCategory',{category:data.item.name, allProducts: allProducts})
-              Alert.alert(`Categoria - ${data.item.name}`);
+              ;
             }}>
             <View style={{backgroundColor: '#f1f3f6', paddingVertical: 10, paddingHorizontal: 10, marginVertical: 4, borderRadius: 4, display: 'flex', flexDirection: 'row',  alignItems: 'center' }} >
               <Image source={{uri: data.item.pic}} style={{width: 60, height: 60, resizeMode: 'cover', borderRadius: 60}}/>
@@ -81,7 +81,16 @@ const Categories = (props) => {
 }
 
 const styles = StyleSheet.create({
-
+  iconCountView: {
+    position: 'absolute',
+    zIndex: 2,
+    right: -4,
+    top: -4,
+    paddingHorizontal: 4,
+    borderRadius: 10,
+    backgroundColor: 'red',
+  },
+  iconCountText: { color: '#fff', fontWeight: 'bold' },
 })
 const mapDispatchToProps = {
   getProducts: productActions.getProducts

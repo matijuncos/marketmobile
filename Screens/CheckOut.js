@@ -1,13 +1,49 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, TextInput, StyleSheet } from 'react-native'
+import { ToastAndroid } from 'react-native';
 import { Text } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 
 const CheckOut = (props) => {
+    
+    const [next,setNext] = useState(true) //CAMBIAR A FALSE!!!!!!!!!!!!!!
+    const [address, setaddress] = useState({
+        calle:'',
+        altura:'',
+        barrio:'',
+        pisoDpto:'',
+        encargadoDeRecibir:'',
+        contactoReceptor:''
+    })
+
+    const validate = async () => {
+
+        if (address.calle === '' || address.altura === ''  || address.encargadoDeRecibir===''|| address.contactoReceptor === '') {
+            ToastAndroid.showWithGravity(
+                'Complete los campos requeridos(*)',
+                ToastAndroid.LONG,
+                ToastAndroid.TOP
+                )
+                return false
+        }
+       //const data = await props.completeUserData("adress",address)
+       //console.log(data)
+    //    if(data.saved){
+    //        Alert.success('Datos guardados')
+    //        setNext(true)
+    //    }
+
+    }
+    const nextStep = () =>{
+        if(next){
+            props.navigation.navigate('CheckOut2')
+        }else{
+            ToastAndroid.showWithGravity('Complete los campos requeridos(*) y guarde', ToastAndroid.LONG, ToastAndroid.TOP)
+        }
+    }
     return (
         <View style={{flex: 1, backgroundColor: 'rgb(16, 16, 16)', alignItems:'center'}}>
-            <Text>Paso 1</Text>
             <View style={{flex: 1}}>
                 <ProgressSteps 
                     activeStepIconColor={'rgb(246, 246, 246)'}
@@ -40,44 +76,55 @@ const CheckOut = (props) => {
                 <View style={styles.inputView}>
                     <TextInput
                         style={styles.input}
-                        placeholder='Calle'
+                        placeholder='Calle *'
+                        onChangeText={(value)=>setaddress({...address, calle: value})}
                         />
                 </View>
                 <View style={styles.inputView}>
                     <TextInput
                         style={styles.input}
-                        placeholder='Altura'
+                        placeholder='Altura *'
+                        onChangeText={(value)=>setaddress({...address, altura: value})}
+
                         />
                 </View>
                 <View style={styles.inputView}>
                     <TextInput
                         style={styles.input}
                         placeholder='Barrio'
+                        onChangeText={(value)=>setaddress({...address, barrio: value})}
+
                         />
                 </View>
                 <View style={styles.inputView}>
                 <TextInput
                         style={styles.input}
                         placeholder='Piso/Dpto'
+                        onChangeText={(value)=>setaddress({...address, pisoDpto: value})}
+
                         />            
                 </View>
                 <View style={styles.inputView}>
                 <TextInput
                         style={styles.input}
-                        placeholder='¿Quién lo recibe?'
+                        placeholder='¿Quién lo recibe? *'
+                        onChangeText={(value)=>setaddress({...address, encargadoDeRecibir: value})}
+
                         />            
                 </View>
                 <View style={styles.inputView}>
                 <TextInput
                         style={styles.input}
-                        placeholder='Teléfono de quien recibe'
+                        placeholder='Teléfono de quien recibe *'
+                        onChangeText={(value)=>setaddress({...address, contactoReceptor: value})}
+
                         />            
                 </View>
                 <View style={{width:'90%', alignItems:'center', flexDirection: 'row', justifyContent:'center'}}>
-                    <TouchableOpacity style={styles.button} >
+                    <TouchableOpacity style={styles.button} onPress={validate}>
                         <Text style={styles.buttonText}>Guardar Datos</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={()=>props.navigation.navigate('CheckOut2')}>
+                    <TouchableOpacity style={styles.button} onPress={nextStep}>
                         <Text style={styles.buttonText}>Siguiente</Text>
                     </TouchableOpacity>
                 </View>

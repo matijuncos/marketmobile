@@ -6,7 +6,17 @@ import { Icon as RNEIcon } from 'react-native-elements';
 
 
 const Product = ({ product, navigation })  => {
-   console.log(product)
+   
+  const [rating, setRating] = useState(3)
+
+  useEffect(()=>{
+    if(product.arrayRating && product.arrayRating.length !== 0){
+      const stars = Math.round(product.arrayRating.reduce((a, b) => (a.value + b.value)) / product.arrayRating.length)
+      setRating(stars)
+      console.log(stars)
+    }
+},[])  
+
   if(!product){
     return <ActivityIndicator/>
   }
@@ -39,34 +49,26 @@ const Product = ({ product, navigation })  => {
                 <View
                   style={{
                     flexDirection: 'row',
-                    backgroundColor: '#fff200',
                     alignItems: 'center',
-                    paddingHorizontal: 4,
+                    paddingHorizontal: 8,
                     paddingVertical: 2,
                     borderRadius: 4,
                     marginTop: 4,
                   }}
                 >
-                  <Text
-                    style={{
-                      color: '#111',
-                      marginRight: 8,
-                    
-                      fontSize: 16,
-                    }}
-                  >
-                    {product.rating}
-                  </Text>
-                  <RNEIcon
-                    name='star'
-                    type='font-awesome'
-                    size={12}
-                    color={'#111'}
-                  />
+                  {[...Array(5)].map((m, i)=>{
+                    const ratingValue = i+1
+                    return(
+                      <RNEIcon
+                        name='star'
+                        type='font-awesome'
+                        size={18}
+                        color={ratingValue <= rating ? '#ffc107' : '#8C8C8C'}
+                      />
+                    )
+                  })}
                 </View>
-                <Text style={{ marginLeft: 6 }}>
-                  ({3})Rating
-                </Text>
+
               </View>
             </View>
             {/* -- Price View */}
@@ -78,43 +80,16 @@ const Product = ({ product, navigation })  => {
             </View>
           </View>
         </View>
-        
-        {/* Specifications Wrap */}
-        {/* <View
-          style={{
-            marginTop: 4,
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-          }}
-        >
-          {product.arrayDescription.map((spec) => (
-            <Text
-              style={{
-                marginTop: 4,
-                marginBottom: 4,
-                marginLeft: 4,
-                marginRight: 4,
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                color:'white',
-                backgroundColor: '#085694',
-                alignSelf: 'baseline',
-                paddingHorizontal: 6,
-                paddingVertical: 4,
-                borderRadius: 4,
-              }}
-            >
-              {spec}
-            </Text>
-          ))}
-        </View>*/}
       </View> 
       </TouchableOpacity>
 
     );     
     
   }
+
+const styles = StyleSheet.create({
+  
+})
+
 
   export default Product
