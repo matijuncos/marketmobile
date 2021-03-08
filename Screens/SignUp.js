@@ -6,11 +6,14 @@ import * as Animatable from 'react-native-animatable';
 import * as ImagePicker from 'expo-image-picker';
 import { connect } from 'react-redux';
 import userActions from '../redux/actions/userActions';
+import { Feather } from '@expo/vector-icons';
+import { ToastAndroid } from 'react-native';
+import * as Google from 'expo-google-app-auth'
 
 
-const SignUp = ({SignUp}) => {
-
-  const[picture, setPicture] = useState(null)
+const SignUp = (props) => {
+const {createNewUser} = props
+  const[picture, setPicture] = useState({})
   const[newUser, setNewUser] = useState({firstName:'', lastName:'', fileUrlPic:'', email:'', password:'', google:'false'})
 
     const openImagePickerAsync = async () => {
@@ -26,7 +29,6 @@ const SignUp = ({SignUp}) => {
     if(pickerResult.cancelled === true){
       return;
     }
-    console.log(pickerResult)
     await setPicture(pickerResult)
   }
   
@@ -43,9 +45,51 @@ const SignUp = ({SignUp}) => {
     fdNewUser.append('email', newUser.email)
     fdNewUser.append('password', newUser.password)
     fdNewUser.append('google', newUser.google)
+<<<<<<< HEAD
     const res = await SignUp(fdNewUser)
     console.log("componente Sign UP",res)
+=======
+    const res = await createNewUser(fdNewUser)
+      if(res && !res.success) {
+        ToastAndroid.show('Error')
+      }else{
+        ToastAndroid.show('Error')
+       }
+>>>>>>> c77e406596fea7f19162e768c2a6c356bc489616
   }
+
+
+  const signUpwithGoogle = async () =>{
+
+    try {
+          const response = await Google.logInAsync({
+            androidClientId:
+            '225799266122-c20j29i4k2ra4sbipb2ngc00lud2pv06.apps.googleusercontent.com',
+            scopes: ["profile", "email"]
+          })
+
+          if (response.type === "success") {
+            ToastAndroid.showWithGravity(
+              'Hola '+ response.user.name,
+              ToastAndroid.SHORT,
+              ToastAndroid.TOP
+              )
+              console.log(response)
+
+              const res = await googleLogin()
+              props.navigation.navigate('Categories')
+
+          } else {
+            ToastAndroid.showWithGravity(
+              'Cancelado por el usuario',
+              ToastAndroid.SHORT,
+              ToastAndroid.TOP
+            )
+          }
+        } catch (e) {
+          console.log("error", e)
+        }
+}
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -134,9 +178,12 @@ const SignUp = ({SignUp}) => {
         <TouchableOpacity style={styles.loginButton} onPress={validate}>
           <Text style={styles.loginButtonText}>Registrate</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.loginButton} onPress={signUpwithGoogle}>
+          <Text style={styles.loginButtonText}>Registrate con Google</Text>
+        </TouchableOpacity>
         <Text style={styles.registerText}>
         Ya tenes cuenta?
-          <Text style={{ color: 'rgba(6, 134, 200, 0.863)'}}>
+          <Text style={{ color: 'rgba(6, 134, 200, 0.863)'}} onPress={()=>props.navigation.navigate('Login')}>
             Inicia sesión
           </Text>
         </Text>
@@ -237,6 +284,6 @@ const styles = StyleSheet.create({
 
 
 const mapDispatchToProps = {
-  SignUp: userActions.createNewUser
+  createNewUser: userActions.createNewUser
 }
 export default connect(null, mapDispatchToProps)(SignUp)

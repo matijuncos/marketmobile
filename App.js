@@ -8,6 +8,9 @@ import {applyMiddleware, createStore} from 'redux'
 import {Provider} from 'react-redux'
 import thunk from 'redux-thunk'
 import rootReducer from './redux/reducers/rootReducer'
+// import firebase from 'firebase'
+// import firebaseConfig from './config'
+// firebase.initializeApp(firebaseConfig)
 
 
 const myStore = createStore(rootReducer, applyMiddleware(thunk))

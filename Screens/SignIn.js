@@ -1,35 +1,80 @@
 import React,{useEffect, useState} from 'react'
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, TouchableWithoutFeedback, Dimensions, Keyboard } from 'react-native';
+import { Button, StyleSheet, Text, View, Image, TextInput, TouchableOpacity, TouchableWithoutFeedback, Dimensions, Keyboard } from 'react-native';
 import { Icon } from 'react-native-elements';
 import BackgroundImage from '../assets/hero.jpg'
 import * as Animatable from 'react-native-animatable';
 import { connect } from 'react-redux';
 import userActions from '../redux/actions/userActions'
-
+import { ToastAndroid } from 'react-native';
+import * as Expo from 'expo'
+import * as Google from 'expo-google-app-auth'
 
 const SignIn = (props) => {
-const {logIn, loggedUser} = props
+
+
+const {loginUser, loggedUser} = props
   const [errores, setErrores] = useState('')
   const [user, setUser] = useState({email: '', password: ''})
+  const [googleUser, setgoogleUser] = useState(null)
+  const [isLogged, setIsLogged] = useState(false)
 
 
   const validate = async e => {
-    setErrores('')
-    if (!user.email || !user.password) {
+    if (user.email ==='' || user.password === '') {
         setErrores('Todos los campos son requeridos')
-    } else {
-        const response = await logIn(user)
+        ToastAndroid.showWithGravity(
+          errores,
+          ToastAndroid.SHORT,
+          ToastAndroid.TOP
+        );
+        return false
+    }
+        const response = await loginUser(user)
         console.log(response)
         if (response && !response.success) {
-            setErrores(response.message)
+            setErrores(response.error)
+            ToastAndroid.showWithGravity(
+              errores,
+              ToastAndroid.SHORT,
+              ToastAndroid.TOP
+            )
+            setUser({email: '', password: ''})
+    }else{
+      props.navigation.navigate('Categories')
     }
-    }
+    
 }
+const signInWithGoogle = async () =>{
 
-useEffect(()=>{
-  console.log(props)
-},[loggedUser])
+    try {
+          const response = await Google.logInAsync({
+            androidClientId:
+            '225799266122-c20j29i4k2ra4sbipb2ngc00lud2pv06.apps.googleusercontent.com',
+            scopes: ["profile", "email"]
+          })
 
+          if (response.type === "success") {
+            ToastAndroid.showWithGravity(
+              'Hola '+ response.user.name,
+              ToastAndroid.SHORT,
+              ToastAndroid.TOP
+              )
+              console.log(response)
+
+              const res = await googleLogin()
+              props.navigation.navigate('Categories')
+
+          } else {
+            ToastAndroid.showWithGravity(
+              'Cancelado por el usuario',
+              ToastAndroid.SHORT,
+              ToastAndroid.TOP
+            )
+          }
+        } catch (e) {
+          console.log("error", e)
+        }
+}
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -86,7 +131,10 @@ useEffect(()=>{
         <TouchableOpacity style={styles.loginButton} onPress={validate}>
           <Text style={styles.loginButtonText}>Login</Text>
         </TouchableOpacity>
-        <Text style={styles.registerText}>
+        <TouchableOpacity style={styles.loginButton} onPress={signInWithGoogle}>
+          <Text style={styles.loginButtonText}>Inicia sesión con Google</Text>
+        </TouchableOpacity>
+        <Text style={styles.registerText} onPress={()=> props.navigation.navigate('SignUp')}>
         Aún no tenes cuenta?
           <Text style={{ color: 'rgba(6, 134, 200, 0.863)'}}>
             Registrate
@@ -184,6 +232,7 @@ const mapStateToProps = state => {
   }
 }
 const mapDispatchToProps = {
-  logIn: userActions.loginUser
+  loginUser: userActions.loginUser,
+  googleLogin: userActions.googleLogin
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn)

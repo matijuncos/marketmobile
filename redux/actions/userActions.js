@@ -6,56 +6,76 @@ const userActions  ={
   createNewUser: (fdNewUser) => {
     return async (dispatch,getstate) => {
       try{
-        console.log(fdNewUser)
-        const response = await axios.post('https://gitmusicapp.herokuapp.com/api/user/signup', fdNewUser,{
+        const response = await axios.post('http://192.168.0.102:4000/api/user/signup', fdNewUser,{
           headers:{
             'Content-Type':'multipart/form-data'
           }
         })
-        if (response.data.success){
-          dispatch({type:'LOGIN', payload:response.data.response})
-
-        } else{
-          //ALERT
-        }
-        console.log(response)
-      }catch(error){
-      
-      const data ={errores:{details:[{message:'An error occurred'}]}}
-      return data
+        if(!response.data.succes){  
+          var errors=[]
+          response.data.errores && response.data.errores.details.map(error=>{
+            switch (error.path[0]) {
+              case 'firstName':
+                errors.push({label:error.context.label,message:"El nombre debe tener minimo 2 caracteres."})
+                break;
+                case 'lastName':
+                errors.push({label:error.context.label,message:"El apellido debe tener minimo 2 caracteres."})
+                break;
+                case 'email':
+                  errors.push({label:error.context.label,message:"El correo tiene que contener un arroba y un dominio como minimo."})
+                  break;
+              case 'password':
+                errors.push({label:error.context.label,message:"La contraseña debe tener al menos 6 a 8 caracteres y una mayuscula y una minuscula."})
+                break;
+              case 'country':
+                errors.push({label:error.context.label,message:"Debes seleccionar algun país."})
+                break;
+              }
+            })
+          }
+          dispatch({
+            type: "LOGIN",
+            payload: response.data.response
+          })
+          ToastAndroid.showWithGravity(
+            response.data.response.firstName+', tu cuenta fue creada!',
+            ToastAndroid.LONG,
+            ToastAndroid.TOP
+          )
+         }catch(error){
+        console.log(console.log(errors))
+        return({success: false, response: errors})
     }}},
-    loginUser: userToLogin =>{
+    loginUser: user =>{
         return async (dispatch,getstate) => {
             try{
-              const data = await axios.post('https://gitmusicapp.herokuapp.com/api/user/login',userToLogin)
-              if (data.data.success){
+              const response = await axios.post('https://gitmusicapp.herokuapp.com/api/user/login',user)
+              if (!response.data.success) {
                 
-                dispatch({type:'LOGIN', payload:data.data.response})
-                ToastAndroid.showWithGravity(
-                  "Welcome " + data.data.response.firstName,
+                  return response.data
+              }
+              dispatch({type:'LOGIN', payload: response.data.response})
+              console.log(response)
+                   ToastAndroid.showWithGravity(
+                  "Welcome " + response.data.response.firstName+'!',
                   ToastAndroid.LONG,
                   ToastAndroid.TOP
                 )
-              } else{
-              
-              return data.data
-              }
+
           }catch(error){
-       
-            const data ={errores:{details:[{message:'An error occurred'}]}}
-            return data
+           console.log(error)         
           }}},
     login_AS: (token) =>{
         return async (dispatch,getState) =>{
             try{
-              const data = await axios.post('https://gitmusicapp.herokuapp.com/api/user/ls',{token},{
+              const response = await axios.post('https://gitmusicapp.herokuapp.com/api/user/ls',{token},{
                 headers:{
                   Authorization: `Bearer ${token}`
                 }
     
               })
               if (data.data.success){
-                dispatch({type:'LOGIN', payload:data.data.response})
+                dispatch({type:'LOGIN', payload:response.data.response})
             
               }
               
@@ -80,15 +100,18 @@ const userActions  ={
               } catch(e) {
                 console.log(e)
               }
-            
-             
               dispatch({type:'LOGOUT'})}
               clearAll()
             }
-           
-           
-          
+        },
+      googleLogin:()=>{
+        return async (dispatch,getstate) => {
+          dispatch({
+            type:'GOOGLE',
+          })
         }
+
+      }
        
         
     }

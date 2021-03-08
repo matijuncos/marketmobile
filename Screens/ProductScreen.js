@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet,Text, View, ScrollView, StatusBar, TouchableOpacity, Image} from 'react-native';
 import {Icon} from 'react-native-elements'
 import Constants from 'expo-constants';
+import { Feather } from '@expo/vector-icons';
 
 const Rating = ({ rating, maxRating }) => {
   return (
@@ -20,41 +21,63 @@ const Rating = ({ rating, maxRating }) => {
   );
   
 };
- function ProductScreen() {
+ function ProductScreen(props) {
+   const [visible, setVisible] = useState(false)
+   
+   useEffect(() => {
+     
+     console.log(props.route.params)
+  }, [])
 
-  const [visible, setVisible] = useState(false)
+  const addToCart = () =>{
+    
+  }
+  props.navigation.setOptions({
+    title: 'Categorías',
+    headerTitleStyle: { fontSize: 22},
+    headerStyle: { backgroundColor: 'rgba(6, 134, 200, 0.863)' },
+    headerLeft: () => (
+      <TouchableOpacity onPress={() => props.navigation.toggleDrawer() }style={{ marginHorizontal: 10 }}>
+        <Feather
+          name='bar-chart-2'
+          size={28}
+          style={{ transform: [{ rotate: '90deg' }, { scaleX: -1 }] }}
+        />
+      </TouchableOpacity>
+    ),
+    headerRight: () => (
+      <TouchableOpacity style={{ marginHorizontal: 10 }} onPress={()=>props.navigation.navigate('cart')}>
+        <Feather name='shopping-cart' size={24} />
+        <View style={[styles.iconCountView, { right: -6 }]}>
+          <Text style={styles.iconCountText}>4</Text>
+        </View>
+      </TouchableOpacity>
+    ),
+  });
   return (
     <View style={{ flex: 1 }}>
       <StatusBar/>
-      <View style={styles.header}>
-        <Icon name='menu' size={30} />
-        <Text style={styles.headerTitle}>Productos</Text>
-        <Icon name='cart-outline' type='ionicon' size={26} />
-      </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View>
           <Image
             style={{ height: 500, resizeMode: 'cover' }}
-            source={{
-              uri:
-              'https://www.hurlbutacademy.com/wp-content/uploads/2018/12/Sound-Design-Studio-Mixer.jpg',
-            }}
+            source={{uri: props.route.params.product.arrayPic[0]}}
             />
         </View>
         <View style={styles.detailsView}>
           <View style={styles.productTitleView}>
-            <Text style={styles.productTitle}>Consola Allen and heath</Text>
+            <Text style={styles.productTitle}>{props.route.params.product.name}</Text>
             
           </View>
           <View style={styles.productPriceView}>
-            <Text style={styles.discountedPriceText}>$599.999</Text>
+            <Text style={styles.discountedPriceText}>${props.route.params.product.price}</Text>
           </View>
           <View style={{ marginTop: 10 }}>
             <Rating rating={4} maxRating={5} />
           </View>
         </View>
         <View style={{ flexDirection: 'row', paddingHorizontal: 10 }}>
-          <TouchableOpacity style={styles.buyNowButton}>
+          <TouchableOpacity style={styles.buyNowButton} onPress={addToCart}>
           <Icon name='cart-outline' type='ionicon' size={26} color='white' />
 
             <Text style={styles.buttonText}>Agregar al carrito</Text>
@@ -72,8 +95,7 @@ const Rating = ({ rating, maxRating }) => {
           </TouchableOpacity>
             {visible && (
               <View style={{ padding: 10 }}>
-                <Text>Aca va descripción pero oculta</Text>
-                <Text>Yse podria desplegar</Text>
+                {props.route.params.product.arrayDescription.map(text =>  <Text style={{fontSize: 16 }}>{text}</Text>)}
               </View>
                 )}
             </View>
