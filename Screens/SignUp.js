@@ -45,17 +45,12 @@ const {createNewUser} = props
     fdNewUser.append('email', newUser.email)
     fdNewUser.append('password', newUser.password)
     fdNewUser.append('google', newUser.google)
-<<<<<<< HEAD
-    const res = await SignUp(fdNewUser)
-    console.log("componente Sign UP",res)
-=======
     const res = await createNewUser(fdNewUser)
       if(res && !res.success) {
         ToastAndroid.show('Error')
       }else{
         ToastAndroid.show('Error')
        }
->>>>>>> c77e406596fea7f19162e768c2a6c356bc489616
   }
 
 
