@@ -25,15 +25,15 @@ const Drawer= createDrawerNavigator()
 const StackNavigator=  () =>{
     return(
         
-        <Stack.Navigator screenOptions={{
-            headerTitleStyle:{color:'white',fontWeight:'bold'},
-            headerStyle:{
-                backgroundColor:'rgba(6, 134, 200, 0.863)'}}}>
-        <Stack.Screen name='Categories' options={{title:'Categorías'}} component={Categories}/>
-        <Stack.Screen name="ProductsByCategory" component={ProductsByCategory}/>
-        <Stack.Screen name='ProductScreen' component={ProductScreen}/>
-        <Stack.Screen name='Product' component={Product}/>
-        <Stack.Screen name='cart' component={shoppingCart}/>
+    <Stack.Navigator screenOptions={{
+          headerTitleStyle:{color:'white',fontWeight:'bold'},
+          headerStyle:{
+              backgroundColor:'rgba(6, 134, 200, 0.863)'}}}>
+      <Stack.Screen name='Categories' options={{title:'Categorías'}} component={Categories}/>
+      <Stack.Screen name="ProductsByCategory" component={ProductsByCategory}/>
+      <Stack.Screen name='ProductScreen' component={ProductScreen}/>
+      <Stack.Screen name='Product' component={Product}/>
+      <Stack.Screen name='cart' component={shoppingCart}/>
     </Stack.Navigator>
     )
 } 
@@ -55,12 +55,12 @@ const {loggedUser, logout_user, login_AS} = props
 
     return(
     <NavigationContainer>
-        <Drawer.Navigator  drawerStyle={{ backgroundColor: 'rgba(6, 134, 200, 0.95)'}}   >
-            <Drawer.Screen name="Login" component={Login} />
-            <Drawer.Screen name="SignUp" component={SignUp} />
-            <Drawer.Screen name="Categories" children={StackNavigator} /> 
-        </Drawer.Navigator>
-  </NavigationContainer>
+      <Drawer.Navigator drawerStyle={{ backgroundColor: 'rgba(6, 134, 200, 0.95)'}}   >
+          <Drawer.Screen name="Login" component={Login} />
+          <Drawer.Screen name="SignUp" component={SignUp} />
+          <Drawer.Screen name="Categories" children={StackNavigator} /> 
+      </Drawer.Navigator>
+    </NavigationContainer>
     )
 }
 
