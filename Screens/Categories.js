@@ -15,6 +15,7 @@ const Categories = (props) => {
   useEffect(() => {
     getProducts()
     console.log('categories')
+    header()
   },[])
 
   /*const categories = [{name: 'Accesorios', pic: 'https://cdn.evance.me/portal/web/296/content/images/guitar-picks/tortex-guitarr-picks.png'},
@@ -24,6 +25,7 @@ const Categories = (props) => {
   {name: 'Pedales y pedaleras', pic: 'https://i0.wp.com/100lecciones.org/wp-content/uploads/pedal-de-guitarra-2.jpg?fit=800%2C443&ssl=1'}, 
   {name: 'Percusión', pic: 'https://www.worldofmusic.com.au/wp-content/uploads/2019/12/Pearl-Roadshow-Junior-Jet-Black.jpg'}, 
   {name: 'Teclados', pic: 'https://http2.mlstatic.com/D_NQ_NP_768004-MLA41768648746_052020-O.jpg'}, 
+<<<<<<< HEAD
   {name: 'Sonido', pic: 'https://files.soniccdn.com/files/2015/07/02/dlive-s3000.png'}];
   */
   
@@ -49,6 +51,34 @@ const Categories = (props) => {
       </TouchableOpacity>
     ),
   });
+=======
+  { name: 'Sonido', pic: 'https://files.soniccdn.com/files/2015/07/02/dlive-s3000.png'}];
+  
+  const header = () =>{
+    props.navigation.setOptions({
+      title: 'Categorías',
+      headerTitleStyle: { fontSize: 22},
+      headerStyle: { backgroundColor: 'rgba(6, 134, 200, 0.863)' },
+      headerLeft: () => (
+        <TouchableOpacity onPress={() => navigation.toggleDrawer() }style={{ marginHorizontal: 10 }}>
+          <Feather
+            name='bar-chart-2'
+            size={28}
+            style={{ transform: [{ rotate: '90deg' }, { scaleX: -1 }] }}
+          />
+        </TouchableOpacity>
+      ),
+      headerRight: () => (
+        <TouchableOpacity style={{ marginHorizontal: 10 }} onPress={()=>navigation.navigate('cart')}>
+          <Feather name='shopping-cart' size={24} />
+          <View style={[styles.iconCountView, { right: -6 }]}>
+            <Text style={styles.iconCountText}>{shoppingCart.length}</Text>
+          </View>
+        </TouchableOpacity>
+      ),
+    });
+  }
+>>>>>>> d5d5cf964a788146932ad21268148005960df8ad
 
 
   return (
@@ -81,7 +111,12 @@ const mapDispatchToProps = {
 const mapStateToProps = state =>{
   return{
     shoppingCart:state.shopping.shoppingCart,
+<<<<<<< HEAD
     allProducts: state.product.allProducts
+=======
+    allProducts: state.product.allProducts,
+
+>>>>>>> d5d5cf964a788146932ad21268148005960df8ad
    }
  }
  export default connect(mapStateToProps,mapDispatchToProps)(Categories)
