@@ -6,6 +6,7 @@ import { Feather as Icon } from '@expo/vector-icons';
 import { Icon as RNEIcon } from 'react-native-elements';
 import { useFonts } from 'expo-font';
 import { Alert } from 'react-native';
+import { connect } from 'react-redux';
 
 
 const  ProductsByCategory = (props)=> {
@@ -112,7 +113,7 @@ const category = props.route.params.category
         <TouchableOpacity style={{ marginHorizontal: 10 }} onPress={()=>{props.navigation.navigate('cart')}}>
           <Icon name='shopping-cart' size={24} />
           <View style={[styles.iconCountView, { right: -6 }]}>
-            <Text style={styles.iconCountText}>4</Text>
+            <Text style={styles.iconCountText}>{props.shoppingCart.length}</Text>
           </View>
         </TouchableOpacity>
       ),
@@ -187,4 +188,9 @@ const styles = StyleSheet.create({
   iconCountText: { color: '#fff', fontWeight: 'bold' },
 });
 
-export default ProductsByCategory
+const mapStateToProps = state =>{
+  return{
+    shoppingCart:state.shopping.shoppingCart
+  }
+}
+export default connect(mapStateToProps)(ProductsByCategory)

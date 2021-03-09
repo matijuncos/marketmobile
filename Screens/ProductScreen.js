@@ -50,7 +50,7 @@ import { ToastAndroid } from 'react-native';
       <TouchableOpacity style={{ marginHorizontal: 10 }} onPress={()=>props.navigation.navigate('cart')}>
         <Feather name='shopping-cart' size={24} />
         <View style={[styles.iconCountView, { right: -6 }]}>
-          <Text style={styles.iconCountText}>4</Text>
+          <Text style={styles.iconCountText}>{props.shoppingCart.length}</Text>
         </View>
       </TouchableOpacity>
     ),
