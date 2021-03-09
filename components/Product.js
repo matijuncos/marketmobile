@@ -15,6 +15,7 @@ const Product = ({ product, navigation })  => {
       setRating(stars)
       console.log(stars)
     }
+    console.log('product')
 },[])  
 
   if(!product){

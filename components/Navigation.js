@@ -46,9 +46,12 @@ const StackNavigator= () =>{
 
 const Navigation = (props) =>{
 const {loggedUser, logout_user, login_AS, preservedShoppingCart} = props
+
   useEffect(() => {
     getData()
-  }, [])
+    console.log('navigation')
+  },[])
+
   const getData=async()=>{
     //shopping cart
     try {

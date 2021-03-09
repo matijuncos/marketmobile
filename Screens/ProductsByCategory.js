@@ -74,22 +74,7 @@ const category = props.route.params.category
        const arrayCategory = props.route.params.allProducts.filter(product=> product.category === props.route.params.category)
       setProducts(arrayCategory)
     }
- },[props.route.params.allProducts])
-/*
- const fetchear = async () =>{
-   setLoading(true)
-    try{
-       const data = await axios.get('http://192.168.0.3:4000/api/products')
-       if(data){
-           console.log(data)
-          setLoading(false)}
-
-    }catch(error){
-        console.log(error)
-    }
-   
-
- } */
+ },[])
 
 
   useEffect(() => {
@@ -123,28 +108,6 @@ const category = props.route.params.category
 
   return (
     <>
-      {/* Arrange Products Bar */}
-      {/* <View style={styles.arrangeProductsBar}>
-        <TouchableOpacity
-          style={[
-            styles.arrangeProductsBarItemOpacity,
-            { borderRightColor: '#dfe4ea', borderRightWidth: 1 },
-          ]}
-        >
-          <RNEIcon name='sort-amount-down' type='font-awesome-5' size={20} />
-          <Text style={styles.arrangeProductsBarItemLabel}>Sort</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.arrangeProductsBarItemOpacity}>
-          <View>
-            <RNEIcon name='filter' type='font-awesome-5' size={20} />
-            <View style={styles.iconCountView}>
-              <Text style={styles.iconCountText}>2</Text>
-            </View>
-          </View>
-          <Text style={styles.arrangeProductsBarItemLabel}>Filter</Text>
-        </TouchableOpacity>
-      </View> */}
-      {/* Products List */}
       <ScrollView>
         {
             products.length !== 0 && products.map((product, idx) => (
@@ -152,7 +115,9 @@ const category = props.route.params.category
             ))
           }
       </ScrollView>
-      <View style={{ height: 20 }}></View>
+      <View style={{ height: 20 }}>
+        
+      </View>
     </>
   )};
 

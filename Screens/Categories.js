@@ -14,7 +14,8 @@ const Categories = (props) => {
   
   useEffect(() => {
     getProducts()
-  }, [])
+    console.log('categories')
+  },[])
 
 
   const categories = [{name: 'Accesorios', pic: 'https://cdn.evance.me/portal/web/296/content/images/guitar-picks/tortex-guitarr-picks.png'},
@@ -25,6 +26,7 @@ const Categories = (props) => {
   {name: 'Percusión', pic: 'https://www.worldofmusic.com.au/wp-content/uploads/2019/12/Pearl-Roadshow-Junior-Jet-Black.jpg'}, 
   {name: 'Teclados', pic: 'https://http2.mlstatic.com/D_NQ_NP_768004-MLA41768648746_052020-O.jpg'}, 
   { name: 'Sonido', pic: 'https://files.soniccdn.com/files/2015/07/02/dlive-s3000.png'}];
+  
   
   props.navigation.setOptions({
     title: 'Categorías',

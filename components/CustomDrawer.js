@@ -10,6 +10,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function CustomDrawer(props) {
   const {navigation, loggedUser, signOut } = props
+  
+
   const signOutFunction = async () =>{
       const response = await signOut()
       ToastAndroid.showWithGravity(
