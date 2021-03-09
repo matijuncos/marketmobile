@@ -1,37 +1,25 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const initialState ={
-    loggedUser:null,
-    googleLog: null
+    loggedUser:null
 }
- function usersReducer(state= initialState,action){
+function usersReducer(state= initialState,action){
     switch (action.type) {
-
-            case 'LOGIN':
-            //  AsyncStorage.setItem('name',action.payload.name)
-            //  AsyncStorage.setItem('token',action.payload.token)
-            return {
-                ...state,
-                loggedUser:action.payload,
-            
-            }
-        case 'LOGOUT':
-           return{
-                ...state,
-                loggedUser:null,
-                googleLog: null
-                
-            }
-         case 'GOOGLE':
-             return{
-                 ...state,
-                 googleLog: true
-             }
-      
+        case 'LOGIN':
+        //  AsyncStorage.setItem('name',action.payload.name)
+        //  AsyncStorage.setItem('token',action.payload.token)
+        return {
+            ...state,
+            loggedUser:action.payload
+        }
+    case 'LOGOUT':{
+        console.log(action.payload)
+        return{
+            ...state,
+            loggedUser:null  
+        }}
         default:
             return state
-
-
-}}
-
+    }
+}
 export default usersReducer

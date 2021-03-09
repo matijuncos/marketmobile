@@ -37,35 +37,34 @@ const userActions  ={
             type: "LOGIN",
             payload: response.data.response
           })
-          ToastAndroid.showWithGravity(
+          ToastAndroid.show(
             response.data.response.firstName+', tu cuenta fue creada!',
             ToastAndroid.LONG,
             ToastAndroid.TOP
           )
       }catch(error){
-        console.log(console.log(errors))
-        return({success: false, response: errors})
+        return({success: false, error: errors})
       }
     }
   },
   loginUser: user =>{
-      return async (dispatch,getstate) => {
-          try{
-            const response = await axios.post('https://gitmusicapp.herokuapp.com/api/user/login',user)
-            if (!response.data.success) {
-                return response.data
-            }
-            dispatch({type:'LOGIN', payload: response.data.response})
-            console.log(response)
-                  ToastAndroid.showWithGravity(
-                "Welcome " + response.data.response.firstName+'!',
-                ToastAndroid.LONG,
-                ToastAndroid.TOP
-              )
-        }catch(error){
-          console.log(error)         
+    return async (dispatch,getstate) => {
+      try{
+        const response = await axios.post('https://gitmusicapp.herokuapp.com/api/user/login',user)
+        if (!response.data.success) {
+            return response.data
         }
+        dispatch({type:'LOGIN', payload: response.data.response})
+        ToastAndroid.showWithGravity(
+          "Bienvenido " + response.data.response.firstName+'!',
+          ToastAndroid.LONG,
+          ToastAndroid.TOP
+        )
+        response.json({success:true,response:"pase el login"})
+      }catch(error){
+        return({success: false, error: error})     
       }
+    }
   },
   login_AS: (token) =>{
     return async (dispatch,getState) =>{
@@ -101,13 +100,13 @@ const userActions  ={
         dispatch({type:'LOGOUT'})}
         clearAll()
     }
-  },
+  },/*
   googleLogin:()=>{
     return async (dispatch,getstate) => {
       dispatch({
         type:'GOOGLE',
       })
     }
-  }  
+  }  */
 }
 export default userActions
