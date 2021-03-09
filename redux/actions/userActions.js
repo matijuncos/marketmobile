@@ -94,7 +94,6 @@ const userActions  ={
         try {
           await AsyncStorage.clear()
         } catch(e) {
-          console.log(e)
         }
         dispatch({type:'LOGOUT'})}
         clearAll()

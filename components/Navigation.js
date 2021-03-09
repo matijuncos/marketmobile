@@ -30,10 +30,6 @@ const StackNavigator= () =>{
         headerTitleStyle:{color:'white',fontWeight:'bold'},
         headerStyle:{
             backgroundColor:'rgba(6, 134, 200, 0.863)'}}}>
-    <Stack.Screen name='Categories' component={Categories}/>
-    <Stack.Screen name="ProductsByCategory" component={ProductsByCategory}/>
-    <Stack.Screen name='ProductScreen' component={ProductScreen}/>
-    <Stack.Screen name='Product' component={Product}/>
     <Stack.Screen name='cart' component={shoppingCart}/>
     <Stack.Screen name='CheckOut' component={CheckOut}/>
     <Stack.Screen name='CheckOut2' component={CheckOut2}/>
@@ -42,6 +38,19 @@ const StackNavigator= () =>{
   </Stack.Navigator>
   )
 } 
+const categoriesNavigator=()=>{
+  return (
+    <Stack.Navigator screenOptions={{
+      headerTitleStyle:{color:'white',fontWeight:'bold'},
+      headerStyle:{
+          backgroundColor:'rgba(6, 134, 200, 0.863)'}}}>
+      <Stack.Screen name='Categories' component={Categories}/>
+      <Stack.Screen name="ProductsByCategory" component={ProductsByCategory}/>
+      <Stack.Screen name='ProductScreen' component={ProductScreen}/>
+      <Stack.Screen name='Product' component={Product}/>
+    </Stack.Navigator>
+  )
+}
 
 
 const Navigation = (props) =>{
@@ -49,16 +58,13 @@ const {loggedUser, logout_user, login_AS, preservedShoppingCart} = props
 
   useEffect(() => {
     getData()
-    console.log('navigation')
   },[])
 
   const getData=async()=>{
     //shopping cart
     try {
-      console.log("shopping cart")
       if(await AsyncStorage.getItem('shoppingCart')){
         const shoppingCart = await AsyncStorage.getItem('shoppingCart')
-          console.log(shoppingCart)
         if(shoppingCart!== null||shoppingCart.length!==0) {
           if(Object.entries(shoppingCart).length !== 0){
             preservedShoppingCart(shoppingCart)
@@ -68,13 +74,11 @@ const {loggedUser, logout_user, login_AS, preservedShoppingCart} = props
     }catch(error) {console.log('error',error)}
     //token
     try {
-      console.log("token")
       const token = await AsyncStorage.getItem('token')
       if(loggedUser===null && token!== null) {
         login_AS(token)
         .then(respuesta => {
           if(respuesta.success) {
-            console.log(props)
           }
         })
       }else{
@@ -84,11 +88,12 @@ const {loggedUser, logout_user, login_AS, preservedShoppingCart} = props
   }
 
     return(
-    <NavigationContainer>
-      <Drawer.Navigator drawerStyle={{ backgroundColor: 'rgba(6, 134, 200, 0.95)'}}  drawerContent={(props)=><CustomDrawer {...props}/>} >
+    <NavigationContainer >
+      <Drawer.Navigator drawerStyle={{ backgroundColor: 'rgba(6, 134, 200, 0.95)'}} drawerContent={(props)=><CustomDrawer {...props}/>}>
           <Drawer.Screen name="Login" component={Login} />
           <Drawer.Screen name="SignUp" component={SignUp} />
-          <Drawer.Screen name="Categories" children={StackNavigator} /> 
+          <Drawer.Screen name="Categories" children={categoriesNavigator} /> 
+          <Drawer.Screen name="cart" children={StackNavigator} /> 
       </Drawer.Navigator>
     </NavigationContainer>
     )

@@ -16,7 +16,6 @@ import productActions from '../redux/actions/productActions';
    const [rating, setRating] = useState(3)
   const [comment, setComment] = useState({})
    useEffect(() => {  
-    console.log('productScreen')
     props.navigation.setOptions({
       title: props.route.params.product.category,
       headerTitleStyle: { fontSize: 22},

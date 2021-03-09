@@ -14,11 +14,6 @@ const shoppingCartActions={
     return async (dispatch, getState)=>{
       try {
         const response= await axios.post('https://gitmusicapp.herokuapp.com/api/products/shoppingcart',shoppingCart)
-        if(response){
-          console.log("Se guardo correctamente")
-        }else{
-          console.log("error al guardar")
-        }
         dispatch({
           type: "SHOPPING_SAVE",
           payload: response.data.response
@@ -37,7 +32,6 @@ const shoppingCartActions={
         payload:product
       })
       saveData('shoppingCart',JSON.stringify(getState().shopping.shoppingCart))
-      console.log(getState())
       return ({success:true,response:getState()})
       } catch (error) {
         return ({success:false,error:error})

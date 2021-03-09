@@ -9,38 +9,40 @@ import shoppingCartActions from '../redux/actions/shoppingCartActions';
 import {connect} from 'react-redux'
 
 const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart,clearCart,loggedUser}) => {
-    navigation.setOptions({
-        title: 'Tu Carrito!',
-        headerTitleStyle: { fontSize: 22},
-        headerStyle: { backgroundColor: 'rgba(6, 134, 200, 0.863)' },
-        headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.toggleDrawer() }style={{ marginHorizontal: 10 }}>
-            <Feather
-              name='bar-chart-2'
-              size={28}
-              style={{ transform: [{ rotate: '90deg' }, { scaleX: -1 }] }}
-            />
-          </TouchableOpacity>
-        ),
-
-      });
+    useEffect(() => {
+        nav()
+    }, [])
+    const nav=()=>{
+        navigation.setOptions({
+            title: 'Tu Carrito!',
+            headerTitleStyle: { fontSize: 22},
+            headerStyle: { backgroundColor: 'rgba(6, 134, 200, 0.863)' },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.toggleDrawer() }style={{ marginHorizontal: 10 }}>
+                <Feather
+                  name='bar-chart-2'
+                  size={28}
+                  style={{ transform: [{ rotate: '90deg' }, { scaleX: -1 }] }}
+                />
+              </TouchableOpacity>
+            ),
+        });
+    }
     const manageQuantityForStock=(value,product)=>{
         editProductCart(value,product)
     }
-    const removeProduct = () =>{
+    const removeProduct = (idProduct) =>{
+        deleteProductCart(idProduct)
         ToastAndroid.showWithGravity(
-            'borrar del carrito',
+            'Articulo eliminado.',
             ToastAndroid.SHORT,
-            ToastAndroid.TOP
+            ToastAndroid.BUTTON
         )
     }
     return (
         <SafeAreaView  style={{flex:1}}>
             <View style={styles.container}>
                 <View style={{flex: 1}}>
-                    {/* <View style={styles.titleContainer}>
-                        <Text style={styles.title}>Jewellery</Text>
-                    </View> */}
                     <FlatList
                         data={shoppingCart}
                         keyExtractor={(data, index) => index.toString()}
@@ -49,7 +51,7 @@ const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart
                                 <View style={styles.listItem} onPress={() => this.onPressMoreDetails(item)}>
                                     <Image
                                         style={styles.image}
-                                        source={{ uri: 'https://media.fanaticguitars.com/2021/01/guitarra-clasica-1024x683.jpg' }}
+                                        source={{ uri: item.product.arrayPic[0] }}
                                     />
                                     <View style={styles.content}>
                                         <View style={styles.details}>
@@ -90,7 +92,7 @@ const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart
                                             </View>
                                         </View>
                                         <View style={styles.closeBtnWrapper}>
-                                            <TouchableOpacity style={styles.closeBtn} onPress={removeProduct}>
+                                            <TouchableOpacity style={styles.closeBtn} onPress={()=>removeProduct(item.idProduct)}>
                                                 <Icon name="trash-outline" type='ionicon'size={35} color="#F44336" />
                                             </TouchableOpacity>
                                         </View>
@@ -101,9 +103,9 @@ const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart
                     />
                 </View>
                 <View>
-                <TouchableOpacity onPress={() => navigation.navigate('CheckOut')} style={styles.buyMeButton}>
-                    <Text style={styles.buttonText}>Terminar compra</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('CheckOut')} style={styles.buyMeButton}>
+                        <Text style={styles.buttonText}>Terminar compra</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </SafeAreaView>

@@ -13,9 +13,7 @@ const Product = ({ product, navigation })  => {
     if(product.arrayRating && product.arrayRating.length !== 0){
       const stars = Math.round(product.arrayRating.reduce((a, b) => (a.value + b.value)) / product.arrayRating.length)
       setRating(stars)
-      console.log(stars)
     }
-    console.log('product')
 },[])  
 
   if(!product){
