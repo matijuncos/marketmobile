@@ -45,7 +45,6 @@ const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart
                         data={shoppingCart}
                         keyExtractor={(data, index) => index.toString()}
                         renderItem={({ item }) => {
-                            console.log(item)
                             return (<View style={styles.itemContainer}>
                                 <View style={styles.listItem} onPress={() => this.onPressMoreDetails(item)}>
                                     <Image
@@ -69,7 +68,7 @@ const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart
                                                         max={item.product.stock}
                                                         height={50}
                                                         color={'rgba(6, 134, 200, 0.863)'}
-                                                        value={1}
+                                                        value={item.quantity}
                                                         onChange={(num) => {
                                                             manageQuantityForStock(num,item);
                                                         }}
