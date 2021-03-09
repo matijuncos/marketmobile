@@ -13,7 +13,7 @@ function CustomDrawer(props) {
   const signOutFunction = async () =>{
       const response = await signOut()
       ToastAndroid.showWithGravity(
-        "Hope to see you soon!",
+        "Hasta pronto!",
         ToastAndroid.LONG,
         ToastAndroid.TOP
         ) 
@@ -30,9 +30,9 @@ function CustomDrawer(props) {
           </>
       ):(
         <>
+        <DrawerItem label="Categories" onPress={()=>navigation.navigate('Categories')} icon={() => <Icon name='list-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
         <DrawerItem label="Sign In" onPress={()=>navigation.navigate('Login')} icon={() => <Icon name='log-in-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
         <DrawerItem label="Sign Up" onPress={()=>navigation.navigate('SignUp')} icon={() => <Icon name='person-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
-        <DrawerItem label="Categories" onPress={()=>navigation.navigate('Categories')} icon={() => <Icon name='list-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
         </>
   )}
     </DrawerContentScrollView>
