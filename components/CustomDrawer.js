@@ -1,5 +1,5 @@
 import React from 'react'
-import {  DrawerItem, DrawerContentScrollView } from '@react-navigation/drawer';
+import {  DrawerItem, DrawerContentScrollView,DrawerItemList } from '@react-navigation/drawer';
 import userActions from '../redux/actions/userActions';
 import { connect } from 'react-redux';
 import { ToastAndroid, StyleSheet, Image } from 'react-native';
@@ -22,24 +22,19 @@ function CustomDrawer(props) {
   }
       
   return (
-    <DrawerContentScrollView {...props}>
-        {loggedUser ? (
+    <DrawerContentScrollView  {...props}>
+      {loggedUser ? (
         <>
-          <View style={styles.viewUser}>
-            <Image/>
-              <Text style={styles.textUser}>Welcome {loggedUser.firstName}!</Text>
-          </View>
-          <DrawerItem label="Categories" onPress={()=>navigation.navigate('Categories')} icon={() => <Icon name='paper-plane-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
-          <DrawerItem label="Sign Out" onPress={signOutFunction} icon={() => <Icon name='log-out-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
-        </>
-        ) : (
-          <>
             <DrawerItem label="Categories" onPress={()=>navigation.navigate('Categories')} icon={() => <Icon name='list-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
-            <DrawerItem label="Sign In" onPress={()=>navigation.navigate('Login')} icon={() => <Icon name='log-in-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
-            <DrawerItem label="Sign Up" onPress={()=>navigation.navigate('SignUp')} icon={() => <Icon name='person-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
+            <DrawerItem label="Sign Out" onPress={signOutFunction} icon={() => <Icon name='log-out-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
           </>
-        )
-        }
+      ):(
+        <>
+        <DrawerItem label="Sign In" onPress={()=>navigation.navigate('Login')} icon={() => <Icon name='log-in-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
+        <DrawerItem label="Sign Up" onPress={()=>navigation.navigate('SignUp')} icon={() => <Icon name='person-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
+        <DrawerItem label="Categories" onPress={()=>navigation.navigate('Categories')} icon={() => <Icon name='list-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
+        </>
+  )}
     </DrawerContentScrollView>
 
   );

@@ -65,12 +65,7 @@ const {createNewUser} = props
           })
 
           if (response.type === "success") {
-            ToastAndroid.showWithGravity(
-              'Hola '+ response.user.name,
-              ToastAndroid.SHORT,
-              ToastAndroid.TOP
-              )
-              console.log(response)
+
 
               const res = await googleLogin()
               props.navigation.navigate('Categories')

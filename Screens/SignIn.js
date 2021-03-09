@@ -6,7 +6,6 @@ import * as Animatable from 'react-native-animatable';
 import { connect } from 'react-redux';
 import userActions from '../redux/actions/userActions'
 import { ToastAndroid } from 'react-native';
-import * as Expo from 'expo'
 import * as Google from 'expo-google-app-auth'
 
 const SignIn = (props) => {
