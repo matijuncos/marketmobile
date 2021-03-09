@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { Keyboard, StyleSheet, Text,TouchableWithoutFeedback, View, ToastAndroid} from 'react-native';
@@ -22,31 +21,25 @@ import CheckOut2 from '../Screens/CheckOut2';
 import CheckOut3 from '../Screens/CheckOut3';
 import CheckOut4 from '../Screens/CheckOut4';
 
-
 const Stack = createStackNavigator()
 const Drawer= createDrawerNavigator()
-
 const StackNavigator=  () =>{
-    return(
-        
-        <Stack.Navigator screenOptions={{
-            headerTitleStyle:{color:'white',fontWeight:'bold'},
-            headerStyle:{
-                backgroundColor:'rgba(6, 134, 200, 0.863)'}}}>
-        <Stack.Screen name='Categories' options={{title:'Categorías'}} component={Categories}/>
-        <Stack.Screen name="ProductsByCategory" component={ProductsByCategory}/>
-        <Stack.Screen name='ProductScreen' component={ProductScreen}/>
-        <Stack.Screen name='Product' component={Product}/>
-        <Stack.Screen name='cart' component={shoppingCart}/>
-        <Stack.Screen name='CheckOut' component={CheckOut}/>
-        <Stack.Screen name='CheckOut2' component={CheckOut2}/>
-        <Stack.Screen name='CheckOut3' component={CheckOut3}/>
-        <Stack.Screen name='CheckOut4' component={CheckOut4}/>
-        <Drawer.Screen name="Login" component={Login} />
-          <Drawer.Screen name="SignUp" component={SignUp} />
-
-    </Stack.Navigator>
-    )
+  return(
+  <Stack.Navigator screenOptions={{
+        headerTitleStyle:{color:'white',fontWeight:'bold'},
+        headerStyle:{
+            backgroundColor:'rgba(6, 134, 200, 0.863)'}}}>
+    <Stack.Screen name='Categories' options={{title:'Categorías'}} component={Categories}/>
+    <Stack.Screen name="ProductsByCategory" component={ProductsByCategory}/>
+    <Stack.Screen name='ProductScreen' component={ProductScreen}/>
+    <Stack.Screen name='Product' component={Product}/>
+    <Stack.Screen name='cart' component={shoppingCart}/>
+    <Stack.Screen name='CheckOut' component={CheckOut}/>
+    <Stack.Screen name='CheckOut2' component={CheckOut2}/>
+    <Stack.Screen name='CheckOut3' component={CheckOut3}/>
+    <Stack.Screen name='CheckOut4' component={CheckOut4}/>
+  </Stack.Navigator>
+  )
 } 
 const Navigation = (props) =>{
 const {loggedUser, logout_user, login_AS} = props
@@ -74,8 +67,6 @@ const {loggedUser, logout_user, login_AS} = props
     </NavigationContainer>
     )
 }
-
-
 const styles =StyleSheet.create({
     container:{
       flex:1,
@@ -83,7 +74,6 @@ const styles =StyleSheet.create({
       justifyContent:'center',
     },
   })
-
   const mapStateToProps = state => {
     return{
       loggedUser: state.user.loggedUser

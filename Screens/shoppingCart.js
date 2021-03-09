@@ -7,8 +7,8 @@ import { ToastAndroid } from 'react-native';
 import InputSpinner from "react-native-input-spinner";
 import shoppingCartActions from '../redux/actions/shoppingCartActions';
 import {connect} from 'react-redux'
-const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart,clearCart}) => {
-    console.log(shoppingCart)
+const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart,clearCart,loggedUser}) => {
+    console.log(loggedUser)
     const [state, setstate] = useState([])
     useEffect(() => {
       setstate([
@@ -226,7 +226,8 @@ const styles = StyleSheet.create({
 })
 const mapStateToProps = state =>{
     return{
-        shoppingCart:state.shopping.shoppingCart
+        shoppingCart:state.shopping.shoppingCart,
+        loggedUser:state.user.loggedUser
     }
 }
 const mapDispatchToProps={
