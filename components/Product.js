@@ -64,6 +64,7 @@ const Product = ({ product, navigation })  => {
                         type='font-awesome'
                         size={18}
                         color={ratingValue <= rating ? '#ffc107' : '#8C8C8C'}
+                        key={i+'star'}
                       />
                     )
                   })}

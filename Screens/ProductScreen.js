@@ -7,9 +7,12 @@ import { Feather } from '@expo/vector-icons';
 import { Icon as RNEIcon } from 'react-native-elements';
 import shoppingCartActions from '../redux/actions/shoppingCartActions';
 import { ToastAndroid } from 'react-native';
+import Comment from '../components/Comment';
+import { TextInput } from 'react-native';
 
  function ProductScreen(props) {
    const [visible, setVisible] = useState(false)
+   const [showComments, setShowComments] = useState(false)
    const [rating, setRating] = useState(3)
 
    useEffect(() => {  
@@ -95,7 +98,7 @@ import { ToastAndroid } from 'react-native';
             <Text style={styles.buttonText}>Agregar al carrito</Text>
           </TouchableOpacity>
         </View>
-        <View style={{ marginTop: 10, backgroundColor: '#fff' }}>
+        <View style={{ marginTop: 10, backgroundColor: '#fff', alignItems:'center', width: '100%'}}>
           <TouchableOpacity
             style={styles.productDescriptionHeader}
             onPress={()=>setVisible(!visible)}
@@ -106,10 +109,44 @@ import { ToastAndroid } from 'react-native';
             <Icon name={!visible ? 'caret-down-outline' : 'caret-up-outline'} type='ionicon'/>
           </TouchableOpacity>
             {visible && (
-              <View style={{ padding: 10 }}>
-                {props.route.params.product.arrayDescription.map(text =>  <Text style={{fontSize: 16 }}>{text}</Text>)}
+              <View style={{ padding: 10, width: '100%' }}>
+                {props.route.params.product.arrayDescription.map((text, i) =>  {
+                return(
+                  <View key={i+'desc'} style={{width: '100%', flexDirection: 'row', alignItems:'center'}}>
+                     <Icon name='checkbox-outline' type='ionicon' color='rgba(6, 134, 200, 0.863)' />
+                    <Text style={{fontSize: 16, width: '100%', marginLeft: 10 }}>{text}</Text>
+                  </View>
+                )
+                })}
               </View>
                 )}
+            <TouchableOpacity
+            style={styles.productDescriptionHeader}
+            onPress={()=>setShowComments(!showComments)}
+            >
+            <Text style={{fontSize: 18 }}>
+              Ver comentarios ({props.route.params.product.arrayComments.length})          
+            </Text>
+            <Icon name={!showComments ? 'caret-down-outline' : 'caret-up-outline'} type='ionicon'/>
+          </TouchableOpacity>
+          {showComments && (
+              <View style={{ padding: 10 }}>
+                {props.route.params.product.arrayComments.length !== 0 && props.route.params.product.arrayComments.map((comment, i) => {
+                  return(
+                    <View key={i+'comment'}>
+                      <Comment comment={comment}/>
+                    </View>
+                  )
+                } )}
+              </View>
+                )}
+                  <View style={styles.inputView}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder='Dejá tu comentario!'
+                        />
+                        <Icon name='send-outline' type='ionicon'/>
+                  </View>
             </View>
          </ScrollView>
     </View>
@@ -241,7 +278,28 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
   },
-  
+  inputView:{
+    height: 40,
+    borderRadius: 10,
+    backgroundColor: '#f6f4f7',
+    marginTop: 10,
+    marginBottom:15,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent:'center',
+    width:'95%',
+    borderColor: 'black',
+    borderWidth: 1
+
+},
+input:{
+    height: 40,
+    flex: 1,
+    fontSize: 16,
+    color: 'black',
+    paddingHorizontal: 10
+}
 });
 const mapStateToProps = state =>{
   return{

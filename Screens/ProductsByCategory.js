@@ -147,8 +147,8 @@ const category = props.route.params.category
       {/* Products List */}
       <ScrollView>
         {
-            products.length !== 0 && products.map(product => (
-                <Product product={product} navigation={navigation}/>
+            products.length !== 0 && products.map((product, idx) => (
+                <Product product={product} navigation={navigation} key={idx+'prod'}/>
             ))
           }
       </ScrollView>

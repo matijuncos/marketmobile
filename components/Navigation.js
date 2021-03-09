@@ -23,14 +23,14 @@ import shoppingCartActions from '../redux/actions/shoppingCartActions';
 
 const Stack = createStackNavigator()
 const Drawer= createDrawerNavigator()
-const StackNavigator= (props) =>{
-  console.log(props)
+
+const StackNavigator= () =>{
   return(
   <Stack.Navigator screenOptions={{
         headerTitleStyle:{color:'white',fontWeight:'bold'},
         headerStyle:{
             backgroundColor:'rgba(6, 134, 200, 0.863)'}}}>
-    <Stack.Screen name='Categories' options={{title:'Categorías'}} component={Categories}/>
+    <Stack.Screen name='Categories' component={Categories}/>
     <Stack.Screen name="ProductsByCategory" component={ProductsByCategory}/>
     <Stack.Screen name='ProductScreen' component={ProductScreen}/>
     <Stack.Screen name='Product' component={Product}/>
@@ -42,6 +42,8 @@ const StackNavigator= (props) =>{
   </Stack.Navigator>
   )
 } 
+
+
 const Navigation = (props) =>{
 const {loggedUser, logout_user, login_AS, preservedShoppingCart} = props
   useEffect(() => {

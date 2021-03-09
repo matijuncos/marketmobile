@@ -43,6 +43,7 @@ const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart
                     </View> */}
                     <FlatList
                         data={shoppingCart}
+                        keyExtractor={(data, index) => index.toString()}
                         renderItem={({ item }) => {
                             console.log(item)
                             return (<View style={styles.itemContainer}>
