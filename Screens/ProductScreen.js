@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import {connect} from 'react-redux'
-import { StyleSheet,Text, View, ScrollView, StatusBar, TouchableOpacity, Image} from 'react-native';
+import { StyleSheet,ToastAndroid,Text, View, ScrollView, StatusBar, TouchableOpacity, Image} from 'react-native';
 import {Icon} from 'react-native-elements'
 import Constants from 'expo-constants';
 import { Feather } from '@expo/vector-icons';
 import { Icon as RNEIcon } from 'react-native-elements';
 import shoppingCartActions from '../redux/actions/shoppingCartActions';
-import { ToastAndroid } from 'react-native';
 import Comment from '../components/Comment';
 import { TextInput } from 'react-native';
+import productActions from '../redux/actions/productActions';
 
  function ProductScreen(props) {
    const [visible, setVisible] = useState(false)
    const [showComments, setShowComments] = useState(false)
    const [rating, setRating] = useState(3)
-
+  const [comment, setComment] = useState({})
    useEffect(() => {  
-    console.log(props.shoppingCart)
+    console.log('productScreen')
   }, [])
 
   const addToCart = async (product) =>{
@@ -58,6 +58,17 @@ import { TextInput } from 'react-native';
       </TouchableOpacity>
     ),
   });
+
+  const sendComment =  () =>{
+    props.commentProduct({
+      idProduct: props.route.params.product._id, idUser: props.loggedUser.userId, comment
+    })
+    ToastAndroid.showWithGravity(
+      'Enviaste un comentario',
+      ToastAndroid.SHORT,
+      ToastAndroid.TOP
+    )  }
+
   return (
     <View style={{ flex: 1 }}>
       <StatusBar/>
@@ -144,8 +155,11 @@ import { TextInput } from 'react-native';
                     <TextInput
                         style={styles.input}
                         placeholder='Dejá tu comentario!'
+                        onChangeText={(value)=>setComment(value)}
                         />
-                        <Icon name='send-outline' type='ionicon'/>
+                        <TouchableOpacity onPress={sendComment}>
+                          <Icon name='send-outline' type='ionicon'/>
+                        </TouchableOpacity>
                   </View>
             </View>
          </ScrollView>
@@ -303,10 +317,14 @@ input:{
 });
 const mapStateToProps = state =>{
   return{
-      shoppingCart:state.shopping.shoppingCart
-  }
+      shoppingCart:state.shopping.shoppingCart,
+      loggedUser: state.user.loggedUser,
+      allProducts: state.product.allProducts
+    }
 }
 const mapDispatchToProps={
-  addProductShoppingCart:shoppingCartActions.addProductShoppingCart
+  addProductShoppingCart:shoppingCartActions.addProductShoppingCart,
+  commentProduct: productActions.commentProduct
+
 }
 export default connect(mapStateToProps,mapDispatchToProps)(ProductScreen)
