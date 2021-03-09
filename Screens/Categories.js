@@ -11,13 +11,11 @@ import { FlatList } from 'react-native';
 
 const Categories = (props) => {
   const {allProducts,getProducts, navigation, shoppingCart} = props
-  
   useEffect(() => {
     getProducts()
     console.log('categories')
     header()
   },[])
-
 
   const categories = [{name: 'Accesorios', pic: 'https://cdn.evance.me/portal/web/296/content/images/guitar-picks/tortex-guitarr-picks.png'},
   {name: 'Amplificadores', pic: 'https://www.wallpaperuse.com/wallp/9-99781_m.jpg'},
@@ -70,9 +68,9 @@ const Categories = (props) => {
              props.navigation.navigate('ProductsByCategory',{category:data.item.name, allProducts: allProducts})
               ;
             }}>
-            <View style={{backgroundColor: '#f1f3f6', paddingVertical: 10, paddingHorizontal: 10, marginVertical: 4, borderRadius: 4, display: 'flex', flexDirection: 'row',  alignItems: 'center' }} >
+            <View style={{backgroundColor: '#f1f3f6', paddingVertical: 10, paddingHorizontal: 20, marginVertical: 4, borderRadius: 4, display: 'flex', flexDirection: 'row',  alignItems: 'center' }} >
               <Image source={{uri: data.item.pic}} style={{width: 60, height: 60, resizeMode: 'cover', borderRadius: 60}}/>
-              <Text style={{marginLeft: 10, fontWeight: '400', fontSize: 16, paddingVertical: 10 }}>
+              <Text style={{marginLeft: 20,  fontSize: 21, paddingVertical: 10, letterSpacing: 1 }}>
                 {data.item.name}
               </Text>
             </View>

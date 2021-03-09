@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 
 const  ProductsByCategory = (props)=> {
   const {navigation} = props
-const category = props.route.params.category
+  const category = props.route.params.category
     const [products, setProducts] = useState([])
     const [loading,setLoading]=useState(false)
     const [arrayProducts] = useState([
@@ -69,17 +69,18 @@ const category = props.route.params.category
         ],
       },
     ]);
+    
   useEffect(() =>{
     if(props.route.params.allProducts.length !== 0){
        const arrayCategory = props.route.params.allProducts.filter(product=> product.category === props.route.params.category)
       setProducts(arrayCategory)
     }
+    header()
  },[])
 
 
-  useEffect(() => {
-    StatusBar.setBarStyle('dark-content');
-    navigation.setOptions({
+ const header =  () =>{
+   navigation.setOptions({
       title: category,
       headerTitleStyle: { fontSize: 22},
       headerStyle: { backgroundColor: 'rgba(6, 134, 200, 0.863)' },
@@ -101,8 +102,9 @@ const category = props.route.params.category
         </TouchableOpacity>
       ),
     });
+ }
 
-  }, []);  
+
 
 
 

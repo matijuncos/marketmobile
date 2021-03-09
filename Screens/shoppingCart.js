@@ -9,21 +9,24 @@ import shoppingCartActions from '../redux/actions/shoppingCartActions';
 import {connect} from 'react-redux'
 
 const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart,clearCart,loggedUser}) => {
-    navigation.setOptions({
-        title: 'Tu Carrito!',
-        headerTitleStyle: { fontSize: 22},
-        headerStyle: { backgroundColor: 'rgba(6, 134, 200, 0.863)' },
-        headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.toggleDrawer() }style={{ marginHorizontal: 10 }}>
-            <Feather
-              name='bar-chart-2'
-              size={28}
-              style={{ transform: [{ rotate: '90deg' }, { scaleX: -1 }] }}
-            />
-          </TouchableOpacity>
-        ),
-
-      });
+    useEffect(() => {
+        navigation.setOptions({
+            title: 'Tu Carrito!',
+            headerTitleStyle: { fontSize: 22},
+            headerStyle: { backgroundColor: 'rgba(6, 134, 200, 0.863)' },
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.toggleDrawer() }style={{ marginHorizontal: 10 }}>
+                <Feather
+                  name='bar-chart-2'
+                  size={28}
+                  style={{ transform: [{ rotate: '90deg' }, { scaleX: -1 }] }}
+                />
+              </TouchableOpacity>
+            ),
+    
+          });
+    }, [])
+    
     const manageQuantityForStock=(value,product)=>{
         editProductCart(value,product)
     }
@@ -101,10 +104,10 @@ const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart
                         }}
                     />
                 </View>
-                <View>
-                <TouchableOpacity onPress={() => navigation.navigate('CheckOut')} style={styles.buyMeButton}>
-                    <Text style={styles.buttonText}>Terminar compra</Text>
-                </TouchableOpacity>
+                <View style={{alignItems: 'center', width:'100%', justifyContent:'center', backgroundColor:'red'}}>
+                    <TouchableOpacity onPress={() => navigation.navigate('CheckOut')} style={styles.buyMeButton}>
+                        <Text style={styles.buttonText}>Terminar compra</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </SafeAreaView>
@@ -194,9 +197,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         alignItems: 'center',
         padding: 12,
-        width: '100%',
         marginBottom: 12,
-        borderRadius: 8,
+        
     },
     buttonText: {
         color: '#fff',

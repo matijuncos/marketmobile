@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function CustomDrawer(props) {
   const {navigation, loggedUser, signOut } = props
-  
+  console.log(loggedUser)
 
   const signOutFunction = async () =>{
       const response = await signOut()
@@ -27,8 +27,9 @@ function CustomDrawer(props) {
     <DrawerContentScrollView {...props}>
       {loggedUser ? (
           <>
-            <View>
-              <Text>Hola {loggedUser.firstName}!</Text>
+            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingVertical: 12}}>
+              <Image source={{uri: loggedUser.pic}} style={{width: 30, height: 30, borderRadius: 20}}/>
+              <Text style={{marginHorizontal: 25, fontWeight: 'bold'}}>Hola {loggedUser.firstName}!</Text>
             </View>
             <DrawerItem label="Categorias" onPress={()=>navigation.navigate('Categories')} icon={() => <Icon name='list-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
             <DrawerItem label="Cerrar sesión" onPress={signOutFunction} icon={() => <Icon name='log-out-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />

@@ -15,14 +15,15 @@ import productActions from '../redux/actions/productActions';
    const [showComments, setShowComments] = useState(false)
    const [rating, setRating] = useState(3)
   const [comment, setComment] = useState({})
+
+
    useEffect(() => {  
-    console.log('productScreen')
     props.navigation.setOptions({
       title: props.route.params.product.category,
       headerTitleStyle: { fontSize: 22},
       headerStyle: { backgroundColor: 'rgba(6, 134, 200, 0.863)' },
       headerLeft: () => (
-        <TouchableOpacity onPress={() => props.navigation.toggleDrawer() }style={{ marginHorizontal: 10 }}>
+        <TouchableOpacity onPress={() => props.navigation.toggleDrawer()}style={{ marginHorizontal: 10 }}>
           <Feather
             name='bar-chart-2'
             size={28}
@@ -64,10 +65,12 @@ import productActions from '../redux/actions/productActions';
       idProduct: props.route.params.product._id, idUser: props.loggedUser.userId, comment
     })
     ToastAndroid.showWithGravity(
-      'Enviaste un comentario',
+      'Muchas gracias por tu comentario',
       ToastAndroid.SHORT,
       ToastAndroid.TOP
-    )  }
+    )  
+    props.navigation.navigate('Categories')
+  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -141,11 +144,11 @@ import productActions from '../redux/actions/productActions';
             <Icon name={!showComments ? 'caret-down-outline' : 'caret-up-outline'} type='ionicon'/>
           </TouchableOpacity>
           {showComments && (
-              <View style={{ padding: 10 }}>
+              <View style={{ padding: 10, width: '100%' }}>
                 {props.route.params.product.arrayComments.length !== 0 && props.route.params.product.arrayComments.map((comment, i) => {
                   return(
                     <View key={i+'comment'}>
-                      <Comment comment={comment}/>
+                      <Comment comment={comment} product={props.route.params.product}/>
                     </View>
                   )
                 } )}
@@ -324,7 +327,9 @@ const mapStateToProps = state =>{
 }
 const mapDispatchToProps={
   addProductShoppingCart:shoppingCartActions.addProductShoppingCart,
-  commentProduct: productActions.commentProduct
+  commentProduct: productActions.commentProduct,
+  getProducts: productActions.getProducts
 
 }
+
 export default connect(mapStateToProps,mapDispatchToProps)(ProductScreen)

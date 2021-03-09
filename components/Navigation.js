@@ -85,10 +85,17 @@ const {loggedUser, logout_user, login_AS, preservedShoppingCart} = props
 
     return(
     <NavigationContainer>
-      <Drawer.Navigator drawerStyle={{ backgroundColor: 'rgba(6, 134, 200, 0.95)'}}  drawerContent={(props)=><CustomDrawer {...props}/>} >
+      <Drawer.Navigator drawerStyle={{ backgroundColor: 'rgba(55, 164, 184, 0.96)'}}  drawerContent={(props)=><CustomDrawer {...props}/>} >
+         {loggedUser ? (
+
+           <Drawer.Screen name="Categories" children={StackNavigator} /> 
+         ) : (
+           <>
           <Drawer.Screen name="Login" component={Login} />
           <Drawer.Screen name="SignUp" component={SignUp} />
-          <Drawer.Screen name="Categories" children={StackNavigator} /> 
+          </>
+         )}
+           
       </Drawer.Navigator>
     </NavigationContainer>
     )
