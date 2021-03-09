@@ -1,10 +1,23 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 const initState = {
   shoppingCart:[]
 }
+async function saveData(nameData,value){
+  try {
+      await AsyncStorage.setItem(nameData, value)
+  } catch (e) {
+  }
+}
 const shoppingCartReducer= (state = initState, action) =>{
+  const removeValue = async (value) => {
+    try {
+      await AsyncStorage.removeItem({value})
+    } catch(e) {
+    }
+  }
   switch(action.type){
     case "SAVE_PRODUCT_CART":{
-      //localStorage.setItem('shoppingCart', action.payload.shoppingCart)
+      saveData('shoppingCart', action.payload.shoppingCart)
       return{
         ...state,
         shoppingCart: [
@@ -38,7 +51,7 @@ const shoppingCartReducer= (state = initState, action) =>{
         shoppingCart:action.payload
       }}
     case "CLEAR_CART":{
-      //localStorage.removeItem('shoppingCart')
+      removeValue('shoppingCart')
       return{
         ...state,
         shoppingCart:[]

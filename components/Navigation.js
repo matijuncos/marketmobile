@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { Keyboard, StyleSheet, Text,TouchableWithoutFeedback, View, ToastAndroid} from 'react-native';
 import Login from '../Screens/SignIn';
@@ -20,10 +20,11 @@ import CheckOut from '../Screens/CheckOut';
 import CheckOut2 from '../Screens/CheckOut2';
 import CheckOut3 from '../Screens/CheckOut3';
 import CheckOut4 from '../Screens/CheckOut4';
+import shoppingCartActions from '../redux/actions/shoppingCartActions';
 
 const Stack = createStackNavigator()
 const Drawer= createDrawerNavigator()
-const StackNavigator=  () =>{
+const StackNavigator= () =>{
   return(
   <Stack.Navigator screenOptions={{
         headerTitleStyle:{color:'white',fontWeight:'bold'},
@@ -42,7 +43,26 @@ const StackNavigator=  () =>{
   )
 } 
 const Navigation = (props) =>{
-const {loggedUser, logout_user, login_AS} = props
+const {loggedUser, logout_user, login_AS, preservedShoppingCart} = props
+  useEffect(() => {
+    getData()
+  }, [])
+  const getData=async()=>{
+    try {
+      if(await AsyncStorage.getItem('shoppingCart')){
+        const shoppingCart = await AsyncStorage.getItem('shoppingCart')
+        if(shoppingCart!== null) {
+          if(Object.entries(shoppingCart).length !== 0){
+            preservedShoppingCart(shoppingCart.shoppingCart)
+            .then(respuesta => {
+              console.log(respuesta)
+            })
+          }
+        }else{
+        }
+      } 
+    }catch(error) {console.log('error',error)}
+  }
     // useEffect(()=>{
 
     //     const loginAS = async () =>{
@@ -80,7 +100,8 @@ const styles =StyleSheet.create({
     }
   }
   const mapDispatchToProps={
-      logout_user:userActions.logout_user,
-      login_AS:userActions.login_AS
+    logout_user:userActions.logout_user,
+    login_AS:userActions.login_AS,
+    preservedShoppingCart:shoppingCartActions.preservedShoppingCart
   }
 export default connect(mapStateToProps,mapDispatchToProps)(Navigation)
