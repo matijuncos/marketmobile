@@ -119,7 +119,6 @@ const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart
                 <TouchableOpacity onPress={() => navigation.navigate('CheckOut')} style={styles.buyMeButton}>
                     <Text style={styles.buttonText}>Terminar compra</Text>
                 </TouchableOpacity>
-
                 </View>
             </View>
         </SafeAreaView>

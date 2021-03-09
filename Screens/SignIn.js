@@ -6,7 +6,6 @@ import * as Animatable from 'react-native-animatable';
 import { connect } from 'react-redux';
 import userActions from '../redux/actions/userActions'
 import { ToastAndroid } from 'react-native';
-import * as Expo from 'expo'
 import * as Google from 'expo-google-app-auth'
 
 const SignIn = (props) => {
@@ -57,8 +56,8 @@ const SignIn = (props) => {
             setUser({email: '', password: ''})
         }else{
           console.log(response2)
-          //props.navigation.navigate('Categories')
         }
+        props.navigation.navigate('Categories')
       } else {
         ToastAndroid.showWithGravity(
           'Cancelado por el usuario',
