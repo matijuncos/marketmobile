@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useState,useEffect} from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { Keyboard, StyleSheet, Text,TouchableWithoutFeedback, View, ToastAndroid} from 'react-native';
 import Login from '../Screens/SignIn';
@@ -7,7 +7,6 @@ import Categories from '../Screens/Categories'
 import ProductsByCategory from '../Screens/ProductsByCategory'
 import ProductScreen from '../Screens/ProductScreen'
 import {connect}from 'react-redux'
-import {useState,useEffect} from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer' 
@@ -24,7 +23,8 @@ import shoppingCartActions from '../redux/actions/shoppingCartActions';
 
 const Stack = createStackNavigator()
 const Drawer= createDrawerNavigator()
-const StackNavigator= () =>{
+const StackNavigator= (props) =>{
+  console.log(props)
   return(
   <Stack.Navigator screenOptions={{
         headerTitleStyle:{color:'white',fontWeight:'bold'},
@@ -48,34 +48,35 @@ const {loggedUser, logout_user, login_AS, preservedShoppingCart} = props
     getData()
   }, [])
   const getData=async()=>{
+    //shopping cart
     try {
+      console.log("shopping cart")
       if(await AsyncStorage.getItem('shoppingCart')){
         const shoppingCart = await AsyncStorage.getItem('shoppingCart')
-        if(shoppingCart!== null) {
+          console.log(shoppingCart)
+        if(shoppingCart!== null||shoppingCart.length!==0) {
           if(Object.entries(shoppingCart).length !== 0){
-            preservedShoppingCart(shoppingCart.shoppingCart)
-            .then(respuesta => {
-              console.log(respuesta)
-            })
+            preservedShoppingCart(shoppingCart)
           }
-        }else{
         }
       } 
     }catch(error) {console.log('error',error)}
+    //token
+    try {
+      console.log("token")
+      const token = await AsyncStorage.getItem('token')
+      if(loggedUser===null && token!== null) {
+        login_AS(token)
+        .then(respuesta => {
+          if(respuesta.success) {
+            console.log(props)
+          }
+        })
+      }else{
+      }
+    } catch(error) {
+    }
   }
-    // useEffect(()=>{
-
-    //     const loginAS = async () =>{
-    //         const data = await AsyncStorage.getItem('token')
-    //     if(data){
-    //         login_AS(data)
-    //     } else{
-    //         return false
-    //     }
-    //     }
-    //     if(!loggedUser){
-    //         loginAS()}
-    // },[])
 
     return(
     <NavigationContainer>

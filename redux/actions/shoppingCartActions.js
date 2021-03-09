@@ -51,7 +51,7 @@ const shoppingCartActions={
             type: "PRESERVED_SHOPPING_CART",
             payload:JSON.parse(shoppingCart)
           })
-          return ({success:true,response:"success"})
+          return ({success:true})
         } catch (error) {
           return ({success:false,error:"error"})
         }

@@ -60,7 +60,6 @@ const userActions  ={
           ToastAndroid.LONG,
           ToastAndroid.TOP
         )
-        response.json({success:true,response:"pase el login"})
       }catch(error){
         return({success: false, error: error})     
       }
@@ -74,11 +73,11 @@ const userActions  ={
               Authorization: `Bearer ${token}`
             }
           })
-          if (data.data.success){
+          if (response.data.success){
             dispatch({type:'LOGIN', payload:response.data.response})
+            return({success:true})
           }
         } catch(error){
-          
         if(error.response)
           {if(error.response.status===401){
           AsyncStorage.clear()

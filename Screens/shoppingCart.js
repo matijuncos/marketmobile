@@ -7,26 +7,8 @@ import { ToastAndroid } from 'react-native';
 import InputSpinner from "react-native-input-spinner";
 import shoppingCartActions from '../redux/actions/shoppingCartActions';
 import {connect} from 'react-redux'
+
 const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart,clearCart,loggedUser}) => {
-    console.log(loggedUser)
-    const [state, setstate] = useState([])
-    useEffect(() => {
-      setstate([
-          {product: {"name":"test1","category":"Guitarra","price": 15000,"arrayPic":["https://media.fanaticguitars.com/2021/01/guitarra-clasica-1024x683.jpg","https://media.fanaticguitars.com/2021/01/guitarra-clasica-1024x683.jpg"],"stock":3, "_id":"60412a851950cc0015db878c"},"quantity": 8, "idProduct":"60412a851950cc0015db878c"},
-          {product: 
-            {
-                "name":"test2",
-                "category":"Amplificador",
-                "price": 38000,
-                "arrayPic":["https://media.fanaticguitars.com/2021/01/guitarra-clasica-1024x683.jpg","https://media.fanaticguitars.com/2021/01/guitarra-clasica-1024x683.jpg"],
-                "stock":20,
-                "_id":"60412a851950cc0015db878c"
-            },
-            "idProduct":"60412a851950cc0015db878c",
-            "quantity": 2, 
-        }
-      ])
-    }, [])
     navigation.setOptions({
         title: 'Tu Carrito!',
         headerTitleStyle: { fontSize: 22},
@@ -42,6 +24,9 @@ const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart
         ),
 
       });
+    const manageQuantityForStock=(value,product)=>{
+        editProductCart(value,product)
+    }
     const removeProduct = () =>{
         ToastAndroid.showWithGravity(
             'borrar del carrito',
@@ -57,7 +42,7 @@ const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart
                         <Text style={styles.title}>Jewellery</Text>
                     </View> */}
                     <FlatList
-                        data={state}
+                        data={shoppingCart}
                         renderItem={({ item }) => {
                             console.log(item)
                             return (<View style={styles.itemContainer}>

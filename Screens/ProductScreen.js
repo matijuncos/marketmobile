@@ -1,23 +1,37 @@
 import React, { useState, useEffect } from 'react';
+import {connect} from 'react-redux'
 import { StyleSheet,Text, View, ScrollView, StatusBar, TouchableOpacity, Image} from 'react-native';
 import {Icon} from 'react-native-elements'
 import Constants from 'expo-constants';
 import { Feather } from '@expo/vector-icons';
 import { Icon as RNEIcon } from 'react-native-elements';
-
+import shoppingCartActions from '../redux/actions/shoppingCartActions';
+import { ToastAndroid } from 'react-native';
 
  function ProductScreen(props) {
-   console.log(props)
    const [visible, setVisible] = useState(false)
    const [rating, setRating] = useState(3)
 
-   useEffect(() => {
-     
-     console.log(props.route.params.product.category)
+   useEffect(() => {  
+    console.log(props.shoppingCart)
   }, [])
 
-  const addToCart = () =>{
-    
+  const addToCart = async (product) =>{
+    const filterProductCart = props.shoppingCart.filter(productF => productF.idProduct === product._id)
+    if(filterProductCart.length!==0 && (filterProductCart[0].product.stock<(filterProductCart[0].quantity+1))){
+      ToastAndroid.showWithGravity(
+        `No podes exceder el stock(${filterProductCart[0].product.stock}) de este articulo.`,
+        ToastAndroid.SHORT,
+        ToastAndroid.TOP
+      )
+    }else{
+      ToastAndroid.showWithGravity(
+        'Agregado al carrito.',
+        ToastAndroid.SHORT,
+        ToastAndroid.TOP
+      )
+      const respuesta=await props.addProductShoppingCart({idProduct:product._id,quantity:1, product})
+    }
   }
   props.navigation.setOptions({
     title: props.route.params.product.category,
@@ -76,9 +90,8 @@ import { Icon as RNEIcon } from 'react-native-elements';
          </View>
         </View>
         <View style={{ flexDirection: 'row', paddingHorizontal: 10 }}>
-          <TouchableOpacity style={styles.buyNowButton} onPress={addToCart}>
+          <TouchableOpacity style={styles.buyNowButton} onPress={()=>addToCart(props.route.params.product)}>
           <Icon name='cart-outline' type='ionicon' size={26} color='white' />
-
             <Text style={styles.buttonText}>Agregar al carrito</Text>
           </TouchableOpacity>
         </View>
@@ -230,5 +243,12 @@ const styles = StyleSheet.create({
   },
   
 });
-
-export default ProductScreen
+const mapStateToProps = state =>{
+  return{
+      shoppingCart:state.shopping.shoppingCart
+  }
+}
+const mapDispatchToProps={
+  addProductShoppingCart:shoppingCartActions.addProductShoppingCart
+}
+export default connect(mapStateToProps,mapDispatchToProps)(ProductScreen)
