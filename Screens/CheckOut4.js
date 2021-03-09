@@ -31,8 +31,9 @@ const CheckOut4 = (props) => {
                 </ProgressSteps>
             </View>
             <View style={styles.bottomView}>
+                <Text style={styles.title}>Listo!</Text>
                 <Text style={styles.text}>Ahora celebrá y esperá tu pedido!</Text>
-                <Image source={{uri: 'https://media.giphy.com/media/yoJC2GnSClbPOkV0eA/source.gif'}} style={{width: 300, height: 300}} />        
+                <Image source={{uri: 'https://media.giphy.com/media/yoJC2GnSClbPOkV0eA/source.gif'}} style={{width: 300, height: 300, marginBottom: 20}} />        
                 <TouchableOpacity style={styles.button} onPress={()=>props.navigation.navigate('Categories')}>
                     <Text style={styles.buttonText}>
                         Ver más productos
@@ -49,14 +50,21 @@ const styles = StyleSheet.create({
         color: 'rgb(16, 16, 16)',
         fontSize: 22,
         textAlign:'center',
-        marginBottom: 15
+        marginBottom: 35
+      },
+      title:{
+        color: 'rgb(16, 16, 16)',
+        fontSize: 22,
+        textAlign:'center',
+        marginBottom: 10,
+        fontWeight: 'bold'
       },
       button:{
         backgroundColor: 'rgba(6, 134, 200, 0.863)',
         padding: 10,
         borderRadius: 8,
         marginTop: 10,
-        margin: 8
+        marginBottom: 10
       },
       buttonText:{
         color: '#fff',

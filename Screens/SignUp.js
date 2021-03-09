@@ -63,7 +63,7 @@ const SignUp = (props) => {
           fdNewUser.append('password', `Aa${response.user.id}`)
           fdNewUser.append('google', 'true')
           await createNewUser(fdNewUser)
-          //navigation.navigate('Categories')
+          navigation.navigate('Categories')
       } else {
         ToastAndroid.showWithGravity(
           'Cancelado por el usuario',

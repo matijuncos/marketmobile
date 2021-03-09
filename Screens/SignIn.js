@@ -56,8 +56,8 @@ const SignIn = (props) => {
             setUser({email: '', password: ''})
         }else{
           console.log(response2)
-          //props.navigation.navigate('Categories')
         }
+        props.navigation.navigate('Categories')
       } else {
         ToastAndroid.showWithGravity(
           'Cancelado por el usuario',
