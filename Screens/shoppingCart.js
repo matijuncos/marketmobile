@@ -10,9 +10,12 @@ import {connect} from 'react-redux'
 
 const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart,clearCart,loggedUser}) => {
     useEffect(() => {
+<<<<<<< HEAD
         nav()
     }, [])
     const nav=()=>{
+=======
+>>>>>>> a4abca9664c50b25a376e46857c09c0bde4b8888
         navigation.setOptions({
             title: 'Tu Carrito!',
             headerTitleStyle: { fontSize: 22},
@@ -26,8 +29,15 @@ const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart
                 />
               </TouchableOpacity>
             ),
+<<<<<<< HEAD
         });
     }
+=======
+    
+          });
+    }, [])
+    
+>>>>>>> a4abca9664c50b25a376e46857c09c0bde4b8888
     const manageQuantityForStock=(value,product)=>{
         editProductCart(value,product)
     }
@@ -102,7 +112,11 @@ const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart
                         }}
                     />
                 </View>
+<<<<<<< HEAD
                 <View>
+=======
+                <View style={{alignItems: 'center', width:'100%', justifyContent:'center', backgroundColor:'red'}}>
+>>>>>>> a4abca9664c50b25a376e46857c09c0bde4b8888
                     <TouchableOpacity onPress={() => navigation.navigate('CheckOut')} style={styles.buyMeButton}>
                         <Text style={styles.buttonText}>Terminar compra</Text>
                     </TouchableOpacity>
@@ -195,9 +209,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         alignItems: 'center',
         padding: 12,
-        width: '100%',
         marginBottom: 12,
-        borderRadius: 8,
+        
     },
     buttonText: {
         color: '#fff',

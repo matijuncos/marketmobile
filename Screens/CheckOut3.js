@@ -3,9 +3,12 @@ import { View, TextInput, StyleSheet, Switch, ScrollView } from 'react-native'
 import { Text } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
-import { CreditCardInput, LiteCreditCardInput } from "react-native-credit-card-input";
+import { CreditCardInput } from "react-native-credit-card-input";
 
-const CheckOut2 = (props) => {
+
+
+
+const CheckOut3 = (props) => {
     const [values, setValues] = useState({
         number: "",
         expiry: "",
@@ -46,7 +49,14 @@ const validateCard = () =>{
             <View style={styles.creditCard}>
             </View>
             <View style={styles.bottomView}>
-                <CreditCardInput onChange={readInputs} requiresName/>
+            <CreditCardInput
+              autoFocus
+              requiresName
+              requiresCVC
+              validColor={"black"}
+              invalidColor={"red"}
+              placeholderColor={"darkgray"}
+              onChange={readInputs} />
                     <View style={{width:'90%', alignItems:'center', flexDirection: 'row', justifyContent:'center'}}>
                         <TouchableOpacity style={styles.button} onPress={validateCard}>
                             <Text style={styles.buttonText}>Guardar Datos</Text>
@@ -88,4 +98,4 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 18,
       }})
-export default CheckOut2
+export default CheckOut3

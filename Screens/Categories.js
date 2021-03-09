@@ -11,7 +11,6 @@ import { FlatList } from 'react-native';
 
 const Categories = (props) => {
   const {allProducts,getProducts, navigation, shoppingCart} = props
-  
   useEffect(() => {
     getProducts()
     header()
@@ -58,6 +57,7 @@ const Categories = (props) => {
       <View style={{padding: 30, alignItems:'center'}}>
         <Text style={{color: 'white', fontSize: 20}}>Elegí la categoría de tu instrumento</Text>
       </View>
+<<<<<<< HEAD
       <FlatList
             style={{backgroundColor: 'rgb(16, 16, 16)'}}
             data={categories}
@@ -77,6 +77,27 @@ const Categories = (props) => {
               </TouchableWithoutFeedback>
             )}
         />
+=======
+       <FlatList
+       style={{backgroundColor: 'rgb(16, 16, 16)'}}
+        data={categories}
+        keyExtractor={(data, index) => index.toString()}
+        renderItem={(data, rowMap) => (
+          <TouchableWithoutFeedback
+            onPress={() => {
+             props.navigation.navigate('ProductsByCategory',{category:data.item.name, allProducts: allProducts})
+              ;
+            }}>
+            <View style={{backgroundColor: '#f1f3f6', paddingVertical: 10, paddingHorizontal: 20, marginVertical: 4, borderRadius: 4, display: 'flex', flexDirection: 'row',  alignItems: 'center' }} >
+              <Image source={{uri: data.item.pic}} style={{width: 60, height: 60, resizeMode: 'cover', borderRadius: 60}}/>
+              <Text style={{marginLeft: 20,  fontSize: 21, paddingVertical: 10, letterSpacing: 1 }}>
+                {data.item.name}
+              </Text>
+            </View>
+          </TouchableWithoutFeedback>
+        )}
+      />
+>>>>>>> a4abca9664c50b25a376e46857c09c0bde4b8888
     </View>
   )
 }

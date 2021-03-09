@@ -35,6 +35,10 @@ const StackNavigator= () =>{
     <Stack.Screen name='CheckOut2' component={CheckOut2}/>
     <Stack.Screen name='CheckOut3' component={CheckOut3}/>
     <Stack.Screen name='CheckOut4' component={CheckOut4}/>
+    <Stack.Screen name='Categories' component={Categories}/>
+    <Stack.Screen name="ProductsByCategory" component={ProductsByCategory}/>
+    <Stack.Screen name='ProductScreen' component={ProductScreen}/>
+    <Stack.Screen name='Product' component={Product}/>
   </Stack.Navigator>
   )
 } 
@@ -88,12 +92,18 @@ const {loggedUser, logout_user, login_AS, preservedShoppingCart} = props
   }
 
     return(
-    <NavigationContainer >
-      <Drawer.Navigator drawerStyle={{ backgroundColor: 'rgba(6, 134, 200, 0.95)'}} drawerContent={(props)=><CustomDrawer {...props}/>}>
+    <NavigationContainer>
+      <Drawer.Navigator drawerStyle={{ backgroundColor: 'rgba(55, 164, 184, 0.96)'}}  drawerContent={(props)=><CustomDrawer {...props}/>} >
+         {loggedUser ? (
+
+           <Drawer.Screen name="Categories" children={StackNavigator} /> 
+         ) : (
+           <>
           <Drawer.Screen name="Login" component={Login} />
           <Drawer.Screen name="SignUp" component={SignUp} />
-          <Drawer.Screen name="Categories" children={categoriesNavigator} /> 
-          <Drawer.Screen name="cart" children={StackNavigator} /> 
+          </>
+         )}
+           
       </Drawer.Navigator>
     </NavigationContainer>
     )
