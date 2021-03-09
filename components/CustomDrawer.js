@@ -27,6 +27,9 @@ function CustomDrawer(props) {
     <DrawerContentScrollView {...props}>
       {loggedUser ? (
           <>
+            <View>
+              <Text>Hola {loggedUser.firstName}!</Text>
+            </View>
             <DrawerItem label="Categorias" onPress={()=>navigation.navigate('Categories')} icon={() => <Icon name='list-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
             <DrawerItem label="Cerrar sesión" onPress={signOutFunction} icon={() => <Icon name='log-out-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
           </>

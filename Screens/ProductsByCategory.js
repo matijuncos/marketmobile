@@ -79,8 +79,6 @@ const category = props.route.params.category
 
   useEffect(() => {
     StatusBar.setBarStyle('dark-content');
-  }, []);
-
     navigation.setOptions({
       title: category,
       headerTitleStyle: { fontSize: 22},
@@ -103,7 +101,9 @@ const category = props.route.params.category
         </TouchableOpacity>
       ),
     });
-  
+
+  }, []);  
+
 
 
   return (
@@ -116,7 +116,7 @@ const category = props.route.params.category
           }
       </ScrollView>
       <View style={{ height: 20 }}>
-        
+
       </View>
     </>
   )};

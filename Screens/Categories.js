@@ -15,6 +15,7 @@ const Categories = (props) => {
   useEffect(() => {
     getProducts()
     console.log('categories')
+    header()
   },[])
 
 
@@ -27,29 +28,30 @@ const Categories = (props) => {
   {name: 'Teclados', pic: 'https://http2.mlstatic.com/D_NQ_NP_768004-MLA41768648746_052020-O.jpg'}, 
   { name: 'Sonido', pic: 'https://files.soniccdn.com/files/2015/07/02/dlive-s3000.png'}];
   
-  
-  props.navigation.setOptions({
-    title: 'Categorías',
-    headerTitleStyle: { fontSize: 22},
-    headerStyle: { backgroundColor: 'rgba(6, 134, 200, 0.863)' },
-    headerLeft: () => (
-      <TouchableOpacity onPress={() => navigation.toggleDrawer() }style={{ marginHorizontal: 10 }}>
-        <Feather
-          name='bar-chart-2'
-          size={28}
-          style={{ transform: [{ rotate: '90deg' }, { scaleX: -1 }] }}
-        />
-      </TouchableOpacity>
-    ),
-    headerRight: () => (
-      <TouchableOpacity style={{ marginHorizontal: 10 }} onPress={()=>navigation.navigate('cart')}>
-        <Feather name='shopping-cart' size={24} />
-        <View style={[styles.iconCountView, { right: -6 }]}>
-          <Text style={styles.iconCountText}>{shoppingCart.length}</Text>
-        </View>
-      </TouchableOpacity>
-    ),
-  });
+  const header = () =>{
+    props.navigation.setOptions({
+      title: 'Categorías',
+      headerTitleStyle: { fontSize: 22},
+      headerStyle: { backgroundColor: 'rgba(6, 134, 200, 0.863)' },
+      headerLeft: () => (
+        <TouchableOpacity onPress={() => navigation.toggleDrawer() }style={{ marginHorizontal: 10 }}>
+          <Feather
+            name='bar-chart-2'
+            size={28}
+            style={{ transform: [{ rotate: '90deg' }, { scaleX: -1 }] }}
+          />
+        </TouchableOpacity>
+      ),
+      headerRight: () => (
+        <TouchableOpacity style={{ marginHorizontal: 10 }} onPress={()=>navigation.navigate('cart')}>
+          <Feather name='shopping-cart' size={24} />
+          <View style={[styles.iconCountView, { right: -6 }]}>
+            <Text style={styles.iconCountText}>{shoppingCart.length}</Text>
+          </View>
+        </TouchableOpacity>
+      ),
+    });
+  }
 
 
   return (
@@ -102,7 +104,6 @@ const mapStateToProps = state =>{
   return{
     shoppingCart:state.shopping.shoppingCart,
     allProducts: state.product.allProducts,
-    categories:state.product.categories
 
    }
  }
