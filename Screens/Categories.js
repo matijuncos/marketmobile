@@ -15,7 +15,6 @@ const Categories = (props) => {
     getProducts()
     header()
   },[])
-
   const categories = [{name: 'Accesorios', pic: 'https://cdn.evance.me/portal/web/296/content/images/guitar-picks/tortex-guitarr-picks.png'},
   {name: 'Amplificadores', pic: 'https://www.wallpaperuse.com/wallp/9-99781_m.jpg'},
   {name: 'Bajos', pic: 'https://cdn.shopify.com/s/files/1/1413/0250/products/yamaha-trbx505tbl-bass-guitar-trans-black_666x518.jpg?v=1555294252'},
@@ -43,7 +42,7 @@ const Categories = (props) => {
         <TouchableOpacity style={{ marginHorizontal: 10 }} onPress={()=>navigation.navigate('cart')}>
           <Feather name='shopping-cart' size={24} />
           <View style={[styles.iconCountView, { right: -6 }]}>
-            <Text style={styles.iconCountText}>{shoppingCart.length}</Text>
+            <Text style={styles.iconCountText}>{shoppingCart && shoppingCart.length}</Text>
           </View>
         </TouchableOpacity>
       ),
@@ -57,27 +56,6 @@ const Categories = (props) => {
       <View style={{padding: 30, alignItems:'center'}}>
         <Text style={{color: 'white', fontSize: 20}}>Elegí la categoría de tu instrumento</Text>
       </View>
-<<<<<<< HEAD
-      <FlatList
-            style={{backgroundColor: 'rgb(16, 16, 16)'}}
-            data={categories}
-            keyExtractor={(data, index) => index.toString()}
-            renderItem={(data, rowMap) => (
-              <TouchableWithoutFeedback
-                onPress={() => {
-                props.navigation.navigate('ProductsByCategory',{category:data.item.name, allProducts: allProducts})
-                  ;
-                }}>
-                <View style={{backgroundColor: '#f1f3f6', paddingVertical: 10, paddingHorizontal: 10, marginVertical: 4, borderRadius: 4, display: 'flex', flexDirection: 'row',  alignItems: 'center' }} >
-                  <Image source={{uri: data.item.pic}} style={{width: 60, height: 60, resizeMode: 'cover', borderRadius: 60}}/>
-                  <Text style={{marginLeft: 10, fontWeight: '400', fontSize: 16, paddingVertical: 10 }}>
-                    {data.item.name}
-                  </Text>
-                </View>
-              </TouchableWithoutFeedback>
-            )}
-        />
-=======
        <FlatList
        style={{backgroundColor: 'rgb(16, 16, 16)'}}
         data={categories}
@@ -97,7 +75,6 @@ const Categories = (props) => {
           </TouchableWithoutFeedback>
         )}
       />
->>>>>>> a4abca9664c50b25a376e46857c09c0bde4b8888
     </View>
   )
 }

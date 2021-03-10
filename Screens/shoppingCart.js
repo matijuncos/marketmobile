@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import { FlatList, StyleSheet,Text, View, ScrollView, TextInput, TouchableOpacity, Image} from 'react-native';
 import {Icon} from 'react-native-elements'
 import { Feather } from '@expo/vector-icons';
@@ -7,15 +7,11 @@ import { ToastAndroid } from 'react-native';
 import InputSpinner from "react-native-input-spinner";
 import shoppingCartActions from '../redux/actions/shoppingCartActions';
 import {connect} from 'react-redux'
+import { color } from 'react-native-reanimated';
 
 const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart,clearCart,loggedUser}) => {
+    var total=shoppingCart.reduce((obj,data)=>{obj += (data.quantity*data.product.price); return obj; }, 0)
     useEffect(() => {
-<<<<<<< HEAD
-        nav()
-    }, [])
-    const nav=()=>{
-=======
->>>>>>> a4abca9664c50b25a376e46857c09c0bde4b8888
         navigation.setOptions({
             title: 'Tu Carrito!',
             headerTitleStyle: { fontSize: 22},
@@ -29,15 +25,10 @@ const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart
                 />
               </TouchableOpacity>
             ),
-<<<<<<< HEAD
-        });
-    }
-=======
     
           });
     }, [])
     
->>>>>>> a4abca9664c50b25a376e46857c09c0bde4b8888
     const manageQuantityForStock=(value,product)=>{
         editProductCart(value,product)
     }
@@ -52,10 +43,10 @@ const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart
     return (
         <SafeAreaView  style={{flex:1}}>
             <View style={styles.container}>
-                <View style={{flex: 1}}>
+                <View style={{flex: 1,height:'100%'}}>
                     <FlatList
                         data={shoppingCart}
-                        keyExtractor={(data, index) => index.toString()}
+                        keyExtractor={(data, index) =>index.toString()}
                         renderItem={({ item }) => {
                             return (<View style={styles.itemContainer}>
                                 <View style={styles.listItem} onPress={() => this.onPressMoreDetails(item)}>
@@ -66,7 +57,7 @@ const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart
                                     <View style={styles.content}>
                                         <View style={styles.details}>
                                             <Text style={styles.adTitle}>{item.product.name}</Text>
-                                            <Text style={styles.adTitle}>${item.product.price}</Text>
+                                            <Text style={{color:'green',fontSize:16,fontWeight:'bold',marginBottom:5}}>${item.product.price}</Text>
                                             <View style={{flexDirection:'row', alignItems: 'center'}}>
                                                 <InputSpinner
                                                         skin="modern"
@@ -98,13 +89,13 @@ const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart
                                                                 ToastAndroid.TOP
                                                             );
                                                         }}
-                                                    />                                       
+                                                    />     
+                                                    <View style={styles.closeBtnWrapper}>
+                                                        <TouchableOpacity style={styles.closeBtn} onPress={()=>removeProduct(item.idProduct)}>
+                                                            <Icon name="trash-outline" type='ionicon'size={35} color="#F44336" />
+                                                        </TouchableOpacity>
+                                                    </View>                          
                                             </View>
-                                        </View>
-                                        <View style={styles.closeBtnWrapper}>
-                                            <TouchableOpacity style={styles.closeBtn} onPress={()=>removeProduct(item.idProduct)}>
-                                                <Icon name="trash-outline" type='ionicon'size={35} color="#F44336" />
-                                            </TouchableOpacity>
                                         </View>
                                     </View>
                                 </View>
@@ -112,11 +103,11 @@ const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart
                         }}
                     />
                 </View>
-<<<<<<< HEAD
-                <View>
-=======
-                <View style={{alignItems: 'center', width:'100%', justifyContent:'center', backgroundColor:'red'}}>
->>>>>>> a4abca9664c50b25a376e46857c09c0bde4b8888
+                <View style={{flexDirection:'row', alignItems: 'center', width:'100%', height:'8%', justifyContent:'space-between',backgroundColor:'·f8f8f8'}}>
+                    <TouchableOpacity onPress={() => clearCart()} style={styles.buttonClear}>
+                        <Text style={styles.buttonText}>Vaciar C</Text>
+                    </TouchableOpacity>
+                    <View style={{height:'100%',width:'30%',backgroundColor:'black'}}><Text style={styles.total}>Total </Text><Text style={styles.total}>${total}</Text></View>
                     <TouchableOpacity onPress={() => navigation.navigate('CheckOut')} style={styles.buyMeButton}>
                         <Text style={styles.buttonText}>Terminar compra</Text>
                     </TouchableOpacity>
@@ -142,8 +133,8 @@ const styles = StyleSheet.create({
     },
     itemContainer: {
         borderBottomWidth: 1,
-        borderBottomColor: '#c6c6c6'
-
+        borderBottomColor: '#c6c6c6',
+        marginVertical:5
     },
     content: {
         flex: 2,
@@ -177,11 +168,11 @@ const styles = StyleSheet.create({
     },
     adTitle: {
         fontWeight: '600',
-        fontSize: 19,
+        fontSize: 17,
         margin: 5,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        textAlign:'center'
     },
-
     input: {
         borderColor: 'rgb(16,16,16)',
         borderWidth: 1,
@@ -199,29 +190,42 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         flexDirection: 'column',
+        justifyContent:'space-between'
     },
     buyMeButton: {
-        backgroundColor: 'rgba(6, 134, 200, 0.863)',
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
+        height:'100%',
+        width:'35%',
+        backgroundColor: 'green',
         textAlign: 'center',
         alignItems: 'center',
-        padding: 12,
-        marginBottom: 12,
-        
+        borderRadius:2
     },
     buttonText: {
         color: '#fff',
-        fontSize: 20,
-        fontWeight: '500'
+        fontSize: 16,
+        fontWeight: '500',
+        textAlign:'center',
+        fontWeight:'bold',
+        borderRadius:2
+    },
+    buttonClear:{
+        height:'100%',
+        width:'35%',
+        backgroundColor:'blue',
+        justifyContent:'center',
+        alignItems: 'center',
     },
     spinner:{
         // flex: 1,
 		// marginRight: 10,
         // width:'30%',
         // height:20,
+    },
+    total:{
+        color:'white',
+        fontWeight:'bold',
+        fontSize:16,
+        textAlign:'center'
     }
 })
 const mapStateToProps = state =>{
