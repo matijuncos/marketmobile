@@ -77,7 +77,7 @@ const shoppingCartActions={
     return async (dispatch, getState)=>{
       dispatch({
         type: "DELETE_PRODUCT_CART",
-        payload:{idProduct:idProduct}
+        payload:{idProduct}
       })
       saveData('shoppingCart',JSON.stringify(getState().shopping.shoppingCart))
       ToastAndroid.show(
@@ -86,6 +86,24 @@ const shoppingCartActions={
         ToastAndroid.TOP
       ) 
     }
-  }
+  },
+  emailShopCart:(email,dataCart)=>{
+    return async (dispatch,getstate)=>{
+      try{
+        const data = await axios.post('https://gitmusicapp.herokuapp.com/api/confirmPurchase',{email,dataCart})
+        console.log(data)
+        if(data.status===200&& data.data.response){
+          dispatch({type: "EMAIL_SENT",payload:''})
+          return data.data.response
+
+        }else{
+          return data.data
+        }
+      }catch(error){
+        return error
+      }
+
+    }
+  },
 }
 export default shoppingCartActions

@@ -1,7 +1,23 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const initialState ={
-    loggedUser:null
+    loggedUser:null,
+    userData:[
+        {property:'address',newData:{
+          calle:'',
+          altura:'',
+          encargadoDeRecibir:'',
+          contactoReceptor:''
+        }},
+        {property:'billingAddress',newData:{
+          nombre:'',
+          cuitCuilDni:'',
+          contacto:'',
+          tipoFactura:''
+        }},
+        {property:'cardFields',newData:{
+  
+        }}]
 }
 async function saveData(nameData,value){
     try {
@@ -38,11 +54,17 @@ function usersReducer(state= initialState,action){
         setTimeout(() => {
             removeValue()
             clearAll()
-        }, 5000)
+        }, 3000)
         return{
             ...state,
             loggedUser:null  
         }}
+        case "ADD_DATA":
+            const newData = state.userData.filter(field => field.property!== action.payload.property)
+            return{
+              ...state,
+             userData:[...newData,action.payload]
+            } 
         default:
             return state
     }

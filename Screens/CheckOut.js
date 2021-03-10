@@ -4,10 +4,12 @@ import { ToastAndroid } from 'react-native';
 import { Text } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
+import { connect } from 'react-redux';
+import userActions from '../redux/actions/userActions';
 
 const CheckOut = (props) => {
     
-    const [next,setNext] = useState(true) //CAMBIAR A FALSE!!!!!!!!!!!!!!
+    const [next,setNext] = useState(false) //CAMBIAR A FALSE!!!!!!!!!!!!!!
     const [address, setaddress] = useState({
         calle:'',
         altura:'',
@@ -27,12 +29,11 @@ const CheckOut = (props) => {
                 )
                 return false
         }
-       //const data = await props.completeUserData("adress",address)
-       //console.log(data)
-    //    if(data.saved){
-    //        Alert.success('Datos guardados')
-    //        setNext(true)
-    //    }
+       const data = await props.completeUserData("adress",address)
+       if(data.saved){
+           ToastAndroid.show('Datos guardados', ToastAndroid.LONG)
+           setNext(true)
+       }
 
     }
     const nextStep = () =>{
@@ -179,4 +180,12 @@ const styles = StyleSheet.create({
 
       }
 })
-export default CheckOut
+const mapStateToProps = state =>{
+    return{
+        userData: state.user.userData
+    }
+  }
+const mapDispatchToProps={
+    completeUserData:userActions.completeUserData
+}
+export default connect(mapStateToProps,mapDispatchToProps)(CheckOut)

@@ -7,6 +7,8 @@ import { Icon as RNEIcon } from 'react-native-elements';
 import { useFonts } from 'expo-font';
 import { Alert } from 'react-native';
 import { connect } from 'react-redux';
+import productActions from '../redux/actions/productActions';
+import { useFocusEffect } from '@react-navigation/core';
 
 
 const  ProductsByCategory = (props)=> {
@@ -70,13 +72,20 @@ const  ProductsByCategory = (props)=> {
       },
     ]);
     
+    useFocusEffect(
+      React.useCallback(()=>{
+        console.log('focus')
+        props.getProducts()
+      },[props.navigation])
+      )
+      
   useEffect(() =>{
     if(props.route.params.allProducts.length !== 0){
        const arrayCategory = props.route.params.allProducts.filter(product=> product.category === props.route.params.category)
       setProducts(arrayCategory)
     }
     header()
- },[])
+ },[props.shoppingCart])
 
 
  const header =  () =>{
@@ -159,7 +168,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state =>{
   return{
-    shoppingCart:state.shopping.shoppingCart
+    shoppingCart:state.shopping.shoppingCart,
+    allProducts: state.product.allProducts
+
   }
 }
-export default connect(mapStateToProps)(ProductsByCategory)
+const mapDispatchToProps={
+  getProducts: productActions.getProducts
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ProductsByCategory)

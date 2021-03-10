@@ -10,7 +10,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function CustomDrawer(props) {
   const {navigation, loggedUser, signOut } = props
-  console.log(loggedUser)
 
   const signOutFunction = async () =>{
       const response = await signOut()

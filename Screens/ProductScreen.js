@@ -9,9 +9,10 @@ import shoppingCartActions from '../redux/actions/shoppingCartActions';
 import Comment from '../components/Comment';
 import { TextInput } from 'react-native';
 import productActions from '../redux/actions/productActions';
-import { set } from 'react-native-reanimated';
+import { useFocusEffect } from '@react-navigation/core';
 
 function ProductScreen(props) {
+
   const [visible, setVisible] = useState(false)
   const [showComments, setShowComments] = useState(false)
   const [rating, setRating] = useState(3)
@@ -20,10 +21,16 @@ function ProductScreen(props) {
   const [refreshing, setRefreshing] = React.useState(false);
 
 
-   useEffect(() => {  
-
-    setCommentArray(props.route.params.product.arrayComments)
-
+  useFocusEffect(
+    React.useCallback(()=>{
+      console.log('focus')
+      props.getProducts()
+    },[props.navigation, commentArray])
+    )
+    
+    
+    useEffect(() => {  
+     setCommentArray(props.route.params.product.arrayComments)
     props.navigation.setOptions({
       title: props.route.params.product.category,
       headerTitleStyle: { fontSize: 22, color:'white'},
@@ -50,7 +57,10 @@ function ProductScreen(props) {
     });
 
 
-  }, [])
+  }, [props.shoppingCart])
+
+
+
 
   const addToCart = async (product) =>{
     const filterProductCart = props.shoppingCart.filter(productF => productF.idProduct === product._id)
@@ -90,8 +100,6 @@ onRefresh()
 }
   const del = (id) =>{
     const newArray = commentArray.filter(comm => id !== comm._id)
-    console.log(newArray)
-    console.log(id)
     setCommentArray(newArray)
     onRefresh()  
 
@@ -177,7 +185,7 @@ onRefresh()
             onPress={()=>setShowComments(!showComments)}
             >
             <Text style={{fontSize: 18 }}>
-              Ver comentarios ({props.route.params.product.arrayComments.length})          
+              Ver comentarios ({commentArray.length})          
             </Text>
             <Icon name={!showComments ? 'caret-down-outline' : 'caret-up-outline'} type='ionicon'/>
           </TouchableOpacity>

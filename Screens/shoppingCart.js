@@ -30,6 +30,7 @@ const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart
                     <Text style={{fontSize: 20, color:'white', marginRight: 12, fontWeight:'bold'}}>Total: ${total}</Text>
                 )
           });
+
     }, [total])
     
     const manageQuantityForStock=(value,product)=>{
@@ -120,7 +121,7 @@ const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart
 
                 </View>
                 {shoppingCart.length !==0 &&(
-                <View style={{flexDirection:'row', alignItems: 'center', width:'100%', height:'8%', justifyContent:'center',backgroundColor:'·f8f8f8'}}>
+                <View style={{flexDirection:'row', alignItems: 'center', width:'100%', height:'8%', justifyContent:'center',backgroundColor:'·f8f8f8', marginBottom:12}}>
                     <TouchableOpacity onPress={()=>clearCart()} style={styles.buttonClear}>
                         <Text style={styles.buttonText}>Vaciar Carrito</Text>
                     </TouchableOpacity>

@@ -4,6 +4,9 @@ import { Text } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 import { CreditCardInput } from "react-native-credit-card-input";
+import userActions from '../redux/actions/userActions';
+import { connect } from 'react-redux';
+import { ToastAndroid } from 'react-native';
 
 
 
@@ -19,7 +22,19 @@ const CheckOut3 = (props) => {
     setValues(JSON.stringify(formdata.values))
 
  }
-const validateCard = () =>{
+const validateCard = async () =>{
+    if (values.number === '' || values.name === '' || values.cvc === '' || values.expiry === '') {
+        ToastAndroid.showWithGravity('Complete los campos requeridos(*) y guarde', ToastAndroid.LONG, ToastAndroid.TOP)
+        return false
+    }
+    console.log(values)
+    const data = await props.completeUserData("cardFields",values)
+
+    if(data.saved){
+        ToastAndroid.showWithGravity('Datos guardados', ToastAndroid.LONG, ToastAndroid.TOP)
+//     setFinish(true)
+   
+    }
 }
     return (
         <View style={{flex: 1, backgroundColor: 'rgb(16, 16, 16)', alignItems:'center'}}>
@@ -98,4 +113,9 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 18,
       }})
-export default CheckOut3
+
+
+    const mapDispatchToProps={
+        completeUserData:userActions.completeUserData,
+    }
+    export default connect(null,mapDispatchToProps)(CheckOut3)

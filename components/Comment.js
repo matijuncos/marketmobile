@@ -13,7 +13,6 @@ const Comment = (props) => {
     
     const editComment = () =>{
             setVisible(!visible)    
-            console.log(loggedUser)
             }
 
 const sendNewComment = () =>{

@@ -98,7 +98,17 @@ const userActions  ={
         dispatch({type:'LOGOUT'})}
         clearAll()
     }
-  },/*
+  },
+  completeUserData:(property,newData) =>{
+     
+    return async (dispatch, getState) => {
+      
+      dispatch({type: 'ADD_DATA', payload: {property,newData}})
+      const data ={saved:true}
+      return data
+    }
+  },
+  /*
   googleLogin:()=>{
     return async (dispatch,getstate) => {
       dispatch({

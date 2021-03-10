@@ -3,10 +3,12 @@ import { View, TextInput, StyleSheet,ToastAndroid } from 'react-native'
 import { Text } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
+import { connect } from 'react-redux';
+import userActions from '../redux/actions/userActions';
 
 const CheckOut2 = (props) => {
 
-    const [next,setNext] = useState(true) //CAMBIAR A FALSE QUE AHORA ES PROVISORIO
+    const [next,setNext] = useState(false) 
     const [billingAddress, setBillingAddress] = useState({
         nombre:'',
         tipoFactura:'',
@@ -18,15 +20,14 @@ const CheckOut2 = (props) => {
     const validate = async () => {
 
         if (billingAddress.nombre === '' || billingAddress.cuitCuilDni === '' ||  billingAddress.tipoFactura === '' ||billingAddress.contacto === '') {
-                Alert.error('Todos los campos son requeridos')
-               return false
+            ToastAndroid.showWithGravity('Todos los campos son requieridos', ToastAndroid.LONG, ToastAndroid.TOP)
+            return false
             }
-        //    const data = await props.completeUserData("billingAdress",billingAddress)
-        //   console.log(data)
-        //   if(data.saved){
-        //    Alert.success('Datos guardados')
-        //    setNext(true)
-        //   }
+           const data = await props.completeUserData("billingAdress",billingAddress)
+          if(data.saved){
+            ToastAndroid.showWithGravity('Datos guardados', ToastAndroid.LONG, ToastAndroid.TOP)
+           setNext(true)
+          }
            
        }
 
@@ -72,7 +73,7 @@ const CheckOut2 = (props) => {
                     <TextInput
                         style={styles.input}
                         placeholder='Nombre y apellido'
-                        onChangeText={(value)=>setaddress({...billingAddress, nombre: value})}
+                        onChangeText={(value)=>setBillingAddress({...billingAddress, nombre: value})}
 
                         />
                 </View>
@@ -80,7 +81,7 @@ const CheckOut2 = (props) => {
                     <TextInput
                         style={styles.input}
                         placeholder='CUIT/CUIL/DNI'
-                        onChangeText={(value)=>setaddress({...billingAddress, cuitCuilDni: value})}
+                        onChangeText={(value)=>setBillingAddress({...billingAddress, cuitCuilDni: value})}
 
                         />
                 </View>
@@ -88,7 +89,7 @@ const CheckOut2 = (props) => {
                     <TextInput
                         style={styles.input}
                         placeholder='Teléfono'
-                        onChangeText={(value)=>setaddress({...billingAddress, contacto: value})}
+                        onChangeText={(value)=>setBillingAddress({...billingAddress, contacto: value})}
 
                         />
                 </View>
@@ -96,7 +97,7 @@ const CheckOut2 = (props) => {
                 <TextInput
                         style={styles.input}
                         placeholder='Tipo de factura'
-                        onChangeText={(value)=>setaddress({...billingAddress, tipoFactura: value})}
+                        onChangeText={(value)=>setBillingAddress({...billingAddress, tipoFactura: value})}
 
                         />            
                 </View>
@@ -159,4 +160,12 @@ const styles = StyleSheet.create({
 
       }
 })
-export default CheckOut2
+const mapStateToProps = state =>{
+    return{
+        userData: state.user.userData
+    }
+  }
+const mapDispatchToProps={
+    completeUserData:userActions.completeUserData
+}
+export default connect(mapStateToProps,mapDispatchToProps)(CheckOut2)

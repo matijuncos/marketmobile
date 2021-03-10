@@ -11,8 +11,7 @@ async function saveData(nameData,value){
 const shoppingCartReducer= (state = initState, action) =>{
   const removeValue = async (value) => {
     try {
-      await AsyncStorage.removeItem({value})
-      await AsyncStorage.clear()
+      await AsyncStorage.removeItem(value)
     } catch(e) {
       console.log(e)
     }
