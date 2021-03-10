@@ -76,11 +76,12 @@ const SignIn = (props) => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
+          <Image source={require('../assets/gitLogo.png')} style={{width: 120, height: 120, position: 'absolute', zIndex: 999, top: '25%', left: '34%'}}/>
         <View style={{ flex: 1 }}>
-          <Image
-            style={{ flex: 1, width: '100%' }}
-            source={BackgroundImage}
-          />
+        <Image
+          style={{ flex: 1, width: '100%' }}
+          source={BackgroundImage}
+        />
         </View>
         <Animatable.Text
           style={styles.titleText}
@@ -88,6 +89,7 @@ const SignIn = (props) => {
           delay={1200}
         >
           GitMusic
+        
         </Animatable.Text>
         <View style={styles.bottomView}>
           <Text style={styles.loginText}>Inicia sesión</Text>
@@ -159,6 +161,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.44,
     shadowRadius: 10.32,
+    
   },
   bottomView: {
     backgroundColor: '#fff',
