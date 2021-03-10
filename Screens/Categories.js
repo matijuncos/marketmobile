@@ -14,7 +14,7 @@ const Categories = (props) => {
   useEffect(() => {
 
     getProducts()
-    
+
     header()
   },[shoppingCart])
   const categories = [{name: 'Accesorios', pic: 'https://cdn.evance.me/portal/web/296/content/images/guitar-picks/tortex-guitarr-picks.png'},
@@ -59,7 +59,6 @@ const Categories = (props) => {
       <StatusBar/>
       <View style={{padding: 30, alignItems:'center'}}>
       <Image source={require('../assets/gitLogo.png')} style={{width: 90, height: 90}}/>
-
         <Text style={{color: 'white', fontSize: 20}}>Elegí la categoría de tu instrumento</Text>
       </View>
        <FlatList

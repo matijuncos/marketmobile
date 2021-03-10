@@ -103,7 +103,6 @@ const {loggedUser, logout_user, login_AS, preservedShoppingCart} = props
     <NavigationContainer>
       <Drawer.Navigator drawerStyle={{ backgroundColor: 'rgba(55, 164, 184, 0.96)'}}  drawerContent={(props)=><CustomDrawer {...props}/>} >
          {loggedUser ? (
-
            <Drawer.Screen name="Categories" children={StackNavigator} /> 
          ) : (
            <>

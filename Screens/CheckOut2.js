@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import { Image } from 'react-native';
 import { View, TextInput, StyleSheet,ToastAndroid } from 'react-native'
 import { Text } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -40,6 +41,7 @@ const CheckOut2 = (props) => {
     }
     return (
         <View style={{flex: 1, backgroundColor: 'rgb(16, 16, 16)', alignItems:'center'}}>
+            <Image source={require('../assets/gitLogo.png')} style={{width: 90, height: 90}}/>
             <View style={{flex: 1}}>
                 <ProgressSteps activeStep={1}
                  activeStepIconColor={'rgb(246, 246, 246)'}
@@ -82,7 +84,7 @@ const CheckOut2 = (props) => {
                         style={styles.input}
                         placeholder='CUIT/CUIL/DNI'
                         onChangeText={(value)=>setBillingAddress({...billingAddress, cuitCuilDni: value})}
-
+                        keyboardType='numeric'
                         />
                 </View>
                 <View style={styles.inputView}>
@@ -90,8 +92,7 @@ const CheckOut2 = (props) => {
                         style={styles.input}
                         placeholder='Teléfono'
                         onChangeText={(value)=>setBillingAddress({...billingAddress, contacto: value})}
-
-                        />
+                        keyboardType='numeric'                        />
                 </View>
                 <View style={styles.inputView}>
                 <TextInput

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { View, TextInput, StyleSheet } from 'react-native'
 import { ToastAndroid } from 'react-native';
+import { Image } from 'react-native';
 import { Text } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
@@ -34,7 +35,7 @@ const CheckOut = (props) => {
            ToastAndroid.show('Datos guardados', ToastAndroid.LONG)
            setNext(true)
        }
-
+       
     }
     const nextStep = () =>{
         if(next){
@@ -45,6 +46,7 @@ const CheckOut = (props) => {
     }
     return (
         <View style={{flex: 1, backgroundColor: 'rgb(16, 16, 16)', alignItems:'center'}}>
+            <Image source={require('../assets/gitLogo.png')} style={{width: 90, height: 90}}/>
             <View style={{flex: 1}}>
                 <ProgressSteps 
                     activeStepIconColor={'rgb(246, 246, 246)'}
@@ -68,6 +70,7 @@ const CheckOut = (props) => {
                     </ProgressStep>
                 </ProgressSteps>
             </View>
+
             <View style={styles.bottomView}>
                 <View>
                     <Text style={{width: '100%', fontSize:26, fontWeight: 'bold', textAlign: 'center'}}>
@@ -86,7 +89,7 @@ const CheckOut = (props) => {
                         style={styles.input}
                         placeholder='Altura *'
                         onChangeText={(value)=>setaddress({...address, altura: value})}
-
+                        keyboardType='numeric'
                         />
                 </View>
                 <View style={styles.inputView}>
@@ -118,7 +121,7 @@ const CheckOut = (props) => {
                         style={styles.input}
                         placeholder='Teléfono de quien recibe *'
                         onChangeText={(value)=>setaddress({...address, contactoReceptor: value})}
-
+                        keyboardType='numeric'
                         />            
                 </View>
                 <View style={{width:'90%', alignItems:'center', flexDirection: 'row', justifyContent:'center'}}>

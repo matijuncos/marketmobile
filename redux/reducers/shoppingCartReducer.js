@@ -77,7 +77,8 @@ const shoppingCartReducer= (state = initState, action) =>{
     case "DELETE_PRODUCT_CART":{
       var cartCopy = []
       cartCopy=[...state.shoppingCart]
-      const cartFiltered=cartCopy.filter(product=>product.idProduct!==action.payload.idProduct)
+      var cartFiltered = []
+       cartFiltered=cartCopy.filter(product=>product.idProduct !== action.payload.idProduct)
       return{
         ...state,
         shoppingCart: cartFiltered

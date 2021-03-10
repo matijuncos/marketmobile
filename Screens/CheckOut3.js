@@ -8,6 +8,7 @@ import userActions from '../redux/actions/userActions';
 import { connect } from 'react-redux';
 import { ToastAndroid } from 'react-native';
 import shoppingCartActions from '../redux/actions/shoppingCartActions';
+import { Image } from 'react-native';
 
 
 
@@ -44,6 +45,7 @@ const validateCard = async () =>{
   }
     return (
         <View style={{flex: 1, backgroundColor: 'rgb(16, 16, 16)', alignItems:'center'}}>
+            <Image source={require('../assets/gitLogo.png')} style={{width: 90, height: 90}}/>
             <View style={{flex: 1}}>
                 <ProgressSteps 
                     activeStep={2}

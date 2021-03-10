@@ -73,7 +73,7 @@ const shoppingCartActions={
     return async (dispatch, getState)=>{
       dispatch({
         type: "DELETE_PRODUCT_CART",
-        payload:{idProduct}
+        payload:{idProduct: idProduct}
       })
       saveData('shoppingCart',JSON.stringify(getState().shopping.shoppingCart))
       ToastAndroid.show(
