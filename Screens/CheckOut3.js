@@ -7,6 +7,7 @@ import { CreditCardInput } from "react-native-credit-card-input";
 import userActions from '../redux/actions/userActions';
 import { connect } from 'react-redux';
 import { ToastAndroid } from 'react-native';
+import shoppingCartActions from '../redux/actions/shoppingCartActions';
 
 
 
@@ -36,6 +37,11 @@ const validateCard = async () =>{
    
     }
 }
+
+  const lastStep = () =>{
+      props.clearCart()
+    props.navigation.navigate('CheckOut4')
+  }
     return (
         <View style={{flex: 1, backgroundColor: 'rgb(16, 16, 16)', alignItems:'center'}}>
             <View style={{flex: 1}}>
@@ -77,7 +83,7 @@ const validateCard = async () =>{
                             <Text style={styles.buttonText}>Guardar Datos</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.button} >
-                            <Text style={styles.buttonText} onPress={()=>props.navigation.navigate('CheckOut4')}>Siguiente</Text>
+                            <Text style={styles.buttonText} onPress={lastStep}>Siguiente</Text>
                         </TouchableOpacity>
                     </View>
             </View>
@@ -117,5 +123,7 @@ const styles = StyleSheet.create({
 
     const mapDispatchToProps={
         completeUserData:userActions.completeUserData,
+        clearCart:shoppingCartActions.clearCart
+
     }
     export default connect(null,mapDispatchToProps)(CheckOut3)

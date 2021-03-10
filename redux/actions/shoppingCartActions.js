@@ -56,11 +56,7 @@ const shoppingCartActions={
       dispatch({
         type: "CLEAR_CART"
       })
-      ToastAndroid.show(
-        "Carrito Vacio",
-        ToastAndroid.LONG,
-        ToastAndroid.TOP
-      ) 
+      
     }
   },
   editProductCart:(value,product)=>{
