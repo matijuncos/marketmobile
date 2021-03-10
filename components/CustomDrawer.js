@@ -31,12 +31,12 @@ function CustomDrawer(props) {
               <Image source={{uri: loggedUser.pic}} style={{width: 30, height: 30, borderRadius: 20}}/>
               <Text style={{marginHorizontal: 25, fontWeight: 'bold'}}>Hola {loggedUser.firstName}!</Text>
             </View>
-            <DrawerItem label="Categorias" onPress={()=>navigation.navigate('Categories')} icon={() => <Icon name='list-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
+            <DrawerItem label="Categorías" onPress={()=>navigation.navigate('Categories')} icon={() => <Icon name='list-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
             <DrawerItem label="Cerrar sesión" onPress={signOutFunction} icon={() => <Icon name='log-out-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
           </>
       ):(
         <>
-          <DrawerItem label="Categorias" onPress={()=>navigation.navigate('Categories')} icon={() => <Icon name='list-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
+          <DrawerItem label="Categorías" onPress={()=>navigation.navigate('Categories')} icon={() => <Icon name='list-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
           <DrawerItem label="Iniciar sesión" onPress={()=>navigation.navigate('Login')} icon={() => <Icon name='log-in-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
           <DrawerItem label="Registrate" onPress={()=>navigation.navigate('SignUp')} icon={() => <Icon name='person-outline' type='ionicon' color='rgb(25, 25, 25)'/>} />
         </>

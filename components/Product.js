@@ -12,7 +12,7 @@ const Product = ({ product, navigation })  => {
   useEffect(()=>{
     if(product.arrayRating && product.arrayRating.length !== 0){
       const stars = Math.round(product.arrayRating.reduce((a, b) => (a.value + b.value)) / product.arrayRating.length)
-      setRating(stars)
+      // setRating(stars)
     }
 },[])  
 
@@ -43,8 +43,8 @@ const Product = ({ product, navigation })  => {
           <View style={{ flex: 3 }}>
             {/* -- Ratings View */}
             <View>
-              <Text >{product.name}</Text>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={{fontWeight: 'bold', fontSize: 20, marginLeft: 8}}>{product.name}</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center'}}>
                 <View
                   style={{
                     flexDirection: 'row',
@@ -72,7 +72,7 @@ const Product = ({ product, navigation })  => {
               </View>
             </View>
             {/* -- Price View */}
-            <View style={{ marginTop: 4 }}>
+            <View style={{ marginTop: 4, marginLeft: 8 }}>
               <Text style={{fontSize: 16 }}>
                 {`$${product.price}  `}
                

@@ -21,11 +21,12 @@ function ProductScreen(props) {
 
 
    useEffect(() => {  
+
     setCommentArray(props.route.params.product.arrayComments)
 
     props.navigation.setOptions({
       title: props.route.params.product.category,
-      headerTitleStyle: { fontSize: 22},
+      headerTitleStyle: { fontSize: 22, color:'white'},
       headerStyle: { backgroundColor: 'rgba(6, 134, 200, 0.863)' },
       headerLeft: () => (
         <TouchableOpacity onPress={() => props.navigation.toggleDrawer()}style={{ marginHorizontal: 10 }}>
@@ -33,12 +34,14 @@ function ProductScreen(props) {
             name='bar-chart-2'
             size={28}
             style={{ transform: [{ rotate: '90deg' }, { scaleX: -1 }] }}
+            color={'white'}
           />
         </TouchableOpacity>
       ),
       headerRight: () => (
         <TouchableOpacity style={{ marginHorizontal: 10 }} onPress={()=>props.navigation.navigate('cart')}>
-          <Feather name='shopping-cart' size={24} />
+          <Feather name='shopping-cart' size={24} color={'white'}
+/>
           <View style={[styles.iconCountView, { right: -6 }]}>
             <Text style={styles.iconCountText}>{props.shoppingCart.length}</Text>
           </View>
@@ -47,7 +50,7 @@ function ProductScreen(props) {
     });
 
 
-  }, [commentArray, props.allProducts])
+  }, [])
 
   const addToCart = async (product) =>{
     const filterProductCart = props.shoppingCart.filter(productF => productF.idProduct === product._id)
@@ -82,12 +85,16 @@ function ProductScreen(props) {
       ToastAndroid.SHORT,
       ToastAndroid.TOP
     )  
+    setComment('')
 onRefresh()  
 }
   const del = (id) =>{
     const newArray = commentArray.filter(comm => id !== comm._id)
-    setCommentArray(newArray)
     console.log(newArray)
+    console.log(id)
+    setCommentArray(newArray)
+    onRefresh()  
+
   }
 
   const onRefresh = React.useCallback(() => {
@@ -190,8 +197,9 @@ onRefresh()
                         style={styles.input}
                         placeholder='Dejá tu comentario!'
                         onChangeText={(value)=>setComment(value)}
+                        value={comment.comment}
                         />
-                        <TouchableOpacity onPress={sendComment}>
+                        <TouchableOpacity onPress={sendComment} style={{marginRight: 6}}>
                           <Icon name='send-outline' type='ionicon'/>
                         </TouchableOpacity>
                   </View>

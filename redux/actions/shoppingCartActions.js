@@ -70,11 +70,7 @@ const shoppingCartActions={
         payload:{value:value,product:product}
       })
       saveData('shoppingCart',JSON.stringify(getState().shopping.shoppingCart))
-      ToastAndroid.show(
-        "Producto actualizado",
-        ToastAndroid.LONG,
-        ToastAndroid.TOP
-      ) 
+      
     }
   },
   deleteProductCart:(idProduct)=>{

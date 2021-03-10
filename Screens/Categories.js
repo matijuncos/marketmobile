@@ -27,7 +27,7 @@ const Categories = (props) => {
   const header = () =>{
     props.navigation.setOptions({
       title: 'Categorías',
-      headerTitleStyle: { fontSize: 22},
+      headerTitleStyle: { fontSize: 22, color:'white'},
       headerStyle: { backgroundColor: 'rgba(6, 134, 200, 0.863)' },
       headerLeft: () => (
         <TouchableOpacity onPress={() => navigation.toggleDrawer() }style={{ marginHorizontal: 10 }}>
@@ -35,12 +35,14 @@ const Categories = (props) => {
             name='bar-chart-2'
             size={28}
             style={{ transform: [{ rotate: '90deg' }, { scaleX: -1 }] }}
+            color={'white'}
+
           />
         </TouchableOpacity>
       ),
       headerRight: () => (
         <TouchableOpacity style={{ marginHorizontal: 10 }} onPress={()=>navigation.navigate('cart')}>
-          <Feather name='shopping-cart' size={24} />
+          <Feather name='shopping-cart' size={24} color={'white'}/>
           <View style={[styles.iconCountView, { right: -6 }]}>
             <Text style={styles.iconCountText}>{shoppingCart && shoppingCart.length}</Text>
           </View>

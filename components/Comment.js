@@ -8,7 +8,7 @@ import productActions from '../redux/actions/productActions'
 const Comment = (props) => {
 
     const {del, comment, updateComment, product, delComment, loggedUser} = props
-    const [ edit, setEdit] = useState('')
+    const [ edit, setEdit] = useState(comment.comment)
     const [visible, setVisible] = useState(false)
     
     const editComment = () =>{
@@ -18,7 +18,8 @@ const Comment = (props) => {
 
 const sendNewComment = () =>{
         updateComment({comment: edit, idComment: comment._id})
-        setVisible(!visible)    
+        setVisible(!visible)   
+        setEdit('') 
 
     }
 const deleteComment = () =>{
@@ -27,12 +28,13 @@ const deleteComment = () =>{
         idProduct: product._id,
         idComment: comment._id
       })
+
  }
 
  
     return (
         <View style={{width: '100%', padding: 12, backgroundColor: '#f1f3f6', marginVertical: 5, borderRadius:12}}>
-            <Text style={{fontWeight: 'bold', fontSize: 18}}>{comment.idUser.firstName}</Text>
+            <Text style={{fontWeight: 'bold', fontSize: 16}}>{comment.idUser.firstName}:</Text>
             {visible ? (
                 <>
                 <TextInput
@@ -40,20 +42,21 @@ const deleteComment = () =>{
                         placeholder='Dejá tu comentario!'
                         onChangeText={(value)=>setEdit(value)}
                         autoFocus
+                        value={edit}
                         />  
                  <View style={{flexDirection: 'row', alignSelf: 'flex-end'}} >
                     <TouchableHighlight>
                         <Text style={{marginRight: 8}} onPress={()=>setVisible(false)}>Cancelar</Text>
                     </TouchableHighlight>
                     <TouchableHighlight>
-                        <Text style={{marginRight: 8}} onPress={sendNewComment}>Enviar</Text>
+                        <Text style={{marginRight:8}} onPress={sendNewComment}>Enviar</Text>
                     </TouchableHighlight>
                 </View>
 
                 </>
             ):(
                 <>
-            <Text style={{width: '90%', paddingHorizontal: 10}}>{comment.comment}</Text>
+            <Text style={{width: '90%', paddingLeft: 20}}>{comment.comment}</Text>
             {loggedUser && (loggedUser.userId === comment.idUser._id )&&(
 
             <View style={{flexDirection: 'row', alignSelf: 'flex-end'}} >
