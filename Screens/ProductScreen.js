@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {connect} from 'react-redux'
-import { StyleSheet,ToastAndroid,Text, View, ScrollView, StatusBar, TouchableOpacity, Image} from 'react-native';
+import { StyleSheet,ToastAndroid,Text, View, ScrollView, StatusBar, TouchableOpacity, Image, RefreshControl} from 'react-native';
 import {Icon} from 'react-native-elements'
 import Constants from 'expo-constants';
 import { Feather } from '@expo/vector-icons';
@@ -9,15 +9,20 @@ import shoppingCartActions from '../redux/actions/shoppingCartActions';
 import Comment from '../components/Comment';
 import { TextInput } from 'react-native';
 import productActions from '../redux/actions/productActions';
+import { set } from 'react-native-reanimated';
 
- function ProductScreen(props) {
-   const [visible, setVisible] = useState(false)
-   const [showComments, setShowComments] = useState(false)
-   const [rating, setRating] = useState(3)
+function ProductScreen(props) {
+  const [visible, setVisible] = useState(false)
+  const [showComments, setShowComments] = useState(false)
+  const [rating, setRating] = useState(3)
   const [comment, setComment] = useState({})
+  const[commentArray, setCommentArray] = useState([])
+  const [refreshing, setRefreshing] = React.useState(false);
 
 
    useEffect(() => {  
+    setCommentArray(props.route.params.product.arrayComments)
+
     props.navigation.setOptions({
       title: props.route.params.product.category,
       headerTitleStyle: { fontSize: 22},
@@ -40,7 +45,9 @@ import productActions from '../redux/actions/productActions';
         </TouchableOpacity>
       ),
     });
-  }, [])
+
+
+  }, [commentArray, props.allProducts])
 
   const addToCart = async (product) =>{
     const filterProductCart = props.shoppingCart.filter(productF => productF.idProduct === product._id)
@@ -60,7 +67,13 @@ import productActions from '../redux/actions/productActions';
     }
   }
 
+
   const sendComment =  () =>{
+    const idUser = {firstName: props.loggedUser.firstName, _id: props.loggedUser.userId }
+    commentArray.push({
+      comment, idUser
+    })
+
     props.commentProduct({
       idProduct: props.route.params.product._id, idUser: props.loggedUser.userId, comment
     })
@@ -69,13 +82,31 @@ import productActions from '../redux/actions/productActions';
       ToastAndroid.SHORT,
       ToastAndroid.TOP
     )  
-    props.navigation.navigate('Categories')
+onRefresh()  
+}
+  const del = (id) =>{
+    const newArray = commentArray.filter(comm => id !== comm._id)
+    setCommentArray(newArray)
+    console.log(newArray)
   }
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    props.getProducts()
+    setTimeout(()=>{
+      setRefreshing(false);
+    },1000)
+  }, []);
+
 
   return (
     <View style={{ flex: 1 }}>
       <StatusBar/>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
+        }
+      >
         <View>
           <Image
             style={{ height: 300, resizeMode: 'contain' }}
@@ -145,10 +176,10 @@ import productActions from '../redux/actions/productActions';
           </TouchableOpacity>
           {showComments && (
               <View style={{ padding: 10, width: '100%' }}>
-                {props.route.params.product.arrayComments.length !== 0 && props.route.params.product.arrayComments.map((comment, i) => {
+                {commentArray.length !== 0 && commentArray.map((comment, i) => {
                   return(
                     <View key={i+'comment'}>
-                      <Comment comment={comment} product={props.route.params.product}/>
+                      <Comment del={del} comment={comment} product={props.route.params.product}/>
                     </View>
                   )
                 } )}

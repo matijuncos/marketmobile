@@ -9,6 +9,7 @@ import shoppingCartActions from '../redux/actions/shoppingCartActions';
 import {connect} from 'react-redux'
 
 const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart,clearCart,loggedUser}) => {
+    
     useEffect(() => {
         navigation.setOptions({
             title: 'Tu Carrito!',

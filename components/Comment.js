@@ -7,7 +7,7 @@ import productActions from '../redux/actions/productActions'
 
 const Comment = (props) => {
 
-    const {comment, updateComment, product, delComment, loggedUser} = props
+    const {del, comment, updateComment, product, delComment, loggedUser} = props
     const [ edit, setEdit] = useState('')
     const [visible, setVisible] = useState(false)
     
@@ -22,12 +22,14 @@ const sendNewComment = () =>{
 
     }
 const deleteComment = () =>{
+    del(comment._id)//viene del componente padre para filtrar y no anda
     delComment({
         idProduct: product._id,
         idComment: comment._id
       })
  }
 
+ 
     return (
         <View style={{width: '100%', padding: 12, backgroundColor: '#f1f3f6', marginVertical: 5, borderRadius:12}}>
             <Text style={{fontWeight: 'bold', fontSize: 18}}>{comment.idUser.firstName}</Text>
