@@ -33,7 +33,6 @@ const SignIn = (props) => {
         )
         setUser({email: '', password: ''})
     }else{
-      console.log(response)
       //props.navigation.navigate('Categories')
     }
   }
@@ -54,8 +53,6 @@ const SignIn = (props) => {
               ToastAndroid.TOP
             )
             setUser({email: '', password: ''})
-        }else{
-          console.log(response2)
         }
         props.navigation.navigate('Categories')
       } else {

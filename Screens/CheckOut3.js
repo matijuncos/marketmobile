@@ -20,7 +20,6 @@ const CheckOut3 = (props) => {
 
  }
 const validateCard = () =>{
-    console.log(values)
 }
     return (
         <View style={{flex: 1, backgroundColor: 'rgb(16, 16, 16)', alignItems:'center'}}>

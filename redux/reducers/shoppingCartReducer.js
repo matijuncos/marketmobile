@@ -12,6 +12,7 @@ const shoppingCartReducer= (state = initState, action) =>{
   const removeValue = async (value) => {
     try {
       await AsyncStorage.removeItem({value})
+      await AsyncStorage.clear()
     } catch(e) {
     }
   }

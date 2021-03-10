@@ -49,7 +49,6 @@ const productActions = {
       try{
       const response = await axios.put(`https://gitmusicapp.herokuapp.com/api/products/newcomment`, newComment)
       dispatch({type: 'COMMENT_OPTIONS', payload: response.data.response })
-      console.log(getState())
       }catch(error){
         return({success:false, response: error})
       }

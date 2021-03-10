@@ -13,10 +13,8 @@ const Categories = (props) => {
   const {allProducts,getProducts, navigation, shoppingCart} = props
   useEffect(() => {
     getProducts()
-    console.log('categories')
     header()
   },[])
-
   const categories = [{name: 'Accesorios', pic: 'https://cdn.evance.me/portal/web/296/content/images/guitar-picks/tortex-guitarr-picks.png'},
   {name: 'Amplificadores', pic: 'https://www.wallpaperuse.com/wallp/9-99781_m.jpg'},
   {name: 'Bajos', pic: 'https://cdn.shopify.com/s/files/1/1413/0250/products/yamaha-trbx505tbl-bass-guitar-trans-black_666x518.jpg?v=1555294252'},
@@ -44,7 +42,7 @@ const Categories = (props) => {
         <TouchableOpacity style={{ marginHorizontal: 10 }} onPress={()=>navigation.navigate('cart')}>
           <Feather name='shopping-cart' size={24} />
           <View style={[styles.iconCountView, { right: -6 }]}>
-            <Text style={styles.iconCountText}>{shoppingCart.length}</Text>
+            <Text style={styles.iconCountText}>{shoppingCart && shoppingCart.length}</Text>
           </View>
         </TouchableOpacity>
       ),
