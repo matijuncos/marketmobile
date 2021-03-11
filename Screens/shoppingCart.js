@@ -7,7 +7,6 @@ import { ToastAndroid } from 'react-native';
 import InputSpinner from "react-native-input-spinner";
 import shoppingCartActions from '../redux/actions/shoppingCartActions';
 import {connect} from 'react-redux'
-import { color } from 'react-native-reanimated';
 
 const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart,clearCart,loggedUser}) => {
     var total=shoppingCart.reduce((obj,data)=>{obj += (data.quantity*data.product.price); return obj; }, 0)
@@ -38,11 +37,6 @@ const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart
     }
     const removeProduct = (idProduct) =>{
         deleteProductCart(idProduct)
-        ToastAndroid.showWithGravity(
-            'Articulo eliminado.',
-            ToastAndroid.SHORT,
-            ToastAndroid.BUTTON
-        )
     }
     return (
         <SafeAreaView  style={{flex:1}}>
@@ -96,7 +90,7 @@ const shoppingCart = ({navigation,shoppingCart,editProductCart,deleteProductCart
                                                             }}
                                                         />     
                                                         <View style={styles.closeBtnWrapper}>
-                                                            <TouchableOpacity style={styles.closeBtn} onPress={()=>removeProduct(item.idProduct)}>
+                                                            <TouchableOpacity style={styles.closeBtn} onPress={()=>{removeProduct(item.idProduct)}}>
                                                                 <Icon name="trash-outline" type='ionicon'size={35} color="#F44336" />
                                                             </TouchableOpacity>
                                                         </View>                          
