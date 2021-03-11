@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { View, Text } from 'react-native-animatable'
-import { TouchableHighlight, StyleSheet,ToastAndroid } from 'react-native'
+import { TouchableHighlight, StyleSheet,ToastAndroid,ActivityIndicator } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
 import productActions from '../redux/actions/productActions'
@@ -50,11 +50,11 @@ const Comment = (props) => {
                         value={edit}
                         />  
                  <View style={{flexDirection: 'row', alignSelf: 'flex-end'}} >
-                    <TouchableHighlight>
-                        <Text style={{marginRight: 8}} onPress={()=>setVisible(false)}>Cancelar</Text>
+                    <TouchableHighlight onPress={()=>setVisible(false)}>
+                        <Text style={{marginRight: 8}}>Cancelar</Text>
                     </TouchableHighlight>
-                    <TouchableHighlight>
-                        <Text style={{marginRight:8}} onPress={sendNewComment}>Enviar</Text>
+                    <TouchableHighlight onPress={()=>{sendNewComment()}}>
+                        <Text style={{marginRight:8}} >Enviar</Text>
                     </TouchableHighlight>
                 </View>
 
@@ -65,8 +65,8 @@ const Comment = (props) => {
             {loggedUser && (loggedUser.userId === comment.idUser._id )&&(
 
             <View style={{flexDirection: 'row', alignSelf: 'flex-end'}} >
-                <TouchableHighlight>
-                    <Text style={{marginRight: 8}} onPress={()=>editComment()}>Editar</Text>
+                <TouchableHighlight onPress={()=>editComment()}>
+                    <Text style={{marginRight: 8}}>Editar</Text>
                 </TouchableHighlight>
                 <TouchableHighlight onPress={()=>deleteComment()}>
                     <Text>Eliminar</Text>
@@ -110,11 +110,7 @@ const mapStateToProps = state =>{
         loggedUser: state.user.loggedUser
     }
 }
-const mapDispatchToProps ={
-    updateComment: productActions.updateComment,
-    delComment: productActions.delComment
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Comment)
+export default connect(mapStateToProps)(Comment)
 
 
 //{comment.idUser.firstName}

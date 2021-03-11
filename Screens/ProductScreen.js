@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {connect} from 'react-redux'
-import { StyleSheet,ToastAndroid,Text, View, ScrollView, StatusBar, TouchableOpacity, Image, RefreshControl} from 'react-native';
+import { StyleSheet,ToastAndroid,Text, View, ScrollView, StatusBar, TouchableOpacity, Image, ActivityIndicator} from 'react-native';
 import {Icon} from 'react-native-elements'
 import Constants from 'expo-constants';
 import { Feather } from '@expo/vector-icons';
@@ -9,32 +9,23 @@ import shoppingCartActions from '../redux/actions/shoppingCartActions';
 import Comment from '../components/Comment';
 import { TextInput } from 'react-native';
 import productActions from '../redux/actions/productActions';
-import { useFocusEffect } from '@react-navigation/core';
+import { Rating, AirbnbRating } from 'react-native-ratings';
 
 const ProductScreen=(props)=>{
-
   const [visible, setVisible] = useState(false)
   const [showComments, setShowComments] = useState(false)
   const [rating, setRating] = useState(3)
   const [comment, setComment] = useState('')
-  //const [refreshing, setRefreshing] = React.useState(false);
   const [thisProduct,setThisProduct]=useState({})
-  const [responseProductNew,setResponseProductNew]=useState()
-  //const [reloadComment,setReloadComment]=useState(false)
+  const [userRating,setUserRating]=useState({})
 
-  /*useFocusEffect(
-    React.useCallback(()=>{
-      console.log('focus')
-      props.getProducts()
-    },[props.navigation])
-    )
-    */
-    
     useEffect(() => {  
-    if(responseProductNew){
-      setThisProduct(responseProductNew.response)
-    }else{
-      setThisProduct(props.allProducts.filter(product=>product._id===props.route.params.product._id)[0])}
+      setThisProduct(props.allProducts.filter(product=>product._id===props.route.params.product._id)[0])
+      if(Object.entries(thisProduct).length !== 0){
+        console.log("useEffect",thisProduct)
+        setUserRating(thisProduct.arrayRating.filter(rating=>rating.idUser===props.loggedUser.userId)[0])
+        setRating(Math.round(thisProduct.arrayRating.reduce((a,b)=>a.value+b.value)/thisProduct.arrayRating.length))
+      }
       props.navigation.setOptions({
       title: thisProduct.category,
       headerTitleStyle: { fontSize: 22, color:'white'},
@@ -59,7 +50,7 @@ const ProductScreen=(props)=>{
         </TouchableOpacity>
       ),
     });
-  }, [props.shoppingCart,responseProductNew])
+  }, [props.shoppingCart])
 
   const addToCart = async (product) =>{
     const filterProductCart = props.shoppingCart.filter(productF => productF.idProduct === product._id)
@@ -75,10 +66,9 @@ const ProductScreen=(props)=>{
         ToastAndroid.SHORT,
         ToastAndroid.TOP
       )
-      const respuesta=await props.addProductShoppingCart({idProduct:product._id,quantity:1, product})
+      await props.addProductShoppingCart({idProduct:product._id,quantity:1, product})
     }
   }
-
 
   const sendComment = async() =>{
     const res=await props.commentProduct({
@@ -93,25 +83,48 @@ const ProductScreen=(props)=>{
     setThisProduct(res.response)
     setComment('')
   }
-  //onRefresh()  
 }
- /* const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    props.getProducts()
-    setTimeout(()=>{
-      setRefreshing(false);
-    },1000)
-  }, []);*/
+const rankProduct = async(newRating) => {
+  console.log("existo en el array?",userRating)
+    if(Object.entries(userRating).length !== 0){
+      const res=await props.ratingProduct({
+          'idProduct': thisProduct._id,
+          'idUser': props.loggedUser.userId,
+          'value': newRating,
+          'edit': true
+      })
+      if(res.success){
+        ToastAndroid.showWithGravity(
+          'Calificaste con ' + newRating + ' estrellas!',
+          ToastAndroid.SHORT,
+          ToastAndroid.TOP
+        )
+      }else{
+        console.log("error")
+      }
+  } else {
+    const res=await props.ratingProduct({
+        'idProduct': thisProduct._id,
+        'idUser': props.loggedUser.userId,
+        'value': newRating           
+    })
+    if(res.success){
+      ToastAndroid.showWithGravity(
+        'Calificaste con ' + newRating + ' estrellas!',
+        ToastAndroid.SHORT,
+        ToastAndroid.TOP
+      )
+    }else{
+      console.log("error")
+    }
+  }
+}
 
 if(Object.entries(thisProduct).length !== 0){
   return (
     <View style={{ flex: 1 }}>
       <StatusBar/>
-      <ScrollView showsVerticalScrollIndicator={false}
-        /*refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
-        }*/
-      >
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View>
           <Image
             style={{ height: 300, resizeMode: 'contain' }}
@@ -127,19 +140,27 @@ if(Object.entries(thisProduct).length !== 0){
             <Text style={styles.discountedPriceText}>${thisProduct.price}</Text>
           </View>
           <View style={{ marginTop: 10, flexDirection:'row' }}>
-          {[...Array(5)].map((m, i)=>{
-                    const ratingValue = i+1
-                    return(
-                      <RNEIcon
-                        name='star'
-                        type='font-awesome'
-                        size={18}
-                        color={ratingValue <= rating ? '#ffc107' : '#8C8C8C'}
-                        id={ratingValue}
-                        key={'s'+i}
-                      />
-                    )
-                  })}         
+          {
+            Object.entries(userRating).length !== 0 && props.loggedUser
+            ?<Rating
+            showRating
+            ratingCount={5}
+            startingValue={rating}
+            onFinishRating={(newRating)=>rankProduct(newRating)}
+            style={{ paddingVertical: 10 }}
+            type='custom'
+            ratingBackgroundColor='transparent'
+            />  
+            :<Rating
+            showRating
+            startingValue={rating}
+            onFinishRating={(newRating)=>rankProduct(newRating)}
+            ratingCount={5}
+            style={{ paddingVertical: 10 }}
+            type='custom'
+            ratingBackgroundColor='transparent'
+          />           
+          }
          </View>
         </View>
         <View style={{ flexDirection: 'row', paddingHorizontal: 10 }}>
@@ -184,7 +205,7 @@ if(Object.entries(thisProduct).length !== 0){
                 {thisProduct.arrayComments.length !== 0 && thisProduct.arrayComments.map((comment, i) => {
                   return(
                     <View key={i+'comment'}>
-                      <Comment setThisProduct={setThisProduct} updateComment={props.delComment} delComment={props.delComment} comment={comment} product={thisProduct}/>
+                      <Comment setThisProduct={setThisProduct} updateComment={props.updateComment} delComment={props.delComment} comment={comment} product={thisProduct}/>
                     </View>
                   )
                 } )}
@@ -205,7 +226,7 @@ if(Object.entries(thisProduct).length !== 0){
          </ScrollView>
     </View>
   );}else{
-    return(<View><Text>Loading...</Text></View>)
+    return(<View style={{flex:1,justifyContent:'center',alignItems:'center'}}><ActivityIndicator size="large" color="black" /></View>)
   }
 }
 
@@ -369,7 +390,8 @@ const mapDispatchToProps={
   commentProduct: productActions.commentProduct,
   getProducts: productActions.getProducts,
   updateComment: productActions.updateComment,
-  delComment: productActions.delComment
+  delComment: productActions.delComment,
+  ratingProduct:productActions.ratingProduct
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(ProductScreen)
