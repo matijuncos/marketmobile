@@ -9,11 +9,13 @@ const Product = ({ product, navigation })  => {
   const [rating, setRating] = useState(3)
 
   useEffect(()=>{
-    if(product.arrayRating && product.arrayRating.length !== 0){
-      const stars = Math.round(product.arrayRating.reduce((a, b) => (a.value + b.value)) / product.arrayRating.length)
-      // setRating(stars)
+    if(product.arrayRating.length !== 0){
+      var stars = Math.round(product.arrayRating.reduce((a, b) => a.value + b.value) / product.arrayRating.length)
+      var suma =Math.round(product.arrayRating.reduce((a, b)=> a += b.value, 0)/product.arrayRating.length)
+      setRating(suma)
+      console.log(suma)
     }
-},[])  
+},[rating])  
 
   if(!product){
     return <ActivityIndicator/>

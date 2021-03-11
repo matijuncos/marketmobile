@@ -28,9 +28,8 @@ const StackNavigator= () =>{
   return(
   <Stack.Navigator screenOptions={{
         headerTitleStyle:{color:'white',fontWeight:'bold'},
-        headerStyle:{
-            backgroundColor:'rgba(6, 134, 200, 0.863)'}}}>
-    <Stack.Screen name='Categories' component={categoriesNavigator}/>
+        headerStyle:{backgroundColor:'rgba(6, 134, 200, 0.863)'}}}>
+    <Stack.Screen name='Categories' component={Categories}/>
     <Stack.Screen name='cart' component={shoppingCart}/>
     <Stack.Screen name='CheckOut' component={CheckOut} options={{
           title: 'Ya casi terminamos',
@@ -45,8 +44,11 @@ const StackNavigator= () =>{
           title: 'A rockearla!',
         }}/>
     <Stack.Screen name="ProductsByCategory" component={ProductsByCategory}/>
-    <Stack.Screen name='ProductScreen' component={ProductScreen}/>
+    <Stack.Screen name='ProductScreen' component={ProductScreen} options={{
+          title: 'Excelente elección!',
+        }}/>
     <Stack.Screen name='Product' component={Product}/>
+
   </Stack.Navigator>
   )
 } 
@@ -56,7 +58,7 @@ const categoriesNavigator=()=>{
       headerTitleStyle:{color:'white',fontWeight:'bold'},
       headerStyle:{
           backgroundColor:'rgba(6, 134, 200, 0.863)'}}}>
-          <Stack.Screen name='Categories' component={Categories}/>
+      <Stack.Screen name='Categories' component={Categories}/>
       <Stack.Screen name="ProductsByCategory" component={ProductsByCategory}/>
       <Stack.Screen name='ProductScreen' component={ProductScreen}/>
       <Stack.Screen name='Product' component={Product}/>
@@ -108,9 +110,9 @@ const {loggedUser, logout_user, login_AS, preservedShoppingCart} = props
            <>
           <Drawer.Screen name="Login" component={Login} />
           <Drawer.Screen name="SignUp" component={SignUp} />
+
           </>
          )}
-           
       </Drawer.Navigator>
     </NavigationContainer>
     )

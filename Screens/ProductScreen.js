@@ -4,12 +4,12 @@ import { StyleSheet,ToastAndroid,Text, View, ScrollView, StatusBar, TouchableOpa
 import {Icon} from 'react-native-elements'
 import Constants from 'expo-constants';
 import { Feather } from '@expo/vector-icons';
-import { Icon as RNEIcon } from 'react-native-elements';
+//import { Icon as RNEIcon } from 'react-native-elements';
 import shoppingCartActions from '../redux/actions/shoppingCartActions';
 import Comment from '../components/Comment';
 import { TextInput } from 'react-native';
 import productActions from '../redux/actions/productActions';
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import { Rating } from 'react-native-ratings';
 
 const ProductScreen=(props)=>{
   const [visible, setVisible] = useState(false)
@@ -19,15 +19,15 @@ const ProductScreen=(props)=>{
   const [thisProduct,setThisProduct]=useState({})
   const [userRating,setUserRating]=useState({})
 
-    useEffect(() => {  
+  useEffect(() => {  
       setThisProduct(props.allProducts.filter(product=>product._id===props.route.params.product._id)[0])
       if(Object.entries(thisProduct).length !== 0){
         console.log("useEffect",thisProduct)
         setUserRating(thisProduct.arrayRating.filter(rating=>rating.idUser===props.loggedUser.userId)[0])
-        setRating(Math.round(thisProduct.arrayRating.reduce((a,b)=>a.value+b.value)/thisProduct.arrayRating.length))
+        setRating(Math.round(thisProduct.arrayRating.length !== 0 ? thisProduct.arrayRating.reduce((a,b)=>a.value+b.value)/thisProduct.arrayRating.length : 3))
       }
       props.navigation.setOptions({
-      title: thisProduct.category,
+      title: 'Excelente elección!',
       headerTitleStyle: { fontSize: 22, color:'white'},
       headerStyle: { backgroundColor: 'rgba(6, 134, 200, 0.863)' },
       headerLeft: () => (
@@ -50,7 +50,7 @@ const ProductScreen=(props)=>{
         </TouchableOpacity>
       ),
     });
-  }, [props.shoppingCart])
+  }, [props.shoppingCart, userRating])
 
   const addToCart = async (product) =>{
     const filterProductCart = props.shoppingCart.filter(productF => productF.idProduct === product._id)
@@ -141,7 +141,7 @@ if(Object.entries(thisProduct).length !== 0){
           </View>
           <View style={{ marginTop: 10, flexDirection:'row' }}>
           {
-            Object.entries(userRating).length !== 0 && props.loggedUser
+           ( Object.entries(userRating).length !== 0 && props.loggedUser)
             ?<Rating
             showRating
             ratingCount={5}
@@ -152,7 +152,7 @@ if(Object.entries(thisProduct).length !== 0){
             ratingBackgroundColor='transparent'
             />  
             :<Rating
-            showRating
+            s howRating
             startingValue={rating}
             onFinishRating={(newRating)=>rankProduct(newRating)}
             ratingCount={5}
