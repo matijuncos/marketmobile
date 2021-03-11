@@ -75,6 +75,8 @@ const shoppingCartReducer= (state = initState, action) =>{
       }
     };
     case "DELETE_PRODUCT_CART":{
+      console.log("reducer")
+      console.log(action.payload)
       var cartCopy = []
       cartCopy=[...state.shoppingCart]
       const cartFiltered=cartCopy.filter(product=>product.idProduct!==action.payload.idProduct)

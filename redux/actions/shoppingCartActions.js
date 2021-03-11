@@ -75,7 +75,7 @@ const shoppingCartActions={
         type: "DELETE_PRODUCT_CART",
         payload:{idProduct}
       })
-      saveData('shoppingCart',JSON.stringify(getState().shopping.shoppingCart))
+      //saveData('shoppingCart',JSON.stringify(getState().shopping.shoppingCart))
       ToastAndroid.show(
         "Se elimino el articulo del carrito.",
         ToastAndroid.LONG,
