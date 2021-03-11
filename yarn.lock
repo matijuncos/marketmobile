@@ -5586,7 +5586,7 @@
     "lodash" "^4.17.11"
     "prop-types" "^15.6.2"
 
-"react-native-ratings@^7.3.0":
+"react-native-ratings@^7.3.0", "react-native-ratings@^7.4.0":
   "integrity" "sha512-3Zk1rDCl1TA7iI68PJDBbdCw+aQ+cvG/gcG3IVyyrTGlxdV+aAfAzFgICAAoPkYNuivIAO1eV0vSGoG9bboudg=="
   "resolved" "https://registry.npmjs.org/react-native-ratings/-/react-native-ratings-7.4.0.tgz"
   "version" "7.4.0"

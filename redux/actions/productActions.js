@@ -86,11 +86,10 @@ const productActions = {
   ratingProduct : (ratingObject) => {
     return async (dispatch,getstate) =>{
       try{
-        const respuesta = await axios.put(`https://gitmusicapp.herokuapp.com/api/products/newrating`,{ratingObject})
-        dispatch({
-          type:"RATING",
-          payload: respuesta.data
-        })
+        const response = await axios.put(`http://192.168.0.155:4000/api/products/newrating`,{ratingObject})
+        if(response.data){
+        return({success:true})
+      }
       }catch (error){
         return({succes:false, response:error})
       }
