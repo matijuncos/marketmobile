@@ -48,31 +48,36 @@ const productActions = {
     return async(dispatch, getState) =>{
       try{
       const response = await axios.put(`https://gitmusicapp.herokuapp.com/api/products/newcomment`, newComment)
-      dispatch({type: 'COMMENT_OPTIONS', payload: response.data.response })
+      if(response.data){
+        dispatch({type: 'COMMENT_OPTIONS', payload: response.data.response})
+        return ({success:true,response:response.data.response})
+      }
       }catch(error){
         return({success:false, response: error})
       }
     }
   },
   delComment: del => {
-    const {idProduct, idComment} = del
     return async (dispatch,getState) => {
       try{
-      const response = await axios.put(`https://gitmusicapp.herokuapp.com/api/products/delcomment`,
-      {idProduct, idComment})
-      dispatch({type: 'COMMENT_OPTIONS', payload: response.data.response})
+      const response = await axios.put(`https://gitmusicapp.herokuapp.com/api/products/delcomment`,del)
+      if(response.data){
+        dispatch({type: 'COMMENT_OPTIONS', payload: response.data.response})
+        return ({success:true,response:response.data.response})
+      }
     } catch(error){
       return({success: false, response: error})
     }
     }
   },
   updateComment: update => {
-    const {idComment, comment} = update
     return async (dispatch, getState) => {
       try{
-        const response = await axios.put(`https://gitmusicapp.herokuapp.com/api/products/editcomment`,
-        {idComment, comment})
-        dispatch({type: 'COMMENT_OPTIONS', payload: response.data.response})
+        const response = await axios.put(`https://gitmusicapp.herokuapp.com/api/products/editcomment`,update)
+        if(response.data){
+          dispatch({type: 'COMMENT_OPTIONS', payload: response.data.response})
+          return ({success:true,response:response.data.response})
+        }
       }catch(error){
         return({success: false, response: error})
       }

@@ -1,36 +1,46 @@
 import React, {useState} from 'react'
 import { View, Text } from 'react-native-animatable'
-import { TouchableHighlight, StyleSheet } from 'react-native'
+import { TouchableHighlight, StyleSheet,ToastAndroid } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import { connect } from 'react-redux'
 import productActions from '../redux/actions/productActions'
 
 const Comment = (props) => {
-
-    const {del, comment, updateComment, product, delComment, loggedUser} = props
+    const {comment, updateComment,setThisProduct,product, delComment, loggedUser} = props
     const [ edit, setEdit] = useState(comment.comment)
     const [visible, setVisible] = useState(false)
-    
     const editComment = () =>{
-            setVisible(!visible)    
-            }
-
-const sendNewComment = () =>{
-        updateComment({comment: edit, idComment: comment._id})
-        setVisible(!visible)   
-        setEdit('') 
-
+        setVisible(!visible)    
     }
-const deleteComment = () =>{
-    del(comment._id)//viene del componente padre para filtrar y no anda
-    delComment({
-        idProduct: product._id,
-        idComment: comment._id
-      })
 
- }
-
- 
+    const sendNewComment = async() =>{
+        console.log({'idComment': comment._id,'comment': edit})
+        const res=await updateComment({'idComment': comment._id,'comment': edit})
+        if(res.success){
+            ToastAndroid.showWithGravity(
+              'Tu comentario se ha editado',
+              ToastAndroid.SHORT,
+              ToastAndroid.TOP
+            )
+            console.log("regreso despues del reducer")
+            setThisProduct(res.response)
+            setVisible(!visible)   
+            setEdit('') 
+        }
+        }
+    const deleteComment = async() =>{
+        console.log({'idProduct': product._id,'idComment': comment._id})
+        const res=await delComment({'idProduct': product._id,'idComment': comment._id})
+        if(res.success){
+            ToastAndroid.showWithGravity(
+              'Tu comentario se ha eliminado',
+              ToastAndroid.SHORT,
+              ToastAndroid.TOP
+            )
+            console.log("regreso despues del reducer")
+            setThisProduct(res.response)
+        }
+    }
     return (
         <View style={{width: '100%', padding: 12, backgroundColor: '#f1f3f6', marginVertical: 5, borderRadius:12}}>
             <Text style={{fontWeight: 'bold', fontSize: 16}}>{comment.idUser.firstName}:</Text>
@@ -60,14 +70,13 @@ const deleteComment = () =>{
 
             <View style={{flexDirection: 'row', alignSelf: 'flex-end'}} >
                 <TouchableHighlight>
-                    <Text style={{marginRight: 8}} onPress={editComment}>Editar</Text>
+                    <Text style={{marginRight: 8}} onPress={()=>editComment()}>Editar</Text>
                 </TouchableHighlight>
-                <TouchableHighlight onPress={deleteComment}>
+                <TouchableHighlight onPress={()=>deleteComment()}>
                     <Text>Eliminar</Text>
                 </TouchableHighlight>
             </View>
-                                ) }
-
+            )}
             </>
             )}
         </View>
@@ -99,16 +108,15 @@ const styles = StyleSheet.create({
     }
     });
 
-const mapDispatchToProps ={
-    updateComment: productActions.updateComment,
-    delComment: productActions.delComment
-
-}
-
+    
 const mapStateToProps = state =>{
     return{
         loggedUser: state.user.loggedUser
     }
+}
+const mapDispatchToProps ={
+    updateComment: productActions.updateComment,
+    delComment: productActions.delComment
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Comment)
 

@@ -11,28 +11,33 @@ import { TextInput } from 'react-native';
 import productActions from '../redux/actions/productActions';
 import { useFocusEffect } from '@react-navigation/core';
 
-function ProductScreen(props) {
+const ProductScreen=(props)=>{
 
   const [visible, setVisible] = useState(false)
   const [showComments, setShowComments] = useState(false)
   const [rating, setRating] = useState(3)
-  const [comment, setComment] = useState({})
-  const[commentArray, setCommentArray] = useState([])
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [comment, setComment] = useState('')
+  //const [refreshing, setRefreshing] = React.useState(false);
+  const [thisProduct,setThisProduct]=useState({})
+  const [responseProductNew,setResponseProductNew]=useState()
+  //const [reloadComment,setReloadComment]=useState(false)
 
-
-  useFocusEffect(
+  /*useFocusEffect(
     React.useCallback(()=>{
       console.log('focus')
       props.getProducts()
-    },[props.navigation, commentArray])
+    },[props.navigation])
     )
-    
+    */
     
     useEffect(() => {  
-     setCommentArray(props.route.params.product.arrayComments)
-    props.navigation.setOptions({
-      title: props.route.params.product.category,
+    if(responseProductNew){
+      setThisProduct(responseProductNew.response)
+    }else{
+      console.log("useEfecct")
+      setThisProduct(props.allProducts.filter(product=>product._id===props.route.params.product._id)[0])}
+      props.navigation.setOptions({
+      title: thisProduct.category,
       headerTitleStyle: { fontSize: 22, color:'white'},
       headerStyle: { backgroundColor: 'rgba(6, 134, 200, 0.863)' },
       headerLeft: () => (
@@ -55,12 +60,7 @@ function ProductScreen(props) {
         </TouchableOpacity>
       ),
     });
-
-
-  }, [props.shoppingCart])
-
-
-
+  }, [props.shoppingCart,responseProductNew])
 
   const addToCart = async (product) =>{
     const filterProductCart = props.shoppingCart.filter(productF => productF.idProduct === product._id)
@@ -81,60 +81,51 @@ function ProductScreen(props) {
   }
 
 
-  const sendComment =  () =>{
-    const idUser = {firstName: props.loggedUser.firstName, _id: props.loggedUser.userId }
-    commentArray.push({
-      comment, idUser
+  const sendComment = async() =>{
+    const res=await props.commentProduct({
+      'idProduct':thisProduct._id,'idUser':props.loggedUser.userId,'comment':comment
     })
-
-    props.commentProduct({
-      idProduct: props.route.params.product._id, idUser: props.loggedUser.userId, comment
-    })
+    if(res.success){
     ToastAndroid.showWithGravity(
       'Muchas gracias por tu comentario',
       ToastAndroid.SHORT,
       ToastAndroid.TOP
-    )  
+    )
+    setThisProduct(res.response)
     setComment('')
-onRefresh()  
-}
-  const del = (id) =>{
-    const newArray = commentArray.filter(comm => id !== comm._id)
-    setCommentArray(newArray)
-    onRefresh()  
-
   }
-
-  const onRefresh = React.useCallback(() => {
+  //onRefresh()  
+}
+ /* const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     props.getProducts()
     setTimeout(()=>{
       setRefreshing(false);
     },1000)
-  }, []);
+  }, []);*/
 
-
+if(Object.entries(thisProduct).length !== 0){
   return (
     <View style={{ flex: 1 }}>
       <StatusBar/>
       <ScrollView showsVerticalScrollIndicator={false}
-        refreshControl={
+        /*refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
-        }
+        }*/
       >
         <View>
           <Image
             style={{ height: 300, resizeMode: 'contain' }}
-            source={{uri: props.route.params.product.arrayPic[0]}}
+            source={{uri: thisProduct.arrayPic[0]}}
             />
         </View>
         <View style={styles.detailsView}>
           <View style={styles.productTitleView}>
-            <Text style={styles.productTitle}>{props.route.params.product.name}</Text>
+            <Text style={styles.productTitle}>{thisProduct.name}</Text>
             
           </View>
           <View style={styles.productPriceView}>
-            <Text style={styles.discountedPriceText}>${props.route.params.product.price}</Text>
+            <Text style={styles.discountedPriceText}>${thisProduct.price}</Text>
           </View>
           <View style={{ marginTop: 10, flexDirection:'row' }}>
           {[...Array(5)].map((m, i)=>{
@@ -153,7 +144,7 @@ onRefresh()
          </View>
         </View>
         <View style={{ flexDirection: 'row', paddingHorizontal: 10 }}>
-          <TouchableOpacity style={styles.buyNowButton} onPress={()=>addToCart(props.route.params.product)}>
+          <TouchableOpacity style={styles.buyNowButton} onPress={()=>addToCart(thisProduct)}>
           <Icon name='cart-outline' type='ionicon' size={26} color='white' />
             <Text style={styles.buttonText}>Agregar al carrito</Text>
           </TouchableOpacity>
@@ -170,7 +161,7 @@ onRefresh()
           </TouchableOpacity>
             {visible && (
               <View style={{ padding: 10, width: '100%' }}>
-                {props.route.params.product.arrayDescription.map((text, i) =>  {
+                {thisProduct.arrayDescription.map((text, i) =>  {
                 return(
                   <View key={i+'desc'} style={{width: '100%', flexDirection: 'row', alignItems:'center'}}>
                      <Icon name='checkbox-outline' type='ionicon' color='rgba(6, 134, 200, 0.863)' />
@@ -185,16 +176,16 @@ onRefresh()
             onPress={()=>setShowComments(!showComments)}
             >
             <Text style={{fontSize: 18 }}>
-              Ver comentarios ({commentArray.length})          
+              Ver comentarios ({thisProduct.arrayComments.length})          
             </Text>
             <Icon name={!showComments ? 'caret-down-outline' : 'caret-up-outline'} type='ionicon'/>
           </TouchableOpacity>
           {showComments && (
               <View style={{ padding: 10, width: '100%' }}>
-                {commentArray.length !== 0 && commentArray.map((comment, i) => {
+                {thisProduct.arrayComments.length !== 0 && thisProduct.arrayComments.map((comment, i) => {
                   return(
                     <View key={i+'comment'}>
-                      <Comment del={del} comment={comment} product={props.route.params.product}/>
+                      <Comment setThisProduct={setThisProduct} updateComment={props.delComment} delComment={props.delComment} comment={comment} product={thisProduct}/>
                     </View>
                   )
                 } )}
@@ -205,16 +196,18 @@ onRefresh()
                         style={styles.input}
                         placeholder='Dejá tu comentario!'
                         onChangeText={(value)=>setComment(value)}
-                        value={comment.comment}
+                        value={comment}
                         />
-                        <TouchableOpacity onPress={sendComment} style={{marginRight: 6}}>
+                        <TouchableOpacity onPress={()=>sendComment()} style={{marginRight: 6}}>
                           <Icon name='send-outline' type='ionicon'/>
                         </TouchableOpacity>
                   </View>
             </View>
          </ScrollView>
     </View>
-  );
+  );}else{
+    return(<View><Text>Loading...</Text></View>)
+  }
 }
 
 const styles = StyleSheet.create({
@@ -375,8 +368,9 @@ const mapStateToProps = state =>{
 const mapDispatchToProps={
   addProductShoppingCart:shoppingCartActions.addProductShoppingCart,
   commentProduct: productActions.commentProduct,
-  getProducts: productActions.getProducts
-
+  getProducts: productActions.getProducts,
+  updateComment: productActions.updateComment,
+  delComment: productActions.delComment
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(ProductScreen)

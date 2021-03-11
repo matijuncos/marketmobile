@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {StyleSheet,Text, View, StatusBar,Image,TouchableOpacity,ScrollView, ActivityIndicator, Alert} from 'react-native';
-import { Feather as Icon } from '@expo/vector-icons';
 import { Icon as RNEIcon } from 'react-native-elements';
 
 
