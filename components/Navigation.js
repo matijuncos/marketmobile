@@ -30,7 +30,7 @@ const StackNavigator= () =>{
         headerTitleStyle:{color:'white',fontWeight:'bold'},
         headerStyle:{
             backgroundColor:'rgba(6, 134, 200, 0.863)'}}}>
-    <Stack.Screen name='Categories' component={Categories}/>
+    <Stack.Screen name='Categories' component={categoriesNavigator}/>
     <Stack.Screen name='cart' component={shoppingCart}/>
     <Stack.Screen name='CheckOut' component={CheckOut} options={{
           title: 'Ya casi terminamos',
