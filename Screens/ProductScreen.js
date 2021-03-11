@@ -34,7 +34,6 @@ const ProductScreen=(props)=>{
     if(responseProductNew){
       setThisProduct(responseProductNew.response)
     }else{
-      console.log("useEfecct")
       setThisProduct(props.allProducts.filter(product=>product._id===props.route.params.product._id)[0])}
       props.navigation.setOptions({
       title: thisProduct.category,

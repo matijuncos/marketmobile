@@ -14,7 +14,6 @@ const Comment = (props) => {
     }
 
     const sendNewComment = async() =>{
-        console.log({'idComment': comment._id,'comment': edit})
         const res=await updateComment({'idComment': comment._id,'comment': edit})
         if(res.success){
             ToastAndroid.showWithGravity(
@@ -22,14 +21,12 @@ const Comment = (props) => {
               ToastAndroid.SHORT,
               ToastAndroid.TOP
             )
-            console.log("regreso despues del reducer")
             setThisProduct(res.response)
             setVisible(!visible)   
             setEdit('') 
         }
         }
     const deleteComment = async() =>{
-        console.log({'idProduct': product._id,'idComment': comment._id})
         const res=await delComment({'idProduct': product._id,'idComment': comment._id})
         if(res.success){
             ToastAndroid.showWithGravity(
@@ -37,7 +34,6 @@ const Comment = (props) => {
               ToastAndroid.SHORT,
               ToastAndroid.TOP
             )
-            console.log("regreso despues del reducer")
             setThisProduct(res.response)
         }
     }
