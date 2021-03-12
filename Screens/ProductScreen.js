@@ -21,11 +21,6 @@ const ProductScreen=(props)=>{
 
   useEffect(() => {  
       setThisProduct(props.allProducts.filter(product=>product._id===props.route.params.product._id)[0])
-      if(Object.entries(thisProduct).length !== 0){
-        console.log("useEffect",thisProduct)
-        setUserRating(thisProduct.arrayRating.filter(rating=>rating.idUser===props.loggedUser.userId)[0])
-        setRating(Math.round(thisProduct.arrayRating.length !== 0 ? thisProduct.arrayRating.reduce((a,b)=>a.value+b.value)/thisProduct.arrayRating.length : 3))
-      }
       props.navigation.setOptions({
       title: 'Excelente elección!',
       headerTitleStyle: { fontSize: 22, color:'white'},

@@ -40,6 +40,7 @@ const validateCard = async () =>{
 }
 
   const lastStep = () =>{
+      props.emailShopCart(props.loggedUser.email, {userData:props.userData, shoppingCart:props.shoppingCart})
       props.clearCart()
     props.navigation.navigate('CheckOut4')
   }
@@ -122,10 +123,18 @@ const styles = StyleSheet.create({
         fontSize: 18,
       }})
 
-
+      const mapStateToProps = state =>{
+        return{
+            loggedUser: state.user.loggedUser,
+            userData: state.user.userData,
+            shoppingCart: state.shopping.shoppingCart
+        }
+    }
     const mapDispatchToProps={
         completeUserData:userActions.completeUserData,
-        clearCart:shoppingCartActions.clearCart
+        clearCart:shoppingCartActions.clearCart,
+        emailShopCart:shoppingCartActions.emailShopCart
+
 
     }
-    export default connect(null,mapDispatchToProps)(CheckOut3)
+    export default connect(mapStateToProps,mapDispatchToProps)(CheckOut3)

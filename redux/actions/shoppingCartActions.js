@@ -84,10 +84,10 @@ const shoppingCartActions={
     }
   },
   emailShopCart:(email,dataCart)=>{
+    console.log(dataCart)
     return async (dispatch,getstate)=>{
       try{
         const data = await axios.post('https://gitmusicapp.herokuapp.com/api/confirmPurchase',{email,dataCart})
-        console.log(data)
         if(data.status===200&& data.data.response){
           dispatch({type: "EMAIL_SENT",payload:''})
           return data.data.response

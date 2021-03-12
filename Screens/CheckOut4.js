@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Text } from 'react-native'
 import { Image } from 'react-native';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
+import { connect } from 'react-redux';
+import shoppingCartActions from '../redux/actions/shoppingCartActions';
 
 const CheckOut4 = (props) => {
+
+
     return (
         <View style={{flex: 1, backgroundColor: 'rgb(26, 26, 26)', alignItems:'center', justifyContent:'space-around'}}>
                        <View style={{flex: 1}}>
@@ -85,4 +89,16 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
       }
 })
-export default CheckOut4
+
+const mapStateToProps = state =>{
+    return{
+        loggedUser: state.user.loggedUser,
+        userData: state.user.userData,
+        shoppingCart: state.shopping.shoppingCart
+    }
+}
+
+const mapDispatchToProps= {
+    emailShopCart:shoppingCartActions.emailShopCart
+}
+export default connect(mapStateToProps, mapDispatchToProps)(CheckOut4)
