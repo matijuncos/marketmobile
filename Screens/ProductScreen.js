@@ -144,16 +144,16 @@ if(Object.entries(thisProduct).length !== 0){
             onFinishRating={(newRating)=>rankProduct(newRating)}
             style={{ paddingVertical: 10 }}
             type='custom'
-            ratingBackgroundColor='transparent'
+            ratingBackgroundColor='#fff'
             />  
             :<Rating
-            s howRating
+            show howRating
             startingValue={rating}
             onFinishRating={(newRating)=>rankProduct(newRating)}
             ratingCount={5}
             style={{ paddingVertical: 10 }}
             type='custom'
-            ratingBackgroundColor='transparent'
+            ratingBackgroundColor='#fff'
           />           
           }
          </View>

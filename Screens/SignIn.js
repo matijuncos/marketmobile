@@ -123,7 +123,6 @@ const SignIn = (props) => {
               value={user.password}
             />
           </View>
-          <Text style={styles.fpText}>Olvidaste tu contraseña?</Text>
           <TouchableOpacity style={styles.loginButton} onPress={validate}>
             <Text style={styles.loginButtonText}>Login</Text>
           </TouchableOpacity>
